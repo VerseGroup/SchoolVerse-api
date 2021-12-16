@@ -1,2 +1,6 @@
-# SchoolVerse-webscraper
-A function using BS4 and python requests library to scrape information from various platforms called through a custom REST API
+# SchoolVerse
+
+A server operated through a REST API that has a function to scrape user informations from various platforms, and then writes the information to SchoolVerse firebase.
+
+## Currently Supported Platforms
+- Schoology
