@@ -1,6 +1,7 @@
 # testing file to test various functionality
 
 # python imports
+import time
 
 # external imports
 from getpass import getpass
@@ -13,4 +14,10 @@ username = input('Schoology Username: ')
 password = getpass()
 
 # testing schoology scraper
+start_time = time.time() # A timer to measure speed
 print(scrape_schoology(username, password))
+
+# outputting runtime of scraper
+print()
+print(f"Executed in {time.time() - start_time} seconds")
+print()
