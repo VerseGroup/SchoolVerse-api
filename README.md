@@ -20,13 +20,11 @@ This server only contains a REST API (accepting POST requests), and no website, 
 3. Open and enter a virtual environment
 4. Install the required packages using 
 ~~~
-pip install requirements.txt
+pip install -r requirements.txt
 ~~~
-5. Run the Django Server using 
-~~~
-python manage.py runserver
-~~~
-6. Use the desired functions either through code, http services or cURL. 
+
+During release, the next step would be to run the server. In testing simply open run 'testing.py' and
+enter a valid Schoology Username + Password. 
 
 This is open source to encourage improvements, suggestions and security. Email us at "officialversegroupllc@gmail.com" with any comments, questions, suggestions or concerns.
 
