@@ -7,7 +7,7 @@ import time
 from getpass import getpass
 
 # local imports
-from SchoolVerse_webscraper.scraper.schoology.schoology import scrape_schoology
+from SchoolVerse_webscraper.scraper import scrape_schoology
 
 # loading schoology username/password to test
 username = input('Schoology Username: ')
@@ -15,6 +15,7 @@ password = getpass()
 
 # testing schoology scraper
 start_time = time.time() # A timer to measure speed
+print()
 print(scrape_schoology(username, password))
 
 # outputting runtime of scraper
