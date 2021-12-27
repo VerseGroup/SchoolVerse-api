@@ -4,6 +4,7 @@
 # - Add checks in case login failed 
 # - Add a lot more try/excepts for other errors
 # - Finish copying over parsers, scrapers, etc from SchoolVerse testing
+# - Intead of returning a dictionary of tasks, return serialized course objects instead
 
 # internal packages
 import os
@@ -12,7 +13,6 @@ import json
 
 # external packages
 import requests
-from bs4 import BeautifulSoup
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -47,3 +47,25 @@ def scrape_schoology(username, password):
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
     courses = parseCourses(json.loads(response.text))
 
+    tasks = {}
+
+    # get materials for each course
+    for course_object in courses:
+
+        # getting the material page for the course
+        course_id = course_object.schoology_id
+        url = f"{SCHOOLOGY_URL}/course/{course_id}/calendar_ajax?original_q=course/{course_id}/materials" 
+
+        # decoding unicode into something beautiful soup can understand
+        response = s.get(url)
+        content = response.content
+        decoded_content = content.decode('unicode-escape').replace("\/", "/")
+        html = str(decoded_content)[1: -1]
+
+        # parsing file into serialized task objects
+        parsed_tasks = parseHTML(html)
+        
+        # adding to dict 
+        tasks[course_object.name] = parsed_tasks
+
+    return tasks
