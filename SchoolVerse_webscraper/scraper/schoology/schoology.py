@@ -17,13 +17,17 @@ import requests
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentdir)
+doubleparentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir))
+sys.path.append(doubleparentdir)
+tripleparentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir, os.path.pardir))
+sys.path.append(tripleparentdir)
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local imports
-from ...models import Task, Course
+from models import Task, Course
 from parse_courses import parseCourses
-from parse_html import parseHTML
+from parse_html import parse_html
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
@@ -53,7 +57,7 @@ def scrape_schoology(username, password):
     for course_object in courses:
 
         # getting the material page for the course
-        course_id = course_object.schoology_id
+        course_id = course_object.platform_information['course_code']
         url = f"{SCHOOLOGY_URL}/course/{course_id}/calendar_ajax?original_q=course/{course_id}/materials" 
 
         # decoding unicode into something beautiful soup can understand
@@ -63,9 +67,10 @@ def scrape_schoology(username, password):
         html = str(decoded_content)[1: -1]
 
         # parsing file into serialized task objects
-        parsed_tasks = parseHTML(html)
+        parsed_tasks = parse_html(html)
         
         # adding to dict 
         tasks[course_object.name] = parsed_tasks
 
     return tasks
+

@@ -15,7 +15,7 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # internal imports
-from ...models import Task
+from SchoolVerse_webscraper.models import Task
 from utils import parse_link_to_course_code
 
 # making references so variables save over iterations
