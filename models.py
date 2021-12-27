@@ -16,7 +16,7 @@
 class Task():
    
     # attributes
-    def __init__(self, id, name, due_date, completed, platform_information=None, description=None):
+    def __init__(self, id, name, due_date, completed=False, platform_information=None, description=None):
         
         # basic information
         self.id = id # SchoolVerse generate id for database storage
@@ -33,7 +33,7 @@ class Task():
             }
         '''
 
-        # storing checkmarks as boolean
+        # storing checkmarks as boolean, defaulted to false
         self.completed = completed
 
         # optionals
