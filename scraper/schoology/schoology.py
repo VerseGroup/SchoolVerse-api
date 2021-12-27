@@ -22,6 +22,7 @@ sys.path.append(currentdir)
 
 # local imports
 from ...models import Task, Course
+from parse_courses import parseCourses
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
@@ -40,3 +41,7 @@ def scrape_schoology(username, password):
     # login post request
     response = s.post(url=SCHOOLOGY_LOGIN_URL, data=login_params, headers=login_headers)
     print(f"Login Status: {response.status_code}")  
+
+    # getting user associated coure codes with IAPI2
+    response = s.get(url=SCHOOLOGY_IAPI2_URL)
+    courses = parseCourses(json.loads(response.text))
