@@ -2,4 +2,4 @@
 .env
 
 # pyc files could contain secrets
-find . -name '*.pyc' | xargs -n 1 git rm --cached
+*.pyc
