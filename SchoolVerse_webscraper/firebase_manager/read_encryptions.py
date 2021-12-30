@@ -17,11 +17,15 @@ db = auth()
 
 # get user encryptions with id
 def get_encrypted_credentials(id, platform_code):
-    users_ref = db.collection(u'USERS')
-    docs = users_ref.stream()
-    
-    for doc in docs:
-        if doc.id == id:
-            return doc.to_dict()
-
-print(get_encrypted_credentials(1, "sc"))
+    user_ref = db.collection(u'USERS').document(f'{id}')
+    doc = user_ref.get()
+    if doc.exists:
+        doc_dict = doc.to_dict()
+        return {
+            "username_ciphertext" : doc_dict['SCHOOLOGY_CREDS'][0],
+            "password_ciphertext" : doc_dict['SCHOOLOGY_CREDS'][1]
+        }
+    else:
+        return {
+            "message" : "Invalid user ID"
+        }

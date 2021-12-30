@@ -26,13 +26,23 @@ This server only contains a REST API (accepting POST requests), and no website, 
 pip install -r requirements.txt
 ~~~
 
-During release, the next step would be to run the server. In testing simply open run 'testing.py' and
+During release, the next step would be to run the server. 
+
+### Test The Scraper:
+In testing simply open run 'testing_scraper.py' and
 enter a valid Schoology Username + Password. 
+### Test Full Stack
+Open and run 'encrypt.py' and get encryptions for username, password
+Copy the key
+Add a doc with and id to firebase and add an array "SCHOOLOGY_CREDS" with two fields 'username_ciphertext' and 'password_ciphertext'
+Change the ID in testing_full_stack to the id of the document added
+Run testing_full_stack and enter your key, and you will get your schoology information
+
 
 This is open source to encourage improvements, suggestions and security. 
 
 ## For Developers
-Delete PYCS: 
+Delete existing PYCS (should be gitignored by default regardless): 
 ~~~
 find . -name '*.pyc' | xargs -n 1 git rm --cached
 ~~~

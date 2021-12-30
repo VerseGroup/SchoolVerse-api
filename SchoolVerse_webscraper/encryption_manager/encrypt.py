@@ -22,7 +22,4 @@ def encrypt(username, password):
         "key": key
     }
 
-#print(encrypt(username, password))
-
-from .decrypt import decrypt 
-#decrypt()
+print(encrypt(username, password))
