@@ -29,7 +29,6 @@ pip install -r requirements.txt
 During release, the next step would be to run the server. In testing simply open run 'testing.py' and
 enter a valid Schoology Username + Password. 
 
-This is open source to encourage improvements, suggestions and security. Email us at "officialversegroupllc@gmail.com" with any comments, questions, suggestions or concerns.
-
+This is open source to encourage improvements, suggestions and security. 
 
 
