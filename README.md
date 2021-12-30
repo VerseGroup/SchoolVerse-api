@@ -30,16 +30,21 @@ During release, the next step would be to run the server.
 
 ### Test The Scraper:
 In testing simply open run 'testing_scraper.py' and
-enter a valid Schoology Username + Password. 
+enter a valid Schoology username and  password. 
+
 ### Test Full Stack
-Open and run 'encrypt.py' and get encryptions for username, password
-Copy the key
-Add a doc with and id to firebase and add an array "SCHOOLOGY_CREDS" with two fields 'username_ciphertext' and 'password_ciphertext'
-Change the ID in testing_full_stack to the id of the document added
-Run testing_full_stack and enter your key, and you will get your schoology information
+- Open 'encrypt.py' in encryption_manager
+  - Enter username and password for schoology
+  - Copy the three outputs (username cipher, password cipher and decryption key)
+- Open Firebase testing project and add a document (name it with an ID) to the USERS collection
+  - Add a SCHOOLOGY_CREDENTIALS Array and set [0] to your username cipher, and [1] to your password cipher
+- Open 'testing_full_stack.py' and change the ID to the id of the document you added
+- Run 'testing_full_stack.py' and enter the decryption key
+- You will get your schoology information back if you did everything right 
 
-
+<hr>
 This is open source to encourage improvements, suggestions and security. 
+<hr>
 
 ## For Developers
 Delete existing PYCS (should be gitignored by default regardless): 
