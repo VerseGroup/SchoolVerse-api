@@ -31,4 +31,8 @@ enter a valid Schoology Username + Password.
 
 This is open source to encourage improvements, suggestions and security. 
 
-
+## For Developers
+Delete PYCS: 
+~~~
+find . -name '*.pyc' | xargs -n 1 git rm --cached
+~~~
