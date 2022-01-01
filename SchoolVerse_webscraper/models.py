@@ -101,21 +101,35 @@ class Course():
 
         return serialized_course
 
-# User object
-
+# User object to represent a client
 class User():
 
     def __init__(self, id, credentials, courses=None):
         self.id = id,
-        self.courses = courses
-        self.credentials = credentials
 
+        # array of course objects
+        self.courses = courses
+
+        # Holding user credentials
+        self.credentials = credentials 
+        # formatted as a json file (containing ciphertext)
+        '''
+        {
+            "sc": [username, password],
+            "gc": [username, password],
+            "vc" : [username, password]
+        }
+        '''
+
+    # serialize object to dict representing JSON
     def serialize(self):
+        # ensured data
         serialized_user = {
             "id" : self.id,
             "credentials" : self.credentials
         }
 
+        #optionals
         if self.courses is not None:
             serialized_user['courses'] = self.courses
 
