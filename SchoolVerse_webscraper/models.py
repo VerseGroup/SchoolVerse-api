@@ -100,3 +100,24 @@ class Course():
             serialized_course['tasks'] = self.tasks
 
         return serialized_course
+
+# User object
+
+class User():
+
+    def __init__(self, id, credentials, courses=None):
+        self.id = id,
+        self.courses = courses
+        self.credentials = credentials
+
+    def serialize(self):
+        serialized_user = {
+            "id" : self.id,
+            "credentials" : self.credentials
+        }
+
+        if self.courses is not None:
+            serialized_user['courses'] = self.courses
+
+        return serialized_user
+
