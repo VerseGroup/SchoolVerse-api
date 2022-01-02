@@ -4,7 +4,7 @@ from SchoolVerse_webscraper.firebase_manager.read_encryptions import get_encrypt
 from SchoolVerse_webscraper.encryption_manager.decrypt import decrypt
 
 # TESTING USER 
-ID = 1
+ID = input('ID: ')
 KEY = input('DECRYPTION KEY: ')
 
 credentials = get_encrypted_credentials(ID, 'sc')

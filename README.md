@@ -33,6 +33,8 @@ In testing simply open run 'testing_scraper.py' and
 enter a valid Schoology username and  password. 
 
 ### Test Full Stack
+(In order to run Test Full Stack obtain the 'secrets' folder and place it in the firebase_manager directory 
+as well as various .envs)
 - Open 'encrypt.py' in encryption_manager
   - Enter username and password for schoology
   - Copy the three outputs (username cipher, password cipher and decryption key)
