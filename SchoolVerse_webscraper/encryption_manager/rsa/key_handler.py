@@ -34,17 +34,26 @@ def serialize_keys(private_key, public_key):
         'serialized_public_key' : serialized_public_key
     }
 
-def deserialize_keys(serialized_private_key, serialized_public_key):
+def deserialize_public_key(serialized_public_key):
+    public_key = serialization.load_pem_public_key(
+        serialized_public_key,
+        backend=default_backend()
+    )
+    return public_key
+
+def deserialize_private_key(serialized_private_key):
     private_key = serialization.load_pem_private_key(
         serialized_private_key,
         password=None,
         backend=default_backend()
     )
 
-    public_key = serialization.load_pem_public_key(
-        serialized_public_key,
-        backend=default_backend()
-    )
+    return private_key
+
+def deserialize_keys(serialized_private_key, serialized_public_key):
+    
+    public_key = deserialize_public_key(serialized_public_key)
+    private_key = deserialize_private_key(serialized_private_key)
 
     return {
         'private_key' : private_key,
