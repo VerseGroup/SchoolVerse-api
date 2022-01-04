@@ -36,13 +36,13 @@ def serialize_keys(private_key, public_key):
 
 def deserialize_keys(serialized_private_key, serialized_public_key):
     private_key = serialization.load_pem_private_key(
-        serialized_private_key.read(),
+        serialized_private_key,
         password=None,
         backend=default_backend()
     )
 
     public_key = serialization.load_pem_public_key(
-        serialized_public_key.read(),
+        serialized_public_key,
         backend=default_backend()
     )
 
@@ -50,3 +50,11 @@ def deserialize_keys(serialized_private_key, serialized_public_key):
         'private_key' : private_key,
         'public_key' : public_key
     }
+
+def testing():
+    dict = generate_keys()
+    dict2 = serialize_keys(private_key=dict['private_key'], public_key=dict['public_key'])
+    dict3 = deserialize_keys(serialized_private_key=dict2['serialized_private_key'], serialized_public_key=dict2['serialized_public_key'])
+    print(dict3)
+
+testing()
