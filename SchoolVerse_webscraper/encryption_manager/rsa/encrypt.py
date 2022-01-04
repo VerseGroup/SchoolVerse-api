@@ -23,7 +23,7 @@ def encrypt(message, private_key=None, public_key=None):
 
     # encrypting with sha256 based on given key
     if public_key is not None:
-        encrypted = public_key.encrypt(
+        encrypted_message = public_key.encrypt(
         message,
         padding.OAEP(
             mgf=padding.MGF1(algorithm=hashes.SHA256()),
@@ -32,7 +32,7 @@ def encrypt(message, private_key=None, public_key=None):
         )
         )
     else: 
-        encrypted = private_key.encrypt(
+        encrypted_message = private_key.encrypt(
         message,
         padding.OAEP(
             mgf=padding.MGF1(algorithm=hashes.SHA256()),
@@ -41,4 +41,4 @@ def encrypt(message, private_key=None, public_key=None):
         )
         )
 
-    return encrypted
+    return encrypted_message
