@@ -7,8 +7,8 @@ from getpass import getpass
 from cryptography.fernet import Fernet
 
 # get creds
-username = input('USERNAME: ')
-password = getpass()
+#username = input('USERNAME: ')
+#password = getpass()
 
 # encrypt creds using fernet
 def encrypt(username, password): 
@@ -22,4 +22,4 @@ def encrypt(username, password):
         "key": key
     }
 
-print(encrypt(username, password))
+#print(encrypt(username, password))
