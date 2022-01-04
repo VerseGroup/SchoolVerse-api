@@ -15,8 +15,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # local imports
-from .fernet.decrypt import decrypt
-from .auth import generate_oauth2_header
 
 # function that gets key from security server, decrypts it, and returns credentials
 def get_credentials(user_id, platform_code):
