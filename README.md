@@ -48,8 +48,3 @@ as well as various .envs)
 This is open source to encourage improvements, suggestions and security. 
 <hr>
 
-## For Developers
-Delete existing PYCS (should be gitignored by default regardless): 
-~~~
-find . -name '*.pyc' | xargs -n 1 git rm --cached
-~~~
