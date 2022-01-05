@@ -14,6 +14,6 @@ def decrypt(encrypted_message, private_key):
         )
     )
 
-    decrypted_message.decode('utf-8') # converting from binary to string
+    decrypted_message = decrypted_message.decode('utf-8') # converting from binary to string
 
     return decrypted_message
