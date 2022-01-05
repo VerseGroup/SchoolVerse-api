@@ -1,4 +1,6 @@
-# decrypts ciphertext with external key
+# decrypts ciphertext with external key 
+
+# outdated - use RSA instead
 
 # python imports
 from cryptography.fernet import Fernet
