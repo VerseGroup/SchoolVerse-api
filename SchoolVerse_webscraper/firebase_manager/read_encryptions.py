@@ -21,11 +21,20 @@ def get_encrypted_credentials(id, platform_code):
     doc = user_ref.get()
     if doc.exists:
         doc_dict = doc.to_dict()
-        return {
-            "username_ciphertext" : doc_dict['SCHOOLOGY_CREDS'][0],
-            "password_ciphertext" : doc_dict['SCHOOLOGY_CREDS'][1]
-        }
+
+        try:
+            return {
+                "code" : '0',
+                "username_ciphertext" : doc_dict[f'{platform_code}_CREDS'][0],
+                "password_ciphertext" : doc_dict[f'{platform_code}_CREDS'][1]
+            }
+        except:
+            return {
+                "message" : "error with reading cipher, probably doesn't exist",
+                "code" : "1-a"
+            }
     else:
         return {
-            "message" : "Invalid user ID"
+            "message" : "Invalid user ID",
+            "code" : "1a"
         }

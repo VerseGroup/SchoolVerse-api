@@ -9,6 +9,7 @@ sys.path.append(currentdir)
 # local imports for testing
 from encryption_handler import EncryptionHandler
 
+# case both keys
 handler = EncryptionHandler()
 print(handler.private_key)
 print(handler.public_key)
@@ -25,3 +26,4 @@ print()
 
 decrypted_message = handler.decrypt(encrypted_message)
 print(decrypted_message)
+
