@@ -16,23 +16,26 @@ def generate_keys():
         'public_key' : public_key
     }
 
-def serialize_keys(private_key, public_key):
+def serialize_keys(private_key=None, public_key=None):
 
-    serialized_private_key = private_key.private_bytes(
-    encoding=serialization.Encoding.PEM,
-    format=serialization.PrivateFormat.PKCS8,
-    encryption_algorithm=serialization.NoEncryption()
-    )
+    returns = {}
 
-    serialized_public_key = public_key.public_bytes(
-    encoding=serialization.Encoding.PEM,
-    format=serialization.PublicFormat.SubjectPublicKeyInfo
-    )
+    if private_key is not None:
+        serialized_private_key = private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption()
+        )
+        returns['serialized_private_key'] = serialized_private_key
 
-    return {
-        'serialized_private_key' : serialized_private_key,
-        'serialized_public_key' : serialized_public_key
-    }
+    if public_key is not None:
+        serialized_public_key = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        returns['serialized_public_key'] = serialized_public_key
+
+    return returns
 
 def deserialize_public_key(serialized_public_key):
     public_key = serialization.load_pem_public_key(
