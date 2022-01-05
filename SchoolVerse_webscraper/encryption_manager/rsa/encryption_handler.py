@@ -13,30 +13,31 @@ from utils.key_handler import generate_keys, serialize_keys, deserialize_keys, d
 
 class EncryptionHandler():
 
-    def __init__(self):
-        # generating a new set of keys
-        key_dict = generate_keys()
+    def __init__(self, serialized_private_key = None, serialized_public_key = None):
         
-        self.private_key = key_dict['private_key']
-        self.public_key = key_dict['public_key']
+        if serialized_private_key is None and serialized_public_key is None:
+            key_dict = generate_keys()
+            
+            self.private_key = key_dict['private_key']
+            self.public_key = key_dict['public_key']
 
-    def __init__(self, serialized_private_key, serialized_public_key):
-        deserialized_key_dict = deserialize_keys(serialized_private_key, serialized_public_key)
-        
-        self.private_key = deserialized_key_dict['private_key']
-        self.public_key = deserialized_key_dict['public_key']
+        if serialized_public_key is not None and serialized_private_key is not None:
+            deserialized_key_dict = deserialize_keys(serialized_private_key, serialized_public_key)
+            
+            self.private_key = deserialized_key_dict['private_key']
+            self.public_key = deserialized_key_dict['public_key']
 
-    def __init__(self, serialized_private_key):
-        deserialized_private_key = deserialize_private_key(serialized_private_key)
+        if serialized_public_key is None and serialized_private_key is not None:
+            deserialized_private_key = deserialize_private_key(serialized_private_key)
+            
+            self.public_key=None
+            self.private_key=deserialized_private_key
 
-        self.public_key=None
-        self.private_key=deserialized_private_key
-
-    def __init__(self, serialized_public_key):
-        deserialized_public_key = deserialize_private_key(serialized_public_key)
-
-        self.private_key=None
-        self.public_key=deserialized_public_key
+        if serialized_private_key is None and serialized_public_key is not None:
+            deserialized_public_key = deserialize_private_key(serialized_public_key)
+            
+            self.private_key=None
+            self.public_key=deserialized_public_key 
 
     def serialize_keys(self):
         return serialize_keys(self.private_key, self.public_key)

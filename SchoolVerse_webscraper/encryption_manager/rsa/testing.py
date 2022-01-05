@@ -6,3 +6,5 @@ import sys
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
+# local imports for testing
+from encryption_handler import EncryptionHandler
