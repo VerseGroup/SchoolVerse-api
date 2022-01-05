@@ -1,8 +1,8 @@
-import cryptography
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 
+# generates a new connected private and public key (as objects)
 def generate_keys():
     private_key = rsa.generate_private_key(
         public_exponent=65537,
@@ -16,6 +16,7 @@ def generate_keys():
         'public_key' : public_key
     }
 
+# serializes key objects into plaintext
 def serialize_keys(private_key=None, public_key=None):
 
     returns = {}
@@ -37,6 +38,7 @@ def serialize_keys(private_key=None, public_key=None):
 
     return returns
 
+# converts plaintext public key into key object
 def deserialize_public_key(serialized_public_key):
     public_key = serialization.load_pem_public_key(
         serialized_public_key,
@@ -44,6 +46,7 @@ def deserialize_public_key(serialized_public_key):
     )
     return public_key
 
+# converts plaintext private key into key object
 def deserialize_private_key(serialized_private_key):
     private_key = serialization.load_pem_private_key(
         serialized_private_key,
@@ -53,6 +56,7 @@ def deserialize_private_key(serialized_private_key):
 
     return private_key
 
+# converts both keys from plaintext to key objects as once (if necessary)
 def deserialize_keys(serialized_private_key, serialized_public_key):
     
     public_key = deserialize_public_key(serialized_public_key)
@@ -62,11 +66,3 @@ def deserialize_keys(serialized_private_key, serialized_public_key):
         'private_key' : private_key,
         'public_key' : public_key
     }
-
-def testing():
-    dict = generate_keys()
-    dict2 = serialize_keys(private_key=dict['private_key'], public_key=dict['public_key'])
-    dict3 = deserialize_keys(serialized_private_key=dict2['serialized_private_key'], serialized_public_key=dict2['serialized_public_key'])
-    print(dict3)
-
-#testing()
