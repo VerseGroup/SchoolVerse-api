@@ -1,0 +1,8 @@
+{
+    "0" : "success",
+
+    "1a" : "general failure",
+    "1b" : "unkown error",
+    "1c" : "not authorized error",
+    "1d" : "nil (None) error ="
+}
