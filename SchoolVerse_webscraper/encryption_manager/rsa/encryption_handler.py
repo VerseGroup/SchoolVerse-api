@@ -55,13 +55,19 @@ class EncryptionHandler():
     # decrypts encrypted message using private key
     def decrypt(self, message):
         if self.private_key is not None:
-            return {
-                "message" : "success",
-                "code" : '0',
-                "decrypted_message" : decrypt(message, self.private_key)
-            }
+            try:
+                return {
+                    "message" : "success",
+                    "code" : '0',
+                    "decrypted_message" : decrypt(message, self.private_key)
+                }
+            except:
+                return {
+                    "message" : "error decrypting",
+                    "code" : '1-a',
+                }
         else:
             return {
-                "message" : "not authorized to decrypt",
+                "message" : "not authorized to decrypt (no private key)",
                 "code" : "1c"
             }
