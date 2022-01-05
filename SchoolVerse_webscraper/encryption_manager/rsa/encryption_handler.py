@@ -7,9 +7,9 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local imports
-from decrypt import decrypt
-from encrypt import encrypt
-from key_handler import generate_keys, serialize_keys, deserialize_keys, deserialize_private_key, deserialize_public_key
+from utils.decrypt import decrypt
+from utils.encrypt import encrypt
+from utils.key_handler import generate_keys, serialize_keys, deserialize_keys, deserialize_private_key, deserialize_public_key
 
 class EncryptionHandler():
 
@@ -40,3 +40,9 @@ class EncryptionHandler():
 
     def serialize_keys(self):
         return serialize_keys(self.private_key, self.public_key)
+
+    def encrypt(self, message):
+        return encrypt(message, self.private_key, self.public_key)
+
+    def decrypt(self, message):
+        return decrypt(message, self.private_key)
