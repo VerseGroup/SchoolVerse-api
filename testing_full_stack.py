@@ -1,7 +1,7 @@
 # python imports
 
 # local imports
-from SchoolVerse_webscraper.encryption_manager.rsa.encryption_handler import EncryptionHandler
+from SchoolVerse_webscraper.keychain_networking.rsa.encryption_handler import EncryptionHandler
 from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials
 from SchoolVerse_webscraper.scraper.schoology import scrape_schoology
 
