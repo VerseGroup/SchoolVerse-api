@@ -41,4 +41,4 @@ def encrypt(message, private_key=None, public_key=None):
         )
         )
 
-    return encrypted_message
+    return encrypted_message.decode('utf-8')

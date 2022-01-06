@@ -16,7 +16,7 @@ sys.path.append(currentdir)
 
 # internal imports
 from SchoolVerse_webscraper.models import Task
-from utils import parse_link_to_course_code
+from schoology.utils import parse_link_to_course_code
 
 # making references so variables save over iterations
 current_date = None
