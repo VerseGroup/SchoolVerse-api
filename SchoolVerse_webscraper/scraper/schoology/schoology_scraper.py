@@ -63,6 +63,11 @@ def scrape_schoology(username, password):
         # decoding unicode into something beautiful soup can understand
         response = s.get(url)
         content = response.content
+
+        test_log = open(f"test_logs/RAW: {course_object.serialize()['name']}.html", "w+") 
+        test_log.write(content.decode('utf-8'))
+        test_log.close()
+
         decoded_content = content.decode('unicode-escape').replace("\/", "/")
         html = str(decoded_content)[1: -1]
 
