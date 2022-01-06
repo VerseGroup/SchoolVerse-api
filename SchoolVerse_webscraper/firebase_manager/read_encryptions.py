@@ -10,10 +10,7 @@ sys.path.append(currentdir)
 import firebase_admin
 
 # local imports
-from auth import auth
-
-# setting up firebase db
-db = auth()
+from auth import db
 
 # get user encryptions with id
 def get_encrypted_credentials(id, platform_code):

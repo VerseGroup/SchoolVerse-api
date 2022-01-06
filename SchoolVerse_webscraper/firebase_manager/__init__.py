@@ -6,5 +6,6 @@ import sys
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
-# relative imports to init for shorter imports in other files
+# local imports
 from read_encryptions import get_encrypted_credentials
+from write import write_task

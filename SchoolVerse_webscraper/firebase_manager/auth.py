@@ -15,6 +15,8 @@ FILE_NAME = os.getenv("FILE_NAME")
 def auth():
     cred = credentials.Certificate(f'SchoolVerse_webscraper/firebase_manager/secrets/{FILE_NAME}')
     firebase_admin.initialize_app(cred)
-    db = firestore.client()
+    db = firestore.client()   
     return db
 
+db = auth()
+    

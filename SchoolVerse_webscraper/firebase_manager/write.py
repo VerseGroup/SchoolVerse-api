@@ -11,10 +11,7 @@ sys.path.append(currentdir)
 import firebase_admin
 
 # local imports
-from auth import auth
-
-# setting up firebase db
-db = auth()
+from auth import db
 
 def write_task(data, user_id):
     id = str(uuid.uuid4())
