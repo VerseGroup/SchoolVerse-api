@@ -13,6 +13,7 @@ import json
 
 # external packages
 import requests
+from bs4 import BeautifulSoup
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -64,6 +65,7 @@ def scrape_schoology(username, password):
         response = s.get(url)
         content = response.content
 
+        # logging raw received content
         test_log = open(f"test_logs/RAW: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(content.decode('utf-8'))
         test_log.close()
@@ -71,10 +73,18 @@ def scrape_schoology(username, password):
         decoded_content = content.decode('unicode-escape').replace("\/", "/")
         html = str(decoded_content)[1: -1]
 
-        # parsing file into serialized task objects
+        # logging content exactly as to be scraped
         test_log = open(f"test_logs/{course_object.serialize()['name']}.html", "w+") 
         test_log.write(html)
         test_log.close()
+
+        # logging pretty content to be used for debugging
+        logging_soup = BeautifulSoup(html, 'html.parser')
+        test_log = open(f"test_logs/PRETTY: {course_object.serialize()['name']}.html", "w+") 
+        test_log.write(logging_soup.prettify())
+        test_log.close()
+
+        # parsing file into serialized task objects
         parsed_tasks = parse_html(html)
         
         # adding to dict 

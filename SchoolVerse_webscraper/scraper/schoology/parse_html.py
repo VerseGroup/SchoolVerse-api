@@ -51,6 +51,7 @@ def parse_html(html):
             h4_children = child.contents[0].contents
             for child in h4_children:
                 print (child.name)
+            print()
             assignment_name = h4_children[1].string
 
             # parsing an href to an assignment code and then formatting it into a SchoolVerse platform_information dict
