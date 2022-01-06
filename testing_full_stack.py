@@ -10,8 +10,10 @@ from SchoolVerse_webscraper.scraper.schoology import scrape_schoology
 from getpass import getpass
 
 # copying function
-def copy(message):
-    pyperclip.copy(message)
+def copy(message, remove_b = False):
+    if remove_b:
+        message = str(message)[2:-1]
+    pyperclip.copy(str(message))
 
 def paste():
     return pyperclip.paste()
@@ -35,21 +37,28 @@ def get_encrypted_creds():
     continue_ = input('')
     
     private_key = encryption.serialize_private_key()
-    print(f"PRIVATE_KEY:{private_key}")
-    copy(private_key)
-    continue_ = input('')
+    return private_key['serialized_private_key']
 
-def scrape_write():
-    private_key = input('PRIVATE_KEY: ')
+def scrape_write(key):
+    private_key = key
     encryption = EncryptionHandler(serialized_private_key=private_key)
 
     cred_dict = get_encrypted_credentials('1', 'sc')
+
+    print(cred_dict)
+
     username = encryption.decrypt(cred_dict['username_ciphertext'])
     password = encryption.decrypt(cred_dict['password_ciphertext'])
 
+    print([username, password])
+
+    '''
     tasks = scrape_schoology(username=username, password=password)  
     print(tasks)
 
-get_encrypted_creds()
-input('')
-scrape_write()
+    for task in tasks:
+        write_task(task, '1')
+    '''
+
+key = get_encrypted_creds()
+scrape_write(key)
