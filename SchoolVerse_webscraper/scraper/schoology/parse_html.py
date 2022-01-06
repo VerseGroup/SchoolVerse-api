@@ -49,10 +49,19 @@ def parse_html(html):
 
             # using bs4 children proporties to locate/scrape the assignment name
             h4_children = child.contents[0].contents
+            
+            '''
+            (Here in case of bug where h4 list index out of range because of a broken sc assignment)
             for child in h4_children:
                 print (child.name)
+                print (child.string)
             print()
-            assignment_name = h4_children[1].string
+            '''
+
+            try:
+                assignment_name = h4_children[1].string
+            except: 
+                continue
 
             # parsing an href to an assignment code and then formatting it into a SchoolVerse platform_information dict
             assignment_code = parse_link_to_course_code(h4_children[1].attrs['href'])

@@ -66,17 +66,21 @@ def scrape_schoology(username, password):
         content = response.content
 
         # logging raw received content
+        '''
         test_log = open(f"test_logs/RAW: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(content.decode('utf-8'))
         test_log.close()
+        '''
 
         decoded_content = content.decode('unicode-escape').replace("\/", "/")
         html = str(decoded_content)[1: -1]
 
         # logging content exactly as to be scraped
-        test_log = open(f"test_logs/{course_object.serialize()['name']}.html", "w+") 
+        '''
+        test_log = open(f"test_logs/SCRAPING_FORMATTED: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(html)
         test_log.close()
+        '''
 
         # logging pretty content to be used for debugging
         logging_soup = BeautifulSoup(html, 'html.parser')
