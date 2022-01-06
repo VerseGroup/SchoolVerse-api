@@ -53,11 +53,11 @@ class EncryptionHandler():
 
     # just serialize public key
     def serialize_public_key(self):
-        return serialize_keys(public_key=self.public_key)
+        return serialize_keys(public_key=self.public_key)['serialized_public_key']
 
     # just serialize private key
     def serialize_private_key(self):
-        return serialize_keys(private_key=self.private_key)
+        return serialize_keys(private_key=self.private_key)['serialized_private_key']
 
     # encrypts a message (str) with either avaiable key
     def encrypt(self, message):

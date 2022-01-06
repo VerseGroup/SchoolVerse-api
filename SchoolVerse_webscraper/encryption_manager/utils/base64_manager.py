@@ -11,5 +11,4 @@ def encode(message):
 def decode(coded_message):
     coded_message = coded_message.encode('utf-8')
     message = base64.b64decode(coded_message)
-    message = message.decode('utf-8')
     return message

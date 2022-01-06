@@ -2,47 +2,49 @@
 
 # local imports
 from SchoolVerse_webscraper.encryption_manager.encryption_handler import EncryptionHandler
-from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials
-from SchoolVerse_webscraper.scraper.schoology import scrape_schoology
+from SchoolVerse_webscraper.encryption_manager.utils.base64_manager import encode, decode
+from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
+from SchoolVerse_webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 
 # external imports
 from getpass import getpass
 
-def get_encrypted_creds():
-    # creds
+def get_creds():
     username = input('USERNAME: ')
     password = getpass()
 
-    # encryption
-    encryption = EncryptionHandler()
-    encrypted_username = encryption.encrypt(username)
-    encrypted_password = encryption.encrypt(password)
+    handler = EncryptionHandler()
+    e_username = handler.encrypt(username)
+    e_password = handler.encrypt(password)
 
-    # write directly to firebase
+    en_username = encode(e_username)
+    en_password = encode(e_password)
+
+    write_creds(username=en_username, password=en_password, user_id='1')
+
+    return handler.serialize_private_key()
+
+def scrape_using_creds(key):
+    handler = EncryptionHandler(serialized_private_key=key)
+
+    cred_dict = get_encrypted_credentials(1, "sc")
     
-    private_key = encryption.serialize_private_key()
-    return private_key['serialized_private_key']
+    en_username = cred_dict['username_ciphertext']
+    en_password = cred_dict['password_ciphertext']
 
-def scrape_write(key):
-    private_key = key
-    encryption = EncryptionHandler(serialized_private_key=private_key)
+    e_username = decode(en_username)
+    e_password = decode(en_password)
 
-    cred_dict = get_encrypted_credentials('1', 'sc')
+    username = handler.decrypt(e_username)
+    password = handler.decrypt(e_password)
 
-    print(cred_dict)
+    username = str(username.decode('utf-8'))
+    password = str(password.decode('utf-8'))
 
-    username = encryption.decrypt(cred_dict['username_ciphertext'])
-    password = encryption.decrypt(cred_dict['password_ciphertext'])
-
-    print([username, password])
-
-    '''
-    tasks = scrape_schoology(username=username, password=password)  
+    tasks = scrape_schoology(username, password)
     print(tasks)
 
-    for task in tasks:
-        write_task(task, '1')
-    '''
+key = get_creds()
+input('')
+scrape_using_creds(key)
 
-key = get_encrypted_creds()
-scrape_write(key)

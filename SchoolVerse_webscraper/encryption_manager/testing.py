@@ -15,7 +15,7 @@ handler = EncryptionHandler()
 message = "test message"
 encrypted_message = handler.encrypt(message)
 
-private_key  = handler.serialize_private_key()['serialized_private_key']
+private_key  = handler.serialize_private_key()
 handler2 = EncryptionHandler(serialized_private_key=private_key)
 
 
