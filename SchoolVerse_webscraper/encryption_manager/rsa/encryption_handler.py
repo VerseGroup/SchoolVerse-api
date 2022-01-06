@@ -1,6 +1,9 @@
 # python imports
 import os
 import sys
+import base64
+
+from google.auth.crypt import base
 
 # adding dir to sys to allow local importing
 currentdir = os.path.abspath(os.path.dirname(__file__))
@@ -57,13 +60,19 @@ class EncryptionHandler():
         return serialize_keys(private_key=self.private_key)
 
     # encrypts a message (str) with either avaiable key
-    def encrypt(self, message):
-        return encrypt(message, self.private_key, self.public_key)
+    def encrypt(self, message, base64_ = False):
+        encrypted_message = encrypt(message, self.private_key, self.public_key)
+        if base64:
+            encrypted_message = base64.b64encode(encrypted_message)
+        return encrypted_message
 
     # decrypts encrypted message using private key
-    def decrypt(self, message):
+    def decrypt(self, message, base64_ = False):
         if self.private_key is not None:
-            return decrypt(message, self.private_key)
+            decrypted_message = decrypt(message, self.private_key)
+            if base64:
+                decrypted_message = str(base64.b64decode(decrypted_message))
+            return decrypted_message
             '''
             try:
                 return {
