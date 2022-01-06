@@ -41,10 +41,13 @@ def scrape_using_creds(key):
     username = str(username.decode('utf-8'))
     password = str(password.decode('utf-8'))
 
-    tasks = scrape_schoology(username, password)
-    print(tasks)
+    all_tasks = scrape_schoology(username, password)
+    
+    for course in all_tasks:
+        course_tasks = all_tasks[course]
+        for task in course_tasks:
+            write_task(task, 1)
 
 key = get_creds()
-input('')
 scrape_using_creds(key)
 
