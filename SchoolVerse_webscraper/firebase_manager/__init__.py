@@ -8,4 +8,4 @@ sys.path.append(currentdir)
 
 # local imports
 from read_encryptions import get_encrypted_credentials
-from write import write_task
+from write_tasks import write_task
