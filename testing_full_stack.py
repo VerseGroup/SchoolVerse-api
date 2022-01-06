@@ -25,8 +25,8 @@ def get_encrypted_creds():
 
     # encryption
     encryption = EncryptionHandler()
-    encrypted_username = encryption.encrypt(username, base64_=True)
-    encrypted_password = encryption.encrypt(password, base64_=True)
+    encrypted_username = encryption.encrypt(username)
+    encrypted_password = encryption.encrypt(password)
 
     print(f"USERNAME:{encrypted_username}")
     copy(encrypted_username)
@@ -47,8 +47,8 @@ def scrape_write(key):
 
     print(cred_dict)
 
-    username = encryption.decrypt(cred_dict['username_ciphertext'], base64_=True)
-    password = encryption.decrypt(cred_dict['password_ciphertext'], base64_=True)
+    username = encryption.decrypt(cred_dict['username_ciphertext'])
+    password = encryption.decrypt(cred_dict['password_ciphertext'])
 
     print([username, password])
 

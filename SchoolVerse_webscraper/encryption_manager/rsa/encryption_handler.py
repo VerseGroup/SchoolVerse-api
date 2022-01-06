@@ -14,7 +14,7 @@ from utils.decrypt import decrypt
 from utils.encrypt import encrypt
 from utils.key_handler import generate_keys, serialize_keys, deserialize_keys, deserialize_private_key, deserialize_public_key
 
-# a class to easily manage rsa encryption
+# a class to easily manage rsa encryption and base64 
 class EncryptionHandler():
 
     def __init__(self, serialized_private_key = None, serialized_public_key = None):
@@ -60,18 +60,24 @@ class EncryptionHandler():
         return serialize_keys(private_key=self.private_key)
 
     # encrypts a message (str) with either avaiable key
-    def encrypt(self, message, base64_ = False):
+    def encrypt(self, message):
         encrypted_message = encrypt(message, self.private_key, self.public_key)
-        if base64:
-            encrypted_message = base64.b64encode(encrypted_message)
+        print(f"BEFORE: {encrypted_message}")
+        print()
+        encrypted_message = str(base64.b64encode(encrypted_message))
+        print(f"AFTER: {encrypted_message}")
+        input('')
         return encrypted_message
 
     # decrypts encrypted message using private key
-    def decrypt(self, message, base64_ = False):
+    def decrypt(self, message):
         if self.private_key is not None:
-            decrypted_message = decrypt(message, self.private_key)
-            if base64:
-                decrypted_message = str(base64.b64decode(decrypted_message))
+            message = message.encode('utf-8')
+            print(f"BEFORE: {message}")
+            print()
+            decrypted_message = base64.b64decode(message)
+            print(f"AFTER: {decrypted_message}")
+            decrypted_message = decrypt(decrypted_message, self.private_key)
             return decrypted_message
             '''
             try:
