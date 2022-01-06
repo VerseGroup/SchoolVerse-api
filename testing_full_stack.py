@@ -1,5 +1,4 @@
 # python imports
-import pyperclip
 
 # local imports
 from SchoolVerse_webscraper.encryption_manager.rsa.encryption_handler import EncryptionHandler
@@ -8,15 +7,6 @@ from SchoolVerse_webscraper.scraper.schoology import scrape_schoology
 
 # external imports
 from getpass import getpass
-
-# copying function
-def copy(message, remove_b = False):
-    if remove_b:
-        message = str(message)[2:-1]
-    pyperclip.copy(str(message))
-
-def paste():
-    return pyperclip.paste()
 
 def get_encrypted_creds():
     # creds
@@ -28,13 +18,7 @@ def get_encrypted_creds():
     encrypted_username = encryption.encrypt(username)
     encrypted_password = encryption.encrypt(password)
 
-    print(f"USERNAME:{encrypted_username}")
-    copy(encrypted_username)
-    continue_ = input('')
-    
-    print(f"PASSWORD:{encrypted_password}")
-    copy(encrypted_password)
-    continue_ = input('')
+    # write directly to firebase
     
     private_key = encryption.serialize_private_key()
     return private_key['serialized_private_key']
