@@ -67,6 +67,9 @@ def scrape_schoology(username, password):
         html = str(decoded_content)[1: -1]
 
         # parsing file into serialized task objects
+        test_log = open(f"test_logs/{course_object.serialize()['name']}.html", "w+") 
+        test_log.write(html)
+        test_log.close()
         parsed_tasks = parse_html(html)
         
         # adding to dict 
