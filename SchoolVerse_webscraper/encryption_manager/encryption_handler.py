@@ -68,10 +68,7 @@ class EncryptionHandler():
     def decrypt(self, message):
         if self.private_key is not None:
             decrypted_message = decrypt(message, self.private_key)
-            
             return decrypted_message
-            
-            
             
             '''
             try:
