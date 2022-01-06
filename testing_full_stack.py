@@ -1,4 +1,5 @@
 # python imports
+import pyperclip
 
 # local imports
 from SchoolVerse_webscraper.encryption_manager.rsa.encryption_handler import EncryptionHandler
@@ -7,6 +8,13 @@ from SchoolVerse_webscraper.scraper.schoology import scrape_schoology
 
 # external imports
 from getpass import getpass
+
+# copying function
+def copy(message):
+    pyperclip.copy(message)
+
+def paste():
+    return pyperclip.paste()
 
 def get_encrypted_creds():
     # creds
@@ -19,10 +27,16 @@ def get_encrypted_creds():
     encrypted_password = encryption.encrypt(password)
 
     print(f"USERNAME:{encrypted_username}")
+    copy(encrypted_username)
     continue_ = input('')
+    
     print(f"PASSWORD:{encrypted_password}")
+    copy(encrypted_password)
     continue_ = input('')
-    print(f"PRIVATE_KEY:{encryption.serialize_private_key}")
+    
+    private_key = encryption.serialize_private_key()
+    print(f"PRIVATE_KEY:{private_key}")
+    copy(private_key)
     continue_ = input('')
 
 def scrape_write():
