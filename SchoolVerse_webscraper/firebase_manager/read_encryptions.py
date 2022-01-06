@@ -10,7 +10,7 @@ sys.path.append(currentdir)
 import firebase_admin
 
 # local imports
-from .auth import auth
+from auth import auth
 
 # setting up firebase db
 db = auth()
