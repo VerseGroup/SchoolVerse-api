@@ -62,23 +62,17 @@ class EncryptionHandler():
     # encrypts a message (str) with either avaiable key
     def encrypt(self, message):
         encrypted_message = encrypt(message, self.private_key, self.public_key)
-        print(f"BEFORE: {encrypted_message}")
-        print()
-        encrypted_message = str(base64.b64encode(encrypted_message))
-        print(f"AFTER: {encrypted_message}")
-        input('')
         return encrypted_message
 
     # decrypts encrypted message using private key
     def decrypt(self, message):
         if self.private_key is not None:
-            message = message.encode('utf-8')
-            print(f"BEFORE: {message}")
-            print()
-            decrypted_message = base64.b64decode(message)
-            print(f"AFTER: {decrypted_message}")
-            decrypted_message = decrypt(decrypted_message, self.private_key)
+            decrypted_message = decrypt(message, self.private_key)
+            
             return decrypted_message
+            
+            
+            
             '''
             try:
                 return {

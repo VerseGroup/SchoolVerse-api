@@ -11,19 +11,14 @@ from encryption_handler import EncryptionHandler
 
 # case both keys
 handler = EncryptionHandler()
-print(handler.private_key)
-print(handler.public_key)
-print()
-
-serialized_keys = handler.serialize_keys()
-print(serialized_keys)
-print()
 
 message = "test message"
 encrypted_message = handler.encrypt(message)
-print(encrypted_message)
-print()
 
-decrypted_message = handler.decrypt(encrypted_message)
+private_key  = handler.serialize_private_key()['serialized_private_key']
+handler2 = EncryptionHandler(serialized_private_key=private_key)
+
+
+decrypted_message = handler2.decrypt(encrypted_message)
 print(decrypted_message)
 
