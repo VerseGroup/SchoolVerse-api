@@ -16,10 +16,9 @@
 class Task():
    
     # attributes
-    def __init__(self, id, name, due_date, completed=False, platform_information=None, description=None):
+    def __init__(self, name, due_date, completed=False, platform_information=None, description=None):
         
         # basic information
-        self.id = id # SchoolVerse generate id for database storage
         self.name = name # Name of the task
         self.due_date = due_date # Unformatted date to be changed to format
         

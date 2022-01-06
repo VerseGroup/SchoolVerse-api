@@ -72,7 +72,7 @@ def parse_html(html):
             
             # use uuid or something instead
             # creating a task object with the scraped/formatted information
-            task = Task(id=1, name=assignment_name, due_date=current_date, platform_information=platform_information)
+            task = Task(name=assignment_name, due_date=current_date, platform_information=platform_information)
             
             # probably change to return task objects instead of serialized, then can append an array of tasks
             # to course objects and just serialize the entire course 

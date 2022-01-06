@@ -49,5 +49,6 @@ def scrape_using_creds(key):
             write_task(task, 1)
 
 key = get_creds()
+input('')
 scrape_using_creds(key)
 
