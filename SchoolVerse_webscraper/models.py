@@ -42,7 +42,6 @@ class Task():
     def serialize(self):
         # adding ensured data 
         serialized_task = {
-            'id' : self.id,
             'name' : self.name,
             'due_date' : self.due_date,
             'completed' : self.completed
@@ -50,7 +49,7 @@ class Task():
 
         #optionals
         if self.platform_information is not None:
-            serialized_task['plaform_information'] = self.platform_information
+            serialized_task['platform_information'] = self.platform_information
         if self.description is not None:
             serialized_task['description'] = self.description
 
