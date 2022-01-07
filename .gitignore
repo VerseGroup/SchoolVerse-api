@@ -1,5 +1,5 @@
 # secrets
 .env
 
-# pyc files could contain secrets
+# pyc files could contain compiled secrets
 *.pyc

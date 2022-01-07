@@ -1,7 +1,13 @@
-# testing file to test various functionality
-
 # python imports
+import os
+import sys
 import time
+
+# adding directories for local imports
+parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentdir)
+currentdir = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(currentdir)
 
 # external imports
 from getpass import getpass
