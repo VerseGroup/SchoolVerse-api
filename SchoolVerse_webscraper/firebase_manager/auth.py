@@ -18,5 +18,6 @@ def auth():
     db = firestore.client()   
     return db
 
+# variable for other files to import
 db = auth()
     
