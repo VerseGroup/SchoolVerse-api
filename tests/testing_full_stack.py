@@ -50,8 +50,21 @@ def scrape_using_creds(key):
     password = str(password.decode('utf-8'))
 
     all_tasks = scrape_schoology(username, password)
+
+    print(all_tasks)
+
+    task_log = open('task_log.txt', 'w')
+    for task in all_tasks:
+        task_log.write(str(task))
+        for tasks in task:
+            task_log.write(tasks)
+            task_log.write('\n')
+
+        task_log.write('\n\n')
+    task_log.close()
     
     for course in all_tasks:
+
         course_tasks = all_tasks[course]
         for task in course_tasks:
             write_task(task, 1)
