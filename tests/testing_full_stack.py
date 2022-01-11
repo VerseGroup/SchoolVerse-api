@@ -53,7 +53,7 @@ def scrape_using_creds(key):
 
     print(all_tasks)
 
-    task_log = open('task_log.txt', 'w')
+    task_log = open('logs/tasks.txt', 'w')
     for task in all_tasks:
         task_log.write(str(task))
         for tasks in task:

@@ -84,7 +84,7 @@ def scrape_schoology(username, password):
 
         # logging pretty content to be used for debugging
         logging_soup = BeautifulSoup(html, 'html.parser')
-        test_log = open(f"scraper_logs/PRETTY: {course_object.serialize()['name']}.html", "w+") 
+        test_log = open(f"logs/PRETTY: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(logging_soup.prettify())
         test_log.close()
 
