@@ -63,13 +63,13 @@ def scrape_using_creds(key):
         task_log.write('\n\n')
     task_log.close()
     
-    '''
+    
     for course in all_tasks:
 
         course_tasks = all_tasks[course]
         for task in course_tasks:
             write_task(task, 1)
-    '''
+    
 
 key = get_creds()
 input('')
