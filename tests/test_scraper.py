@@ -1,3 +1,4 @@
+'''
 # python imports
 import os
 import sys
@@ -28,3 +29,5 @@ print(scrape_schoology(username, password))
 print()
 print(f"Executed in {time.time() - start_time} seconds")
 print()
+
+'''
