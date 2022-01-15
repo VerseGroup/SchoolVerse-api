@@ -13,7 +13,7 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local import
-from SchoolVerse_webscraper.models import Course
+from webscraper.models import Course
 
 # parses schoology given course information into SchoolVerse course objects
 def parseCourses(courses_json):

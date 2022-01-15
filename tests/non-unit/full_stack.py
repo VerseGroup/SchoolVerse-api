@@ -1,4 +1,3 @@
-'''
 # python imports
 import os
 import sys
@@ -8,46 +7,40 @@ parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pard
 sys.path.append(parentdir)
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
+doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
+sys.path.append(doubleparentdir)
 
 # local imports
 from vgem.em import EM
-from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
-from SchoolVerse_webscraper.scraper.schoology.schoology_scraper import scrape_schoology
+from webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
+from webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 
 # external imports
 from getpass import getpass
+from vgem.em import EM
 
 def get_creds():
     username = input('USERNAME: ')
     password = getpass()
 
-    handler = EncryptionHandler()
-    e_username = handler.encrypt(username)
-    e_password = handler.encrypt(password)
-
-    en_username = encode(e_username)
-    en_password = encode(e_password)
+    handler = EM()
+    en_username = handler.encrypt_rsa(username, True)
+    en_password = handler.encrypt_rsa(password, True)
 
     write_creds(username=en_username, password=en_password, user_id='1')
 
     return handler.serialize_private_key()
 
 def scrape_using_creds(key):
-    handler = EncryptionHandler(serialized_private_key=key)
+    handler = EM(serialized_private_key=key)
 
     cred_dict = get_encrypted_credentials(1, "sc")
     
     en_username = cred_dict['username_ciphertext']
     en_password = cred_dict['password_ciphertext']
 
-    e_username = decode(en_username)
-    e_password = decode(en_password)
-
-    username = handler.decrypt(e_username)
-    password = handler.decrypt(e_password)
-
-    username = str(username.decode('utf-8'))
-    password = str(password.decode('utf-8'))
+    username = handler.decrypt_rsa(en_username, True)
+    password = handler.decrypt_rsa(en_password, True)
 
     all_tasks = scrape_schoology(username, password)
 
@@ -75,4 +68,3 @@ key = get_creds()
 input('')
 scrape_using_creds(key)
 
-'''

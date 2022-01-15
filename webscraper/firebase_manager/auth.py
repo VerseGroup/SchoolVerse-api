@@ -13,7 +13,7 @@ FILE_NAME = os.getenv("FILE_NAME")
 
 # authenticate firebase admin SDK
 def auth():
-    cred = credentials.Certificate(f'SchoolVerse_webscraper/firebase_manager/secrets/{FILE_NAME}')
+    cred = credentials.Certificate(f'webscraper/firebase_manager/secrets/{FILE_NAME}')
     firebase_admin.initialize_app(cred)
     db = firestore.client()   
     return db

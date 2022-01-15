@@ -1,4 +1,3 @@
-'''
 # python imports
 import os
 import sys
@@ -9,12 +8,14 @@ parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pard
 sys.path.append(parentdir)
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
+tripleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
+sys.path.append(tripleparentdir)
 
 # external imports
 from getpass import getpass
 
 # local imports
-from SchoolVerse_webscraper.scraper import scrape_schoology
+from webscraper.scraper import scrape_schoology
 
 # loading schoology username/password to test
 username = input('Schoology Username: ')
@@ -29,5 +30,3 @@ print(scrape_schoology(username, password))
 print()
 print(f"Executed in {time.time() - start_time} seconds")
 print()
-
-'''
