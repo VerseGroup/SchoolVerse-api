@@ -9,11 +9,11 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local imports
-from SchoolVerse_webscraper.encryption_manager.encryption_handler import EncryptionHandler
-from SchoolVerse_webscraper.encryption_manager.utils.base64_manager import encode, decode
+from vgem.em import EM
 from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
 from SchoolVerse_webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 
+'''
 # external imports
 from getpass import getpass
 
@@ -75,3 +75,4 @@ key = get_creds()
 input('')
 scrape_using_creds(key)
 
+'''
