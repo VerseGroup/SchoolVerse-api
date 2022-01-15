@@ -54,7 +54,7 @@ toml==0.10.2
 tqdm==4.62.3
 uritemplate==4.1.1
 urllib3==1.26.7
-vgem==1.0.4
+vgem==1.0.5
 w3lib==1.22.0
 websockets==9.1
 zipp==3.6.0

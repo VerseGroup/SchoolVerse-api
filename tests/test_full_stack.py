@@ -1,3 +1,4 @@
+'''
 # python imports
 import os
 import sys
@@ -13,7 +14,6 @@ from vgem.em import EM
 from SchoolVerse_webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
 from SchoolVerse_webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 
-'''
 # external imports
 from getpass import getpass
 
