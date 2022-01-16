@@ -11,7 +11,7 @@ cryptography==36.0.1
 cssselect==1.1.0
 fake-useragent==0.1.11
 firebase-admin==5.2.0
-google-api-core==2.3.2
+google-api-core==2.4.0
 google-api-python-client==2.33.0
 google-auth==2.3.3
 google-auth-httplib2==0.1.0
