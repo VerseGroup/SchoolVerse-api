@@ -11,13 +11,12 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # local imports
-from vgem.em import EM
 from webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds
 from webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 
 # external imports
 from getpass import getpass
-from vgem.em import EM
+from vgem import EM
 
 def get_creds():
     username = input('USERNAME: ')

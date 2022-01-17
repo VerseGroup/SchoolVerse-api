@@ -17,16 +17,21 @@ from getpass import getpass
 # local imports
 from webscraper.scraper import scrape_schoology
 
-# loading schoology username/password to test
-username = input('Schoology Username: ')
-password = getpass()
+def test_scraper():
+    # loading schoology username/password to test
+    username = input('Schoology Username: ')
+    password = getpass()
 
-# testing schoology scraper
-start_time = time.time() # A timer to measure speed
-print()
-print(scrape_schoology(username, password))
+    # testing schoology scraper
+    start_time = time.time() # A timer to measure speed
+    print()
+    print(scrape_schoology(username, password))
 
-# outputting runtime of scraper
-print()
-print(f"Executed in {time.time() - start_time} seconds")
-print()
+    # outputting runtime of scraper
+    print()
+    print(f"Executed in {time.time() - start_time} seconds")
+    print()
+
+if __name__ == "__main__":
+    test_scraper()
+    
