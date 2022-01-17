@@ -4,17 +4,18 @@ A server operated through a REST API that has a function to scrape user informat
 
 This server only contains a REST API (accepting POST requests), and no website, so interaction will only make work with either an HTTP service, code, or cURL. 
 
-### Current Average Execution Time:
-2! Seconds (scraping only)
-Estimated full stack execution time: 8-9 seconds
+## General Information
 
-## Currently Supported Platforms
+### Current Average Execution Time:
+2-3 Seconds 
+
+### Currently Supported Platforms
 - Schoology
 
-## Platforms In Development
+### Platforms In Development
 - Veracross
 
-## Future Platforms
+### Future Platforms
 - Showbie
 - Google Classroom
 
