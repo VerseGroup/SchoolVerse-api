@@ -12,10 +12,10 @@ sys.path.append(currentdir)
 from webscraper.scraper.schoology.parse_html import parse_html
 
 TESTFILES = [
-    
+    'logs/scraping/SCRAPING_FORMATTED: POST-AP MOBILE APP DEVELOPMENT - MAJOR.html',
+    'logs/scraping/SCRAPING_FORMATTED: AP CALCULUS AB & BC.html',
 ]
 
-'''
 def test_html_parser():
     
     for file_name in TESTFILES:
@@ -23,4 +23,3 @@ def test_html_parser():
         print(parse_html(file))
 
     assert True # just checking for errors
-'''
