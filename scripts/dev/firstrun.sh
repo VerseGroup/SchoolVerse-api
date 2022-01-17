@@ -17,6 +17,8 @@ then
     /env/bin/activate
 fi
 
+sleep 3
+
 if [[ "$VIRTUAL_ENV" != "" ]]
 then
   INVENV=1
