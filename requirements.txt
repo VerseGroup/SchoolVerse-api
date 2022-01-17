@@ -45,7 +45,7 @@ pyppeteer==1.0.2
 pyquery==1.4.3
 pytest==6.2.5
 python-dotenv==0.19.2
-requests==2.26.0
+requests==2.27.1
 requests-html==0.10.0
 rsa==4.8
 six==1.16.0
