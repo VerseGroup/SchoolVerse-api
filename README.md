@@ -22,7 +22,8 @@ This server only contains a REST API (accepting POST requests), and no website, 
 ## How To Run
 1. Ensure you are running the latest version of python
 2. Enter the directory for the project either by using 'cd' or by using your prefered programming software
-3. Open and enter a virtual environment
+3. Open and enter a virtual environment, install dependencies with either
+### METHOD 1
 ~~~
 pip install virtualenv
 ~~~
@@ -32,10 +33,26 @@ vitualenv env
 ~~~
 /env/bin/activate
 ~~~
-4. Install the required packages using 
 ~~~
 pip install -r requirements.txt
 ~~~
+### METHOD 2
+~~~
+cd scripts
+~~~
+~~~
+cd dev
+~~~
+~~~
+sh firstrun.sh
+~~~
+~~~
+cd ..
+~~~
+~~~
+cd ..
+~~~
+### METHOD 3
 or if you already have some packages installed, then make sure you
 have the latest versions by running a custom script:
 ~~~

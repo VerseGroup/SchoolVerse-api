@@ -15,5 +15,22 @@ then
     pip3 install virtualenv
     virtualenv env 
     /env/bin/activate
-    pip3 install -r requirements.txt
 fi
+
+if [[ "$VIRTUAL_ENV" != "" ]]
+then
+  INVENV=1
+  echo ACTIVATED VENV
+else
+  INVENV=0
+  echo FAILED TO ACTIVATE
+fi
+
+if [ $INVENV -eq 1 ]
+then
+    pip3 install -r requirements.txt
+
+    echo 
+    echo INSTALLED REQUIREMENTS AND ACTIVATED VENV
+fi
+
