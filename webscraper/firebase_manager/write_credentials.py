@@ -14,6 +14,6 @@ import firebase_admin
 from auth import db
 
 # writes inputted credential information to firebase (add a platform code parameter in the future)
-def write_creds(username, password, user_id):
-    data = {"sc_creds" : [username, password]}
+def write_creds(username, password, user_id, platform_code):
+    data = {f"{platform_code}_creds" : [username, password]}
     db.collection(u'USERS').document(f'{user_id}').set(data)
