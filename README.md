@@ -29,6 +29,7 @@ pip install virtualenv
 ~~~
 vitualenv env
 ~~~
+~~~
 /env/bin/activate
 ~~~
 4. Install the required packages using 
