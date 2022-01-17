@@ -22,6 +22,7 @@ def test_vgem_serialization():
     assert message == dmessage
 
 '''
+(commented because github auto-pytest on commit doesn't have access to firebase secrets auth)
 def test_encrypt_write_to_firebase():
     from webscraper.firebase_manager.write_credentials import write_creds
     from webscraper.firebase_manager.read_encryptions import get_encrypted_credentials

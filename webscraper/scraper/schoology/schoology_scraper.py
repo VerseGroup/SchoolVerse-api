@@ -6,12 +6,12 @@
 # - Finish copying over parsers, scrapers, etc from SchoolVerse testing
 # - Intead of returning a dictionary of tasks, return serialized course objects instead
 
-# internal packages
+# internal imports
 import os
 import sys
 import json
 
-# external packages
+# external imports
 import requests
 from bs4 import BeautifulSoup
 
@@ -32,21 +32,13 @@ from parse_html import parse_html
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
+from auth import auth_schoology
 
 # schoology web scraper function that takes username and password parameters 
 # and outputs the JSON formatted courses/tasks associated with that username
 def scrape_schoology(username, password):
     
-    # the URL session to scrape from
-    s = requests.Session()
-
-    # login fields
-    login_params = f"mail={username}&pass={password}&school_nid=1938279719&form_id=s_user_login_form"
-    login_headers =  {"Content-Type" : "application/x-www-form-urlencoded"}
-
-    # login post request
-    response = s.post(url=SCHOOLOGY_LOGIN_URL, data=login_params, headers=login_headers)
-    print(f"Login Status: {response.status_code}")  
+    s = auth_schoology(username, password)
 
     # getting user associated coure codes with IAPI2
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
