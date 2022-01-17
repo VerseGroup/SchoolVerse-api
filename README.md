@@ -38,10 +38,7 @@ pip install -r requirements.txt
 ~~~
 ### METHOD 2
 ~~~
-cd scripts
-~~~
-~~~
-cd dev
+cd scripts/dev
 ~~~
 ~~~
 sh firstrun.sh
@@ -56,13 +53,14 @@ cd ..
 or if you already have some packages installed, then make sure you
 have the latest versions by running a custom script:
 ~~~
-cd scripts
-~~~
-~~~
-cd dev
+cd scripts/dev
 ~~~
 ~~~
 sh dependencies.sh
+~~~
+~~~
+cd ..
+cd ..
 ~~~
 and it should uninstall and reinstall all pip packages ONLY if you are running a virtual env. 
 5. Gather and correctly place various secrets
