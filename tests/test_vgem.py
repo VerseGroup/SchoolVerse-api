@@ -1,6 +1,4 @@
 from vgem.em import EM
-from webscraper.firebase_manager.write_credentials import write_creds
-from webscraper.firebase_manager.read_encryptions import get_encrypted_credentials
 
 def test_vgem_encryption_():
     handler = EM()
@@ -25,6 +23,9 @@ def test_vgem_serialization():
 
 '''
 def test_encrypt_write_to_firebase():
+    from webscraper.firebase_manager.write_credentials import write_creds
+    from webscraper.firebase_manager.read_encryptions import get_encrypted_credentials
+
     handler = EM()
 
     username = "testing"
