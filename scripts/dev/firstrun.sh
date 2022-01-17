@@ -10,10 +10,10 @@ else
   echo NO VENV FOUND
 fi
 
-if [ $INVENV -eq 1 ]
+if [ $INVENV -eq 0 ]
 then
-    pip install virtualenv
+    pip3 install virtualenv
     virtualenv env 
     /env/bin/activate
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 fi
