@@ -67,16 +67,15 @@ def scrape_schoology(username, password):
         decoded_content = content.decode('unicode-escape').replace("\/", "/")
         html = str(decoded_content)[1: -1]
 
-        # logging content exactly as to be scraped
-        '''
-        test_log = open(f"scraper_logs/SCRAPING_FORMATTED: {course_object.serialize()['name']}.html", "w+") 
+        # logging content exactly as to be scraped for unit testing
+        test_log = open(f"logs/scraping/SCRAPING_FORMATTED: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(html)
         test_log.close()
-        '''
+        
 
         # logging pretty content to be used for debugging
         logging_soup = BeautifulSoup(html, 'html.parser')
-        test_log = open(f"logs/PRETTY: {course_object.serialize()['name']}.html", "w+") 
+        test_log = open(f"logs/scraping/pretty/PRETTY: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(logging_soup.prettify())
         test_log.close()
 
