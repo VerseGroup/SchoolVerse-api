@@ -1,4 +1,4 @@
-from vgem.em import EM
+from vgem import EM
 
 def test_vgem_encryption_():
     handler = EM()
