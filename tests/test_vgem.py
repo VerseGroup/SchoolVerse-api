@@ -23,6 +23,7 @@ def test_vgem_serialization():
 
     assert message == dmessage
 
+'''
 def test_encrypt_write_to_firebase():
     handler = EM()
 
@@ -43,3 +44,4 @@ def test_encrypt_write_to_firebase():
     dpassword = handler.decrypt_rsa(ppassword, True)
 
     assert username == dusername and password == dpassword
+'''
