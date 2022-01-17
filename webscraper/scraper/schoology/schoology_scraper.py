@@ -32,7 +32,7 @@ from parse_html import parse_html
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
-from auth import auth_schoology
+from schoology.auth import auth_schoology
 
 # schoology web scraper function that takes username and password parameters 
 # and outputs the JSON formatted courses/tasks associated with that username

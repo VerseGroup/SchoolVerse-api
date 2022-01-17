@@ -27,7 +27,7 @@ def get_creds():
     en_username = handler.encrypt_rsa(username, True)
     en_password = handler.encrypt_rsa(password, True)
 
-    write_creds(username=en_username, password=en_password, user_id='1')
+    write_creds(username=en_username, password=en_password, user_id='1', platform_code='sc')
 
     return handler.serialize_private_key()
 
