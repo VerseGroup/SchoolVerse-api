@@ -1,6 +1,9 @@
 # This file contains the code used by schoology.py to parse the schoology website event list 
 # Into SchoolVerse task objects
 
+# TODO
+# - fix aria-label bug
+
 # python imports
 import os
 import sys
@@ -47,12 +50,16 @@ def parse_html(html):
         # populating assignments
         if "course-event" in classes:
 
-            print(child)
+            # print(child)
 
             # using bs4 children proporties to locate/scrape the assignment name
             h4_children = child.contents[0].contents
 
-            #print(len(h4_children))
+            # aria label edge case (IRP)
+            if len(h4_children) == 1:
+                h4_children = h4_children[0].contents
+
+            print(f'{len(h4_children)}')
 
             try:
                 assignment_name = h4_children[1].string
