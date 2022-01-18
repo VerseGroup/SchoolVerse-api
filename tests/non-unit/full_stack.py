@@ -1,6 +1,7 @@
 # python imports
 import os
 import sys
+import time
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -47,9 +48,13 @@ def scrape_using_creds(key):
         write_task(task, 1)
 
 def full_stack():
+    start_time = time.time()
     key = get_creds()
-    input('')
+    #input('')
+    scraping_start_time = time.time()
     scrape_using_creds(key)
+    print(f"Executed in {time.time() - start_time} seconds")
+    print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
 
 if __name__ == '__main__':
     full_stack()

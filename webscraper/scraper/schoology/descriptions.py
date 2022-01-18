@@ -16,8 +16,8 @@ def parse_descriptions(tasks, schoology_session):
     s = schoology_session
 
     for task in tasks:
-        print(tasks)
-        code = task.platform_information['assignment_code']
+
+        code = task['platform_information']['assignment_code']
 
         description_link = f"https://hackley.schoology.com/assignment/{code}/info"
         response = s.get(description_link)
@@ -48,7 +48,7 @@ def parse_descriptions(tasks, schoology_session):
                 for list_element in list_elements:
                     description = description + f"  {list_element.string}" + "\n"
 
-        task.description = description
+        task['description'] = description
 
     return tasks
         
