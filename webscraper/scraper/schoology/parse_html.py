@@ -25,7 +25,7 @@ from schoology.utils import parse_link_to_course_code
 current_date = None
 
 # parsing html file into array of task objects
-def parse_html(html):
+def parse_html(html, course):
     soup = BeautifulSoup(html, 'html.parser')
 
     # isolating the upcoming section of schoology
@@ -73,9 +73,12 @@ def parse_html(html):
                 "assignment_code" : assignment_code
             }
             
+            course_id = course.serialize()['platform_information']['course_code']
+            course_name = course.serialize()['name']
+
             # use uuid or something instead
             # creating a task object with the scraped/formatted information
-            task = Task(name=assignment_name, due_date=current_date, platform_information=platform_information)
+            task = Task(name=assignment_name, due_date=current_date, platform_information=platform_information, course_id=course_id, course_name = course_name)
             
             # probably change to return task objects instead of serialized, then can append an array of tasks
             # to course objects and just serialize the entire course 

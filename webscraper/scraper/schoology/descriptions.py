@@ -12,10 +12,11 @@ sys.path.append(currentdir)
 # external imports
 from bs4 import BeautifulSoup
 
-def scrape_descriptions(tasks, schoology_session):
+def parse_descriptions(tasks, schoology_session):
     s = schoology_session
 
     for task in tasks:
+        print(tasks)
         code = task.platform_information['assignment_code']
 
         description_link = f"https://hackley.schoology.com/assignment/{code}/info"
@@ -23,7 +24,11 @@ def scrape_descriptions(tasks, schoology_session):
         content = response.content
         soup = BeautifulSoup(content, 'html.parser')
 
-        description_container = soup.find_all('div', {'class':"info-body"})[0]
+        description_container = soup.find_all('div', {'class':"info-body"})
+        if len(description_container) == 0:
+            continue
+        else:
+            description_container = description_container[0]
 
         description = ''''''
         for section in description_container.contents:

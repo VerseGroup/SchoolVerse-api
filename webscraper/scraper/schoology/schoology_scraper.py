@@ -29,10 +29,12 @@ sys.path.append(currentdir)
 from models import Task, Course
 from parse_courses import parseCourses
 from parse_html import parse_html
+from descriptions import parse_descriptions
+from schoology.auth import auth_schoology
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
-from schoology.auth import auth_schoology
+
 
 # schoology web scraper function that takes username and password parameters 
 # and outputs the JSON formatted courses/tasks associated with that username
@@ -44,7 +46,7 @@ def scrape_schoology(username, password):
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
     courses = parseCourses(json.loads(response.text))
 
-    tasks = {}
+    tasks = []
 
     # get materials for each course
     for course_object in courses:
@@ -81,11 +83,14 @@ def scrape_schoology(username, password):
 
         # parsing file into serialized task objects
         print(f"{course_object.serialize()['name']}: ")
-        parsed_tasks = parse_html(html)
+        parsed_tasks = parse_html(html, course_object)
         print()
         
         # adding to dict 
-        tasks[course_object.name] = parsed_tasks
+        tasks.append(parsed_tasks)
+
+    
+    #tasks = parse_descriptions(tasks, s)
 
     return tasks
 

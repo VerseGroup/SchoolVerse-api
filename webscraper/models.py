@@ -16,12 +16,16 @@
 class Task():
    
     # attributes
-    def __init__(self, name, due_date, completed=False, platform_information=None, description=None):
+    def __init__(self, name, due_date, course_id, course_name, completed=False, platform_information=None, description=None):
         
         # basic information
         self.name = name # Name of the task
         self.due_date = due_date # Unformatted date to be changed to format
         
+        # course information
+        self.course_id = course_id
+        self.course_name = course_name
+
         # platform connection
         self.platform_information = platform_information
         # stores connection in a dictionary with a platform code and a assignment code. 
@@ -88,7 +92,7 @@ class Course():
         serialized_course = {
             'id' : self.id,
             'name' : self.name,
-            'section' : self.section
+            'section' : self.section,
         }
 
         # optionals 
