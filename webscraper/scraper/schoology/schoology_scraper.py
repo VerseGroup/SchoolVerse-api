@@ -87,9 +87,8 @@ def scrape_schoology(username, password):
         print()
         
         # adding to dict 
-        tasks.append(parsed_tasks)
+        tasks = tasks + parsed_tasks
 
-    
     #tasks = parse_descriptions(tasks, s)
 
     return tasks

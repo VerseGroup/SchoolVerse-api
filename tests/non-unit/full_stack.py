@@ -41,29 +41,17 @@ def scrape_using_creds(key):
     username = handler.decrypt_rsa(en_username, True)
     password = handler.decrypt_rsa(en_password, True)
 
-    all_tasks = scrape_schoology(username, password)
-
-    print(all_tasks)
-
-    task_log = open('logs/tasks.txt', 'w')
-    for task in all_tasks:
-        task_log.write(str(task))
-        for tasks in task:
-            task_log.write(tasks)
-            task_log.write('\n')
-
-        task_log.write('\n\n')
-    task_log.close()
+    tasks = scrape_schoology(username, password)
     
-    
-    for course in all_tasks:
+    for task in tasks:
+        write_task(task, 1)
 
-        course_tasks = all_tasks[course]
-        for task in course_tasks:
-            write_task(task, 1)
-    
+def full_stack():
+    key = get_creds()
+    input('')
+    scrape_using_creds(key)
 
-key = get_creds()
-input('')
-scrape_using_creds(key)
+if __name__ == '__main__':
+    full_stack()
+    
 
