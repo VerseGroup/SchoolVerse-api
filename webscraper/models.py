@@ -16,7 +16,7 @@
 class Task():
    
     # attributes
-    def __init__(self, name, due_date, course_id, course_name, completed=False, platform_information=None, description=None):
+    def __init__(self, name, due_date, course_id=None, course_name=None, completed=False, platform_information=None, description=None):
         
         # basic information
         self.name = name # Name of the task
@@ -56,6 +56,10 @@ class Task():
             serialized_task['platform_information'] = self.platform_information
         if self.description is not None:
             serialized_task['description'] = self.description
+        if self.course_id is not None:
+            serialized_task['course_id'] = self.course_id
+        if self.course_name is not None:
+            serialized_task['course_name'] = self.course_name
 
         return serialized_task
 

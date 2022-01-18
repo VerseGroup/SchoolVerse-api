@@ -23,6 +23,6 @@ def test_html_parser():
     
     for file_name in TESTFILES:
         file = open(f'{file_name}', 'r')
-        print(parse_html(file))
+        print(parse_html(file, ))
 
     assert True # just checking for errors, not values
