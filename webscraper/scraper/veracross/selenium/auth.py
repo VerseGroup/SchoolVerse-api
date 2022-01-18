@@ -23,3 +23,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
+
+def auth_veracross():
+    #driver = webdriver.Firefox(executable_path=GECKO_DRIVER_PATH)
+    #driver.maximize_window()
+    pass
