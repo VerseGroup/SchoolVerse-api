@@ -10,7 +10,7 @@ def get(driver, by, string):
             EC.presence_of_element_located((by, string))
         )
     except:
-        #driver.close()
-        pass
+        driver.close()
+        raise ValueError('element could not be found')
 
     return element

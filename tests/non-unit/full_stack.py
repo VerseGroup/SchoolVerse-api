@@ -53,6 +53,7 @@ def full_stack():
     #input('')
     scraping_start_time = time.time()
     scrape_using_creds(key)
+    print()
     print(f"Executed in {time.time() - start_time} seconds")
     print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
 

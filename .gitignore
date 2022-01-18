@@ -3,3 +3,6 @@
 
 # pyc files could contain compiled secrets
 *.pyc
+
+# geckodriver log
+geckodriver.log
