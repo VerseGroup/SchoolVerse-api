@@ -101,10 +101,16 @@ def scrape_schedule(driver, day, month, year):
     return schedule_page
 
 def scrape_veracross(username, password, today=True):
-    driver = generate_driver("chrome")
+
+    TYPE = "chrome"
+
+    print("Executing...\n")
+    driver = generate_driver(TYPE)
+    print(f"Running {TYPE} browser\n")
 
     try:
-        driver = auth_veracross(driver, USERNAME, PASSWORD)
+        print("Authenticating veracross...\n")
+        driver = auth_veracross(driver, username, password)
     except:
         raise ValueError("Probably didn't enter username or password correctly")
 
@@ -113,8 +119,10 @@ def scrape_veracross(username, password, today=True):
         today = today.strftime("%d/%m/%Y")
         today = today.split('/')
 
+    print("Gathering schedule contents...\n")
     html = scrape_schedule(driver, today[0], today[1], today[2])
 
+    print("Parsing schedule contents...\n")
     schedule = parse_html(html)
     
     return schedule
@@ -131,7 +139,7 @@ if __name__ == '__main__':
     print(schedule)
 
     print()
-    print(f"Executed in {time.time() - start_time} seconds")
+    print(f"Executed in {time.time() - start_time} seconds\n")
 
 
 

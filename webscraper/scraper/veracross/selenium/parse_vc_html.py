@@ -15,7 +15,10 @@ def parse_html(html):
     schedule_list = {}
 
     schedule = soup.find("div", class_="schedule")
-    columns = schedule.contents
+    try:
+        columns = schedule.contents
+    except:
+        return None
 
     for column in columns:
 

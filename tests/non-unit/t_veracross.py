@@ -29,7 +29,7 @@ def test_veracross():
     print(schedule)
 
     print()
-    print(f"Executed in {time.time() - start_time} seconds")
+    print(f"Executed in {time.time() - start_time} seconds\n")
 
 if __name__ == "__main__":
     test_veracross()
