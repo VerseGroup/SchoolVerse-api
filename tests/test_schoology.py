@@ -12,10 +12,10 @@ sys.path.append(currentdir)
 from webscraper.scraper.schoology.parse_html import parse_html
 
 TESTFILES = [
-    'logs/scraping/SCRAPING_FORMATTED: POST-AP MOBILE APP DEVELOPMENT - MAJOR.html',
-    'logs/scraping/SCRAPING_FORMATTED: AP CALCULUS AB & BC.html',
-    'logs/scraping/SCRAPING_FORMATTED: CELLULAR BIOLOGY.html',
-    'logs/scraping/SCRAPING_FORMATTED: INDEPENDENT SCIENCE RESEARCH.html'
+    'logs/scraping/unformatted/SCRAPING_FORMATTED: POST-AP MOBILE APP DEVELOPMENT - MAJOR.html',
+    'logs/scraping/unformatted/SCRAPING_FORMATTED: AP CALCULUS AB & BC.html',
+    'logs/scraping/unformatted/SCRAPING_FORMATTED: CELLULAR BIOLOGY.html',
+    'logs/scraping/unformatted/SCRAPING_FORMATTED: INDEPENDENT SCIENCE RESEARCH.html'
 ]
 
 # test there are no bugs with sc html parser

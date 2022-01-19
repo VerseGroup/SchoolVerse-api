@@ -70,7 +70,7 @@ def scrape_schoology(username, password):
         html = str(decoded_content)[1: -1]
 
         # logging content exactly as to be scraped for unit testing
-        test_log = open(f"logs/scraping/SCRAPING_FORMATTED: {course_object.serialize()['name']}.html", "w+") 
+        test_log = open(f"logs/scraping/unformatted/SCRAPING_FORMATTED: {course_object.serialize()['name']}.html", "w+") 
         test_log.write(html)
         test_log.close()
         

@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
@@ -32,14 +31,16 @@ def generate_driver(type, download=True):
         print("DRIVER PATH: " + driverpath + "\n")
     else:
         if type == "chrome":
-            chrome = ChromeDriverManager().install()
+            from selenium.webdriver.chrome.service import Service
+            s=Service(ChromeDriverManager().install())
         elif type == "firefox":
+            from selenium.webdriver.firefox.service import Service
             s=Service(GeckoDriverManager().install())
 
     if type == "chrome":
         options = Options()
         options.headless = True
-        driver = webdriver.Chrome(chrome, options=options)
+        driver = webdriver.Chrome(service=s, options=options)
     if type == "firefox":
         driver = webdriver.Firefox(service=s)
     
