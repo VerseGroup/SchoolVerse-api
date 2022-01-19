@@ -59,6 +59,9 @@ def scrape_using_creds(key):
 def full_stack():
     start_time = time.time()
     key = get_creds()
+
+    # input('Continue? ')
+
     scraping_start_time = time.time()
     scrape_using_creds(key)
 

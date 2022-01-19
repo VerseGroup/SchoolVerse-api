@@ -14,4 +14,5 @@ import firebase_admin
 from auth import db
 
 def write_schedule(user_id, schedule):
-    db.collection(u'USERS').document('SCHEDULE').set(schedule)
+    for period in schedule:
+        db.collection(u'USERS').document(f'{user_id}').collection(u"SCHEDULE").document(f'{period}').set(schedule[period])
