@@ -93,8 +93,6 @@ if __name__ == '__main__':
     today = today.split('/')
 
     html = scrape_schedule(driver, today[0], today[1], today[2])
-    print()
-    print(html)
 
     schedule = parse_html(html)
     print()
