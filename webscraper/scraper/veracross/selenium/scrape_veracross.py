@@ -25,14 +25,37 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.chrome.options import Options
 
-GECKO_DRIVER_PATH = '/Users/pevans/Documents/SchoolVerse-webscraper/driver/geckodriver'
+def get_driver_path():
+    this_file = os.path.dirname(os.path.abspath(__file__))
+    this_file = this_file.split('/')
+    driver_dir = ""
+    for i in range(5):
+        driver_dir += f"/{this_file[i]}"
+    return {
+        "firefox" : f'{driver_dir}/driver/geckodriver',
+        "chrome" : f'{driver_dir}/driver/chromedriver',
+    }
+
+def generate_driver(type):
+    
+    driverpath = get_driver_path()[type]
+    print(driverpath)
+
+    if type == "chrome":
+        options = Options()
+        options.headless = True
+        driver = webdriver.Chrome(driverpath, options=options)
+    if type == "firefox":
+        s=Service(driverpath)
+        driver = webdriver.Firefox(service=s)
+    
+    return driver
+
 VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"
 
-def auth_veracross(username, password): 
-    s=Service(GECKO_DRIVER_PATH)
-    driver = webdriver.Firefox(service=s)
-    # driver.maximize_window() # use for development, comment out for speed
+def auth_veracross(driver, username, password): 
     driver.get(VERACROSS_URL)
 
     username_field = get(driver, By.NAME, 'username')
@@ -83,8 +106,10 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
+    driver = generate_driver("chrome")
+
     try:
-        driver = auth_veracross(USERNAME, PASSWORD)
+        driver = auth_veracross(driver, USERNAME, PASSWORD)
     except:
         raise ValueError("Probably didn't enter username or password correctly")
 
