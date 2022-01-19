@@ -12,6 +12,7 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
+from parse_html import parse_html
 
 # external imports
 from getpass import getpass
@@ -70,11 +71,11 @@ def scrape_schedule(driver, day, month, year):
     SCHEDULE_URL = f"https://portals.veracross.com/hackley/student/student/daily-schedule?date={year}-{month}-{day}"
     driver.get(SCHEDULE_URL)
 
-    schedule = get(driver, By.CLASS_NAME, "schedule")
-    schedule_html = schedule.get_attribute('innerHTML')
+    schedule_page = driver.page_source
     driver.close()
+    driver.quit()
 
-    return schedule_html
+    return schedule_page
 
 if __name__ == '__main__':
     USERNAME = input('USERNAME: ')
@@ -91,7 +92,13 @@ if __name__ == '__main__':
     today = today.strftime("%d/%m/%Y")
     today = today.split('/')
 
-    scrape_schedule(driver, today[0], today[1], today[2])
+    html = scrape_schedule(driver, today[0], today[1], today[2])
+    print()
+    print(html)
+
+    schedule = parse_html(html)
+    print()
+    print(schedule)
     
     print()
     print(f"Executed in {time.time() - start_time} seconds")
