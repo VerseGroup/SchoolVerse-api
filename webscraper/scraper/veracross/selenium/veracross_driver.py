@@ -12,7 +12,7 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from parse_html import parse_html
+from parse_vc_html import parse_html
 
 # external imports
 from getpass import getpass
@@ -100,12 +100,7 @@ def scrape_schedule(driver, day, month, year):
 
     return schedule_page
 
-if __name__ == '__main__':
-    USERNAME = input('USERNAME: ')
-    PASSWORD = getpass()
-
-    start_time = time.time()
-
+def scrape_veracross(username, password, today=True):
     driver = generate_driver("chrome")
 
     try:
@@ -113,16 +108,28 @@ if __name__ == '__main__':
     except:
         raise ValueError("Probably didn't enter username or password correctly")
 
-    today = date.today()
-    today = today.strftime("%d/%m/%Y")
-    today = today.split('/')
+    if today==True:
+        today = date.today()
+        today = today.strftime("%d/%m/%Y")
+        today = today.split('/')
 
     html = scrape_schedule(driver, today[0], today[1], today[2])
 
     schedule = parse_html(html)
+    
+    return schedule
+
+if __name__ == '__main__':
+    USERNAME = input('USERNAME: ')
+    PASSWORD = getpass()
+
+    start_time = time.time()
+    
+    schedule = scrape_veracross(USERNAME, PASSWORD)
+    
     print()
     print(schedule)
-    
+
     print()
     print(f"Executed in {time.time() - start_time} seconds")
 
