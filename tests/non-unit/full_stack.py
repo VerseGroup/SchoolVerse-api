@@ -59,12 +59,13 @@ def scrape_using_creds(key):
 def full_stack():
     start_time = time.time()
     key = get_creds()
-    #input('')
     scraping_start_time = time.time()
     scrape_using_creds(key)
+
     print()
     print(f"Executed in {time.time() - start_time} seconds")
     print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
+    print()
 
 if __name__ == '__main__':
     full_stack()

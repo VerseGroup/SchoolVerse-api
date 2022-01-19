@@ -15,6 +15,8 @@ Schoology Full Stack Scraping : 10 seconds
 
 Veracross Scraping: 3-4 seconds
 
+Full Stack Testing (Veracross + Schoology + Firebase + vgem): 10-13 seconds 
+
 #### Currently Supported Platforms
 - Schoology
 - Veracross

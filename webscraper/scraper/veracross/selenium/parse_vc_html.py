@@ -35,6 +35,14 @@ def parse_html(html):
         time = strip_string(time)
         teacher = strip_string(teacher)
 
-        schedule_list[time] = [class_, teacher]
+        if time == '':
+            time = "ALWAYS"
+
+        period = {
+            "class" : class_,
+            "information" : teacher,
+        }
+
+        schedule_list[time] = period
 
     return schedule_list
