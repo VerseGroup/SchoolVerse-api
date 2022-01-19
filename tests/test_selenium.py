@@ -22,8 +22,8 @@ from selenium.webdriver.chrome.options import Options
 from webscraper.scraper.veracross.selenium.generate_browser import generate_driver
 
 def test_selenium():
-    driver = generate_driver()
-    driver.get("www.google.com")
+    driver = generate_driver("chrome")
+    driver.get("https://www.google.com/")
     driver.close()
     driver.quit()
     assert True # checking for bugs

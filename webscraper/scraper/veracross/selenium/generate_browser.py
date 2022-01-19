@@ -28,12 +28,13 @@ def generate_driver(type):
     driverpath = get_driver_path()[type]
     print("DRIVER PATH: " + driverpath + "\n")
 
+    s=Service(driverpath)
+
     if type == "chrome":
         options = Options()
         options.headless = True
         driver = webdriver.Chrome(driverpath, options=options)
     if type == "firefox":
-        s=Service(driverpath)
         driver = webdriver.Firefox(service=s)
     
     return driver
