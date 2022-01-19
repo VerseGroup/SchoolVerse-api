@@ -8,13 +8,14 @@ def strip_string(string):
 
 def parse_html(html):
     soup = BeautifulSoup(html, 'html.parser')
+    schedule = soup.find("div", class_="schedule")
+
     log = open(f"logs/scraping/schedule/schedule.html", "w+") 
-    log.write(soup.prettify())
+    log.write(schedule.prettify())
     log.close()
 
     schedule_list = {}
 
-    schedule = soup.find("div", class_="schedule")
     try:
         columns = schedule.contents
     except:
