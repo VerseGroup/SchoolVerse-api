@@ -20,12 +20,12 @@ from selenium.webdriver.chrome.options import Options
 
 # local imports
 from webscraper.scraper.veracross.selenium.generate_browser import generate_driver
+from webscraper.scraper.veracross.selenium.parse_vc_html import parse_html
 
-def test_selenium():
-    driver = generate_driver("chrome")
-    driver.get("https://www.google.com/")
-    driver.close()
-    driver.quit()
+TEST_FILE = 'logs/scraping/schedule/schedule.html'
+
+def test_veracross_parser():
+    file = open(f'{TEST_FILE}', 'r')
+    print(parse_html(file))
+
     assert True # checking for bugs
-
-
