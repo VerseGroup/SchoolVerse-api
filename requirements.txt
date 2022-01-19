@@ -8,6 +8,9 @@ cachetools==4.2.4
 certifi==2021.10.8
 cffi==1.15.0
 charset-normalizer==2.0.10
+colorama==0.4.4
+configparser==5.2.0
+crayons==0.4.0
 cryptography==36.0.1
 cssselect==1.1.0
 fake-useragent==0.1.11
@@ -65,6 +68,7 @@ uritemplate==4.1.1
 urllib3==1.26.8
 vgem==1.1.1
 w3lib==1.22.0
+webdriver-manager==3.5.2
 websockets==10.1
 wsproto==1.0.0
 zipp==3.7.0

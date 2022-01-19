@@ -10,6 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 def get_driver_path():
     this_file = os.path.dirname(os.path.abspath(__file__))
@@ -23,17 +25,21 @@ def get_driver_path():
         "chrome" : f'{driver_dir}/driver/chromedriver',
     }
 
-def generate_driver(type):
+def generate_driver(type, download=True):
     
-    driverpath = get_driver_path()[type]
-    print("DRIVER PATH: " + driverpath + "\n")
-
-    s=Service(driverpath)
+    if not download:
+        driverpath = get_driver_path()[type]
+        print("DRIVER PATH: " + driverpath + "\n")
+    else:
+        if type == "chrome":
+            chrome = ChromeDriverManager().install()
+        elif type == "firefox":
+            s=Service(GeckoDriverManager().install())
 
     if type == "chrome":
         options = Options()
         options.headless = True
-        driver = webdriver.Chrome(driverpath, options=options)
+        driver = webdriver.Chrome(chrome, options=options)
     if type == "firefox":
         driver = webdriver.Firefox(service=s)
     
