@@ -28,10 +28,10 @@ from selenium.webdriver.firefox.service import Service
 GECKO_DRIVER_PATH = '/Users/pevans/Documents/SchoolVerse-webscraper/driver/geckodriver'
 VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"
 
-def auth_veracross(username, password):
+def auth_veracross(username, password): 
     s=Service(GECKO_DRIVER_PATH)
     driver = webdriver.Firefox(service=s)
-    driver.maximize_window() # remove
+    # driver.maximize_window() # use for development, comment out for speed
     driver.get(VERACROSS_URL)
 
     username_field = get(driver, By.NAME, 'username')
@@ -47,6 +47,11 @@ def auth_veracross(username, password):
     # sometimes recaptcha occurs sometimes it doesn't
     try: 
         is_login_form = driver.find_element(By.ID, 'username')
+        failed = True
+    except:
+        failed = False
+
+    if failed:
 
         username_field = get(driver, By.NAME, 'username')
         username_field.send_keys(username)
@@ -57,8 +62,6 @@ def auth_veracross(username, password):
         recpatcha_submit = get(driver, By.ID, 'recaptcha')
         driver.execute_script("arguments[0].removeAttribute('disabled')", recpatcha_submit)
         recpatcha_submit.click()
-    except:
-        pass
 
     return driver
 
@@ -66,11 +69,19 @@ def scrape_schedule(driver, day, month, year):
 
     SCHEDULE_URL = f"https://portals.veracross.com/hackley/student/student/daily-schedule?date={year}-{month}-{day}"
     driver.get(SCHEDULE_URL)
-    
+
+    schedule = get(driver, By.CLASS_NAME, "schedule")
+    schedule_html = schedule.get_attribute('innerHTML')
+    driver.close()
+
+    return schedule_html
 
 if __name__ == '__main__':
     USERNAME = input('USERNAME: ')
     PASSWORD = getpass()
+
+    start_time = time.time()
+
     try:
         driver = auth_veracross(USERNAME, PASSWORD)
     except:
@@ -81,6 +92,9 @@ if __name__ == '__main__':
     today = today.split('/')
 
     scrape_schedule(driver, today[0], today[1], today[2])
+    
+    print()
+    print(f"Executed in {time.time() - start_time} seconds")
 
 
 
