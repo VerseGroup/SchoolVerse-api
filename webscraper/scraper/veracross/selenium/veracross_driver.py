@@ -33,6 +33,7 @@ def get_driver_path():
     driver_dir = ""
     for i in range(5):
         driver_dir += f"/{this_file[i]}"
+    driver_dir = driver_dir[1:]
     return {
         "firefox" : f'{driver_dir}/driver/geckodriver',
         "chrome" : f'{driver_dir}/driver/chromedriver',
@@ -41,7 +42,7 @@ def get_driver_path():
 def generate_driver(type):
     
     driverpath = get_driver_path()[type]
-    print(driverpath)
+    print("DRIVER PATH: " + driverpath + "\n")
 
     if type == "chrome":
         options = Options()
@@ -126,20 +127,6 @@ def scrape_veracross(username, password, today=True):
     schedule = parse_html(html)
     
     return schedule
-
-if __name__ == '__main__':
-    USERNAME = input('USERNAME: ')
-    PASSWORD = getpass()
-
-    start_time = time.time()
-    
-    schedule = scrape_veracross(USERNAME, PASSWORD)
-    
-    print()
-    print(schedule)
-
-    print()
-    print(f"Executed in {time.time() - start_time} seconds\n")
 
 
 

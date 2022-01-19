@@ -7,17 +7,24 @@ This server only contains a REST API (accepting POST requests), and no website, 
 ## General Information
 
 #### Current Average Execution Time:
-2-3 Seconds 
+Schoology Scraping (no descriptions) : 3-4 seconds
+
+Schoology Scraping (descriptions) : 9 seconds
+
+Schoology Full Stack Scraping : 10 seconds
+
+Veracross Scraping: 3-4 seconds
 
 #### Currently Supported Platforms
 - Schoology
+- Veracross
 
 #### Platforms In Development
-- Veracross
 
 #### Future Platforms
 - Showbie
 - Google Classroom
+- Flik lunch menu
 
 ## How To Run
 1. Ensure you are running the latest version of python
