@@ -57,7 +57,7 @@ def scrape_using_creds(key):
     print()
     print(schedule)
     print()
-    write_schedule(1, schedule)
+    write_schedule(1, schedule, day)
 
 def full_stack():
     start_time = time.time()
