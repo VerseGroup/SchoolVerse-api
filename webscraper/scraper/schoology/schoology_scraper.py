@@ -38,7 +38,7 @@ from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
 
 # schoology web scraper function that takes username and password parameters 
 # and outputs the JSON formatted courses/tasks associated with that username
-def scrape_schoology(username, password):
+def scrape_schoology(username, password, description=True):
     
     s = auth_schoology(username, password)
 
@@ -89,7 +89,8 @@ def scrape_schoology(username, password):
         # adding to dict 
         tasks = tasks + parsed_tasks
 
-    tasks = parse_descriptions(tasks, s)
+    if description:
+        tasks = parse_descriptions(tasks, s)
 
     return tasks
 
