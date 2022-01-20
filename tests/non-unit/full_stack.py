@@ -48,11 +48,14 @@ def scrape_using_creds(key):
     for task in tasks:
         write_task(task, 1)
 
-    schedule = scrape_veracross(username, password)
+    scraped_content = scrape_veracross(username, password)
+    day = scraped_content[0]
+    schedule = scraped_content[1]
+
     print()
+    print(f"DAY : {day}")
     print()
     print(schedule)
-    print()
     print()
     write_schedule(1, schedule)
 
