@@ -59,7 +59,7 @@ def parse_html(html, course=None):
             if len(h4_children) == 1:
                 h4_children = h4_children[0].contents
 
-            print(f'{len(h4_children)}')
+            #print(f'{len(h4_children)}')
 
             try:
                 assignment_name = h4_children[1].string

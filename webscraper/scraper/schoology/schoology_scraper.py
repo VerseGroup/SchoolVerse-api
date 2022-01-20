@@ -82,7 +82,7 @@ def scrape_schoology(username, password, description=True):
         test_log.close()
 
         # parsing file into serialized task objects
-        print(f"{course_object.serialize()['name']}: ")
+        print(f"Scraping {course_object.serialize()['name']}...")
         parsed_tasks = parse_html(html, course_object)
         print()
         
@@ -90,6 +90,8 @@ def scrape_schoology(username, password, description=True):
         tasks = tasks + parsed_tasks
 
     if description:
+        print("Scraping descriptions...")
+        print()
         tasks = parse_descriptions(tasks, s)
 
     return tasks

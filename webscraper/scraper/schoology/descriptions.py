@@ -17,6 +17,9 @@ def parse_descriptions(tasks, schoology_session):
 
     for task in tasks:
 
+        print(f"Pulling Descriptions For {task['course_name']}...")
+        print()
+
         code = task['platform_information']['assignment_code']
 
         description_link = f"https://hackley.schoology.com/assignment/{code}/info"
