@@ -23,8 +23,13 @@ def test_veracross():
 
     start_time = time.time()
     
-    schedule = scrape_veracross(USERNAME, PASSWORD)
+    scraped_content = scrape_veracross(USERNAME, PASSWORD)
+    day = scraped_content[0]
+    schedule = scraped_content[1]
     
+    print()
+    print(f"DAY : {day}")
+
     print()
     print(schedule)
 

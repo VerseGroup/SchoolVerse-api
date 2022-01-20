@@ -12,7 +12,7 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from parse_vc_html import parse_html
+from parse_vc_html import parse_html, get_day
 from generate_browser import generate_driver
 
 # external imports
@@ -51,6 +51,8 @@ def auth_veracross(driver, username, password):
         failed = False
 
     if failed:
+
+        print("Failed, trying to reauthenticate veracross...")
 
         username_field = get(driver, By.NAME, 'username')
         username_field.send_keys(username)
@@ -99,8 +101,11 @@ def scrape_veracross(username, password, today=True):
 
     print("Parsing schedule contents...\n")
     schedule = parse_html(html)
+
+    print("Finding day...")
+    day = get_day(html)
     
-    return schedule
+    return (day, schedule)
 
 
 

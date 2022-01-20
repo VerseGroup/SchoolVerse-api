@@ -46,3 +46,13 @@ def parse_html(html):
         schedule_list[time] = period
 
     return schedule_list
+
+def get_day(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    day_container = soup.find("h2", class_="rotation-day-header")
+    day = day_container.contents[0]
+    day = day.replace(" ", "")
+    day = day.replace("\n", "")
+    day = day.replace("Day", "")
+
+    return day
