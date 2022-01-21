@@ -1,3 +1,5 @@
+# test selenium and selenium instances
+
 # python imports
 import os
 import sys

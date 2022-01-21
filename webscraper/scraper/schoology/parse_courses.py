@@ -1,5 +1,4 @@
-# This file contains the code used by schoology.py to parse Schoology API returned courses in JSON to 
-# SchoolVerse course objects
+# returns schoology course api output into course objects
 
 # imports
 import uuid

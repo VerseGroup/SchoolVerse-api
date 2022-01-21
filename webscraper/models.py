@@ -7,8 +7,6 @@
 
 # todo #
 # - standerize date formatting
-# - deal with description attribute
-# - all tasks need to have a course connection attribute
 # - optional note in task? like added information that a student can type
 
 # task object

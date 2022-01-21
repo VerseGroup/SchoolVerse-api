@@ -1,6 +1,5 @@
 # imports
 import os
-from random import betavariate 
 import sys
 
 # adding directories for local imports

@@ -1,3 +1,9 @@
+# full stack test 
+'''
+USERNAME + PASSWORD - > VGEM - > FIREBASE
+FIREBASE - > SCRAPER - > PARSER -> FIREBASE
+'''
+
 # python imports
 import os
 import sys
@@ -54,9 +60,9 @@ def scrape_using_creds(key):
 
     print()
     print(f"DAY : {day}")
+
     print()
-    print(schedule)
-    print()
+    print(f"SCHEDULE: {schedule}")
     write_schedule(1, schedule, day)
 
 def full_stack():

@@ -1,8 +1,4 @@
-# This file contains the code used by schoology.py to parse the schoology website event list 
-# Into SchoolVerse task objects
-
-# TODO
-# - fix aria-label bug
+# parses pulled event-list html into task objects
 
 # python imports
 import os

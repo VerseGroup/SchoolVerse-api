@@ -1,3 +1,5 @@
+# test the schoology scraper
+
 # python imports
 import os
 import sys

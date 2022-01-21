@@ -1,3 +1,5 @@
+# function to scrape veracross using selenium
+
 # python imports
 import os
 import sys

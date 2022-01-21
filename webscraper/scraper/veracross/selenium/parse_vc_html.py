@@ -1,3 +1,5 @@
+# parses pulled veracross schedule html into a specialized dict/array
+
 # external imports
 from bs4 import BeautifulSoup
 

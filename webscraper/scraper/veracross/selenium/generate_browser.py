@@ -1,3 +1,5 @@
+# generates a new authenticated veracross selenium instance (various setup options)
+
 # python imports
 import os
 

@@ -1,3 +1,5 @@
+# test the custom encryption manager
+
 from vgem import EM
 
 def test_vgem_encryption_():
