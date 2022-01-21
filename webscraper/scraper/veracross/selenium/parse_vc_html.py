@@ -3,11 +3,13 @@
 # external imports
 from bs4 import BeautifulSoup
 
+# strips a string of white space
 def strip_string(string):
     stripped_string = string.replace(" ", "")
     stripped_string = stripped_string.replace("\n", "")
     return stripped_string
 
+# parses veracross schedule into period objects
 def parse_html(html):
     soup = BeautifulSoup(html, 'html.parser')
     schedule = soup.find("div", class_="schedule")
@@ -49,6 +51,7 @@ def parse_html(html):
 
     return schedule_list
 
+# returns the day being scraped
 def get_day(html):
     soup = BeautifulSoup(html, 'html.parser')
     day_container = soup.find("h2", class_="rotation-day-header")

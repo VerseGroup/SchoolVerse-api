@@ -14,6 +14,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+# returns the abs path of the selenium drivers
 def get_driver_path():
     this_file = os.path.dirname(os.path.abspath(__file__))
     this_file = this_file.split('/')
@@ -28,6 +29,7 @@ def get_driver_path():
 
 def generate_driver(type, download=True):
     
+    # option to use existing driver or download a new one (local run - > use existing, external run -> download)
     if not download:
         driverpath = get_driver_path()[type]
         print("DRIVER PATH: " + driverpath + "\n")
@@ -39,6 +41,7 @@ def generate_driver(type, download=True):
             from selenium.webdriver.firefox.service import Service
             s=Service(GeckoDriverManager().install())
 
+    # configuring which driver to use
     if type == "chrome":
         options = Options()
         options.headless = True
