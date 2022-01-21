@@ -1,5 +1,9 @@
+#!/bin/bash
+
 cd ..
 cd ..
+
+pip -help 1> /dev/null || python -m ensurepip --upgrade
 
 if [[ "$VIRTUAL_ENV" != "" ]]
 then
@@ -12,7 +16,8 @@ fi
 
 if [ $INVENV -eq 0 ]
 then
-    pip3 install virtualenv
+    pip install virtualenv || pip3 install virtualenv
+    sleep 3
     virtualenv env 
     /env/bin/activate
 fi
@@ -30,9 +35,7 @@ fi
 
 if [ $INVENV -eq 1 ]
 then
-    pip3 install -r requirements.txt
-
-    echo 
-    echo INSTALLED REQUIREMENTS AND ACTIVATED VENV
+    pip install -r requirements.txt || pip3 install -r requirements.txt
+    echo INSTALLED REQUIREMENTS 
 fi
 
