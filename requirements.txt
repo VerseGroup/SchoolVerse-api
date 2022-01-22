@@ -46,7 +46,7 @@ pyasn1-modules==0.2.8
 pycparser==2.21
 pyee==8.2.2
 pyOpenSSL==21.0.0
-pyparsing==3.0.6
+pyparsing==3.0.7
 pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==1.4.3
