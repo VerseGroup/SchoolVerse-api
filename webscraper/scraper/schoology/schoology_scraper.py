@@ -44,7 +44,10 @@ def scrape_schoology(username, password, description=True):
 
     # getting user associated coure codes with IAPI2
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
-    courses = parseCourses(json.loads(response.text))
+    try:
+        courses = parseCourses(json.loads(response.text))
+    except:
+        return None
 
     tasks = []
 
