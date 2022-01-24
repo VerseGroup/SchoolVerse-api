@@ -8,8 +8,6 @@ import sys
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentdir)
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
 
 # local import
 from webscraper.models import Course

@@ -1,5 +1,4 @@
-# Schoology URLs (constants)
-# No need to make them secrets
+# Schoology URLs
 
 SCHOOLOGY_LOGIN_URL = "https://hackley.schoology.com/login/ldap?&school=1938279719"
 SCHOOLOGY_URL = "https://hackley.schoology.com"

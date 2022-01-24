@@ -27,13 +27,13 @@ sys.path.append(currentdir)
 
 # local imports
 from models import Task, Course
-from parse_courses import parseCourses
+from courses import parseCourses
 from old.parse_html import parse_html
 from old.descriptions import parse_descriptions
 from schoology.auth import auth_schoology
 
 # load urls
-from urls import SCHOOLOGY_URL, SCHOOLOGY_LOGIN_URL, SCHOOLOGY_IAPI2_URL
+from urls import SCHOOLOGY_URL, SCHOOLOGY_IAPI2_URL
 
 
 # schoology web scraper function that takes username and password parameters 
