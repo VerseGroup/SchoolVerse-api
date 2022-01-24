@@ -11,7 +11,7 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local imports
-from webscraper.scraper.schoology.parse_html import parse_html
+from webscraper.scraper.schoology.old.parse_html import parse_html
 
 TESTFILES = [
     'logs/scraping/unformatted/SCRAPING_FORMATTED: POST-AP MOBILE APP DEVELOPMENT - MAJOR.html',

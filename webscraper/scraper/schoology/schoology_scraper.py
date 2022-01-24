@@ -28,8 +28,8 @@ sys.path.append(currentdir)
 # local imports
 from models import Task, Course
 from parse_courses import parseCourses
-from parse_html import parse_html
-from descriptions import parse_descriptions
+from old.parse_html import parse_html
+from old.descriptions import parse_descriptions
 from schoology.auth import auth_schoology
 
 # load urls
