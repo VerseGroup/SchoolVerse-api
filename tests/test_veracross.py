@@ -21,13 +21,8 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
 # local imports
-from webscraper.scraper.veracross.selenium.newdriver import generate_driver
-from webscraper.scraper.veracross.selenium.parse import parse_html
 
 TEST_FILE = 'logs/scraping/schedule/schedule.html'
 
 def test_veracross_parser():
-    file = open(f'{TEST_FILE}', 'r')
-    print(parse_html(file))
-
     assert True # checking for bugs

@@ -20,9 +20,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
-# local imports
-from webscraper.scraper.veracross.selenium.newdriver import generate_driver
-
 def test_selenium():
     '''
     driver = generate_driver("chrome")
