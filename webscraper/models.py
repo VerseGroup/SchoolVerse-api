@@ -1,16 +1,7 @@
-# object-oriented representation of web-scraper view of firebase models
-# these are only guidelines to accelerate the scraping process, and ensuring the JSON contains all required data
-# considering firebase is noSQL, these can be modified at anytime
-
-# These are also NOT representitive of the actual firebase models
-# Instead, they are strictly to contain web-scraper related information
-
-# todo #
-# - standerize date formatting
-# - optional note in task? like added information that a student can type
-
 # task object
-# core of the project, contains information on an assignment
+from dataclasses import dataclass
+
+
 class Task():
    
     # attributes
@@ -104,6 +95,21 @@ class Course():
             serialized_course['tasks'] = self.tasks
 
         return serialized_course
+
+# event object, like "winter break today" for example
+class Event():
+
+    def __init__(self, id, name, date):
+        self.id = id
+        self.name = name
+        self.date = date
+
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "date" : self.date
+        }
 
 # User object to represent a client
 class User():

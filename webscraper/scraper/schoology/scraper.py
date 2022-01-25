@@ -62,7 +62,7 @@ def scrape_schoology(username, password):
     response = s.get(url=schoology_calender_url)
     jsonresponse = json.loads(response.text)
 
-
+    
 
 
         
