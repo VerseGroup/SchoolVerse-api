@@ -14,6 +14,7 @@ from datetime import datetime
 # external imports
 import requests
 from bs4 import BeautifulSoup
+from getpass import getpass
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -27,6 +28,7 @@ sys.path.append(currentdir)
 from models import Task, Course
 from courses import parse_courses
 from schoology.auth import auth_schoology
+from calender import parse_calender
 
 # load urls
 from urls import SCHOOLOGY_URL, SCHOOLOGY_IAPI2_URL
@@ -45,8 +47,8 @@ def scrape_schoology(username, password):
         return None
 
     # dates to scrapre
-    year = datetime.now().year
-    month = datetime.now().month
+    year = str(datetime.now().year)
+    month = str(datetime.now().month)
     unixstart = time.time()
     unixend = unixstart + 1209600.0
 
@@ -62,8 +64,18 @@ def scrape_schoology(username, password):
     response = s.get(url=schoology_calender_url)
     jsonresponse = json.loads(response.text)
 
-    
+    parsed_content = parse_calender(jsonresponse)
+    events = parsed_content['events']
+    tasks = parsed_content['tasks']
 
+    print(events)
+    print(tasks)
+
+if __name__ == '__main__':
+    username = input('USERNAME: ')
+    password = getpass()
+
+    scrape_schoology(username, password)
 
         
 

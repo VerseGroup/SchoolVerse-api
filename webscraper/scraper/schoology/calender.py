@@ -14,21 +14,24 @@ sys.path.append(doubleparentdir)
 from models import Event, Task
 
 def parse_event(event):
-    pass
+    return Event(id=event['id'], name=event['title'], date=event['start']).serialize()
 
 def parse_task(task):
-    pass
+    platform_information={
+        "platform_code" : "sc",
+        "assignment_code": task['event_uid'],
+    }
+    return Task(name=task['titleText'], due_date=task['start'], course_id=task['content_id'], course_name=task['content_title'], platform_information=platform_information, description=task['body']).serialize()
 
 def parse_calender(calender_json):
 
     events = []
     tasks = []
 
-
     for object in calender_json:
 
         # check to make sure relevant date
-        objectday = object['start'].split(" ")[0].split("-")[0]
+        objectday = int(object['start'].split(" ")[0].split("-")[0])
         todaysday = datetime.now().day
         if todaysday > objectday:
             continue
@@ -37,3 +40,8 @@ def parse_calender(calender_json):
             events.append(parse_event(object))
         elif object['e_type'] == "assignment":
             tasks.append(parse_task(object))
+
+    return {
+        "events" : events,
+        "tasks" : tasks,
+    }
