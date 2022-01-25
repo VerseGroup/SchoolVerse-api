@@ -14,8 +14,8 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from parse_vc_html import parse_html, get_day
-from generate_browser import generate_driver
+from parse import parse_html, get_day
+from newdriver import generate_driver
 
 # external imports
 from getpass import getpass

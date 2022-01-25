@@ -9,6 +9,7 @@ import os
 import sys
 import json
 import time
+from datetime import datetime
 
 # external imports
 import requests
@@ -37,14 +38,33 @@ def scrape_schoology(username, password):
 
     # user courses 
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
+    jsonresponse = json.loads(response.text)
     try:
-        courses = parse_courses(json.loads(response.text))
+        courses = parse_courses(jsonresponse)
     except:
         return None
 
-    # user tasks
+    # dates to scrapre
+    year = datetime.now().year
+    month = datetime.now().month
+    unixstart = time.time()
+    unixend = unixstart + 1209600.0
 
-    
+    # formatting dates
+    if len(month) == 1:
+        month = "0" + month
+
+    unixstart = int(unixstart)
+    unixend = int(unixend)
+
+    # pulling calender information
+    schoology_calender_url = f"https://hackley.schoology.com/calendar/{year}-{month}?ajax=1&start={unixstart}&end={unixend}"
+    response = s.get(url=schoology_calender_url)
+    jsonresponse = json.loads(response.text)
+
+
 
 
         
+
+

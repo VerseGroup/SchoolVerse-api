@@ -21,7 +21,7 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
 # local imports
-from webscraper.scraper.veracross.selenium.generate_browser import generate_driver
+from webscraper.scraper.veracross.selenium.newdriver import generate_driver
 
 def test_selenium():
     '''

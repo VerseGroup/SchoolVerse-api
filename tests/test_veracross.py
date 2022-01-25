@@ -21,8 +21,8 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
 # local imports
-from webscraper.scraper.veracross.selenium.generate_browser import generate_driver
-from webscraper.scraper.veracross.selenium.parse_vc_html import parse_html
+from webscraper.scraper.veracross.selenium.newdriver import generate_driver
+from webscraper.scraper.veracross.selenium.parse import parse_html
 
 TEST_FILE = 'logs/scraping/schedule/schedule.html'
 

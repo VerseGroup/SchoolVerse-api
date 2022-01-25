@@ -20,7 +20,7 @@ sys.path.append(doubleparentdir)
 # local imports
 from webscraper.firebase import write_task, get_encrypted_credentials, write_creds, write_schedule
 from webscraper.scraper.schoology.scraper import scrape_schoology
-from webscraper.scraper.veracross.selenium.veracross_driver import scrape_veracross
+from webscraper.scraper.veracross.selenium.run import scrape_veracross
 
 # external imports
 from getpass import getpass

@@ -1,3 +1,0 @@
-pretty - > Soup formatted html
-schedule - > Veracross soup formatted schedule
-unformatted - > raw unprettified logs for testing 

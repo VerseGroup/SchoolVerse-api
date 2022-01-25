@@ -14,7 +14,7 @@ def parse_html(html):
     soup = BeautifulSoup(html, 'html.parser')
     schedule = soup.find("div", class_="schedule")
 
-    log = open(f"logs/scraping/schedule/schedule.html", "w+") 
+    log = open(f"logs/schedule.html", "w+") 
     log.write(schedule.prettify())
     log.close()
 
