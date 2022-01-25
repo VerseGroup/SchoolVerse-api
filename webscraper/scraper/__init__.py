@@ -6,6 +6,4 @@ import sys
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
-# for more direct imports
-from veracross.selenium.veracross_driver import scrape_veracross
 from schoology import scrape_schoology

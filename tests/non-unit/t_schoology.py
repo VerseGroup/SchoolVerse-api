@@ -28,13 +28,7 @@ def test_scraper():
     start_time = time.time() # A timer to measure speed
     print()
 
-    tasks = scrape_schoology(username, password, False)
-    if tasks is None:
-        print()
-        print("Schoology Authentication Failed")
-    else:
-        print()
-        print(tasks)
+    scrape_schoology(username, password)
 
     # outputting runtime of scraper
     print()

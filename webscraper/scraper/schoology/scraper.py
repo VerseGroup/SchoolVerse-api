@@ -39,12 +39,14 @@ def scrape_schoology(username, password):
     s = auth_schoology(username, password)
 
     # user courses 
+    '''
     response = s.get(url=SCHOOLOGY_IAPI2_URL)
     jsonresponse = json.loads(response.text)
     try:
         courses = parse_courses(jsonresponse)
     except:
         return None
+    '''
 
     # dates to scrapre
     year = str(datetime.now().year)
@@ -68,6 +70,7 @@ def scrape_schoology(username, password):
     events = parsed_content['events']
     tasks = parsed_content['tasks']
 
+    #print(courses)
     print(events)
     print(tasks)
 
