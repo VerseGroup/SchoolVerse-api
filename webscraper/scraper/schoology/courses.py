@@ -13,7 +13,7 @@ sys.path.append(parentdir)
 from webscraper.models import Course
 
 # parses schoology given course information into SchoolVerse course objects
-def parseCourses(courses_json):
+def parse_courses(courses_json):
 
     # isolating course from JSON
     course_array = (courses_json['data'])['courses']
