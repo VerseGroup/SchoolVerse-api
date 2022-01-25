@@ -70,16 +70,8 @@ def scrape_schoology(username, password):
     events = parsed_content['events']
     tasks = parsed_content['tasks']
 
-    #print(courses)
-    print(events)
-    print(tasks)
-
-if __name__ == '__main__':
-    username = input('USERNAME: ')
-    password = getpass()
-
-    scrape_schoology(username, password)
-
-        
-
-
+    return {
+        #"courses" : courses,
+        "tasks" : tasks,
+        "events" : events,
+    }

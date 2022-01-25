@@ -28,7 +28,10 @@ def test_scraper():
     start_time = time.time() # A timer to measure speed
     print()
 
-    scrape_schoology(username, password)
+    returns = scrape_schoology(username, password)
+    print(returns['events'])
+    print()
+    print(returns['tasks'])
 
     # outputting runtime of scraper
     print()
