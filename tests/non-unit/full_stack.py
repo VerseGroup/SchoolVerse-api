@@ -18,7 +18,7 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # local imports
-from webscraper.firebase_manager import write_task, get_encrypted_credentials, write_creds, write_schedule
+from webscraper.firebase import write_task, get_encrypted_credentials, write_creds, write_schedule
 from webscraper.scraper.schoology.schoology_scraper import scrape_schoology
 from webscraper.scraper.veracross.selenium.veracross_driver import scrape_veracross
 
