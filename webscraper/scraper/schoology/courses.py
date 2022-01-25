@@ -10,7 +10,7 @@ parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pard
 sys.path.append(parentdir)
 
 # local import
-from webscraper.models import Course
+from models import Course
 
 # parses schoology given course information into SchoolVerse course objects
 def parse_courses(courses_json):

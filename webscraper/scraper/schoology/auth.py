@@ -1,14 +1,4 @@
-# function that returns an authorized (logged-in) schoology session
-
-# python imports
-import os
-import sys
-
-# current dir for local imports
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
-
-# external imports
+# python/external imports
 import requests
 
 # internal imports
