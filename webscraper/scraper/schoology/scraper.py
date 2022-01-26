@@ -34,19 +34,19 @@ from calender import parse_calender
 from urls import SCHOOLOGY_URL, SCHOOLOGY_IAPI2_URL
 
 # schoology webscraper
-def scrape_schoology(username, password):
+def scrape_schoology(username, password, courses=False, ):
     
     s = auth_schoology(username, password)
 
     # user courses 
-    '''
-    response = s.get(url=SCHOOLOGY_IAPI2_URL)
-    jsonresponse = json.loads(response.text)
-    try:
-        courses = parse_courses(jsonresponse)
-    except:
-        return None
-    '''
+    if courses:
+        response = s.get(url=SCHOOLOGY_IAPI2_URL)
+        jsonresponse = json.loads(response.text)
+        try:
+            courses = parse_courses(jsonresponse)
+        except:
+            return None
+    
 
     # dates to scrapre
     year = str(datetime.now().year)
@@ -70,8 +70,11 @@ def scrape_schoology(username, password):
     events = parsed_content['events']
     tasks = parsed_content['tasks']
 
-    return {
-        #"courses" : courses,
+    to_return = {
         "tasks" : tasks,
         "events" : events,
     }
+    if courses:
+        to_return["courses"] = courses
+
+    return to_return
