@@ -1,6 +1,7 @@
 # test the veracross scraper
 
 # python imports
+from ast import parse
 import os
 import sys
 
@@ -21,8 +22,13 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
 # local imports
+from webscraper.scraper.veracross.schedule import parse_html
 
-TEST_FILE = 'logs/scraping/schedule/schedule.html'
+TEST_FILE = 'logs/schedule.html'
 
+# checking for bugs
 def test_veracross_parser():
-    assert True # checking for bugs
+    file = open(TEST_FILE, 'r')
+    html = file.read()
+    parse_html(html)
+    assert True 
