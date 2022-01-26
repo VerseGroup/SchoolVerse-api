@@ -11,11 +11,6 @@ import json
 import time
 from datetime import datetime
 
-# external imports
-import requests
-from bs4 import BeautifulSoup
-from getpass import getpass
-
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentdir)
@@ -31,7 +26,7 @@ from schoology.auth import auth_schoology
 from calender import parse_calender
 
 # load urls
-from urls import SCHOOLOGY_URL, SCHOOLOGY_IAPI2_URL
+from urls import SCHOOLOGY_IAPI2_URL
 
 # schoology webscraper
 def scrape_schoology(username, password, courses=False, ):
