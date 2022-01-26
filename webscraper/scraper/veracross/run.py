@@ -12,9 +12,9 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from parse import parse_html, get_day
+from schedule import parse_html, get_day
 from driver import generate_driver
-from auth import auth_veracross
+from veracross.auth import auth_veracross
 
 # selenium imports
 from selenium.webdriver.common.by import By

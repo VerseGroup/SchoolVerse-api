@@ -12,7 +12,7 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from urls import VERACROSS_URL
+from veracross.urls import VERACROSS_URL
 
 # selenium imports
 from selenium.webdriver.common.by import By

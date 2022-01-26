@@ -8,7 +8,7 @@ from firebase_admin import firestore
 
 # secrets
 FILE_NAME = 'testing-edacb-firebase-adminsdk-v8h2i-f189331af9.json'
-SECRETS_PATH = f'webscraper/firebase_manager/secrets/{FILE_NAME}'
+SECRETS_PATH = f'webscraper/firebase/secrets/{FILE_NAME}'
 
 # authenticate firebase admin SDK
 def auth():

@@ -20,7 +20,7 @@ sys.path.append(doubleparentdir)
 # local imports
 from webscraper.firebase import write_task, get_encrypted_credentials, write_creds, write_schedule
 from webscraper.scraper.schoology.scraper import scrape_schoology
-from webscraper.scraper.veracross.selenium.run import scrape_veracross
+from webscraper.scraper.veracross.run import scrape_veracross
 
 # external imports
 from getpass import getpass
@@ -49,7 +49,7 @@ def scrape_using_creds(key):
     username = handler.decrypt_rsa(en_username, True)
     password = handler.decrypt_rsa(en_password, True)
 
-    tasks = scrape_schoology(username, password)
+    tasks = scrape_schoology(username, password)['tasks']
     
     for task in tasks:
         write_task(task, 1)
