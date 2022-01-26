@@ -31,7 +31,7 @@ def check_task_exists(user_id, platform_information):
         doc_dict = doc.to_dict()
         print(doc_dict)
         doc_plat_inf = doc_dict['platform_information']
-        if doc_plat_inf['assignment_code'] == platform_information['assignment_code'] and doc_plat_inf['code'] == platform_information['code']:
+        if doc_plat_inf['assignment_code'] == platform_information['assignment_code'] and doc_plat_inf['platform_code'] == platform_information['assignment_code']:
             return True
     
     return False
