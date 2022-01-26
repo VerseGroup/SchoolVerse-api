@@ -19,9 +19,9 @@ def parse_event(event):
 def parse_task(task):
     platform_information={
         "platform_code" : "sc",
-        "assignment_code": task['event_uid'],
+        "assignment_code": task['content_id'],
     }
-    return Task(name=task['titleText'], due_date=task['start'], course_id=task['content_id'], course_name=task['content_title'], platform_information=platform_information, description=task['body']).serialize()
+    return Task(name=task['titleText'], due_date=task['start'], course_id=task['realm_id'], course_name=task['content_title'], platform_information=platform_information, description=task['body']).serialize()
 
 def parse_calender(calender_json):
 
