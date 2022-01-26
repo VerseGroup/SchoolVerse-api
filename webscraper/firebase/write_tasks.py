@@ -1,7 +1,6 @@
 # python imports
 import os
 import sys
-import uuid
 
 # adding dir to sys to allow local importing
 currentdir = os.path.abspath(os.path.dirname(__file__))
@@ -35,3 +34,6 @@ def check_task_exists(user_id, id):
             return True
     
     return False
+
+
+
