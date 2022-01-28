@@ -19,11 +19,11 @@ def write_task(task, user_id):
     user_ref = db.collection(u'USERS').document(f'{user_id}')
     user_dict = user_ref.get().to_dict()
 
-    exists = check_task_exists(user_id, id, user_dict)
+    exists = check_task_exists(id, user_dict)
     
     if not exists:
         db.collection(u'USERS').document(f'{user_id}').collection(u'TASKS').document(f'{id}').set(task)
-        db.collection(u'USERS').document(f'{user_id}').update({"task_ids": user_dict['task_ids'] + [id]})
+        db.collection(u'USERS').document(f'{user_id}').update({"TASK_IDS": user_dict['TASK_IDS'] + [id]})
     else:
         print(f"Task {id} already exists")
 
@@ -31,13 +31,12 @@ def write_task(task, user_id):
 def check_task_exists(id, user_dict):
 
     if user_dict is not None:
-        existingids = user_dict['task_ids']
+        existingids = user_dict['TASK_IDS']
 
     for existingid in existingids:
         if existingid == id:
             return True
     
     return False
-
 
 
