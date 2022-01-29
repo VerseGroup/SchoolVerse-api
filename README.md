@@ -20,7 +20,7 @@ Full Stack Testing (Veracross + Schoology + Firebase + vgem): 10 seconds
 
 #### Currently Supported Platforms
 - Schoology (Engine v3)
-- Veracross (Enginge v1)
+- Veracross (Engine v1)
 
 #### Platforms In Development
 - Flik lunch menu
@@ -45,4 +45,4 @@ pip install -r requirements.txt
 ~~~
 uvicorn main:app --reload
 ~~~
-5. Visit docs for options at <a href="localhost:8000/docs"> localhost:8000/docs </a>
+5. Visit docs for options at http://localhost:8000/docs
