@@ -6,3 +6,6 @@
 
 # geckodriver log
 geckodriver.log
+
+# private key
+private_key.pem

@@ -7,6 +7,7 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # local imports
+'''
 from auth import auth_schoology
 
 def ensure(username, password):
@@ -25,3 +26,4 @@ def ensure(username, password):
             "message" : "Success",
             "code" : "0"
         }
+'''

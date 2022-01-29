@@ -1,10 +1,11 @@
-# the main scraping function
+# imports
 from webscraper.firebase import write_tasks, write_schedule
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
+from vgem import EM
 
-def scrape(user_id: int, platform_code: str):
+def scrape(user_id: int, platform_code: str, encryption_key: str):
 
     # get credentials
     creds = get_creds(user_id, platform_code)
@@ -13,6 +14,15 @@ def scrape(user_id: int, platform_code: str):
     else:
         username = creds['username']
         password = creds['password']
+
+    # decrypt credentials with key
+    try:
+        handler = EM(serialized_private_key=encryption_key)
+        username = handler.decrypt_rsa(username, True)
+        password = handler.decrypt_rsa(password, True)
+    except:
+        return {"message": "Invalid encryption key"}
+
 
     if platform_code == "sc":
         try:
