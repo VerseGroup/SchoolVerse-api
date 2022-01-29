@@ -29,7 +29,7 @@ from calender import parse_calender
 from urls import SCHOOLOGY_IAPI2_URL
 
 # schoology webscraper
-def scrape_schoology(username, password, courses=False, ):
+def scrape_schoology(username, password, courses=False, ) -> dict:
     
     s = auth_schoology(username, password)
 

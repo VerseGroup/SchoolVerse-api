@@ -4,7 +4,7 @@ import requests
 # internal imports
 from urls import SCHOOLOGY_LOGIN_URL
 
-def auth_schoology(username, password):
+def auth_schoology(username, password) -> requests.Session:
     
     # the URL session to scrape from
     s = requests.Session()

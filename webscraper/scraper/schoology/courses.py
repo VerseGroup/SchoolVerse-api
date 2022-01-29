@@ -13,7 +13,7 @@ sys.path.append(parentdir)
 from models import Course
 
 # parses schoology given course information into SchoolVerse course objects
-def parse_courses(courses_json):
+def parse_courses(courses_json) -> list:
 
     # isolating course from JSON
     course_array = (courses_json['data'])['courses']

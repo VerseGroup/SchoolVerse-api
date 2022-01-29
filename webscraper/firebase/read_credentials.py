@@ -13,7 +13,7 @@ import firebase_admin
 from auth import db
 
 # get user encryptions with id
-def get_encrypted_credentials(id, platform_code):
+def get_encrypted_credentials(id, platform_code) -> dict:
     user_ref = db.collection(u'USERS').document(f'{id}')
     doc = user_ref.get()
     
