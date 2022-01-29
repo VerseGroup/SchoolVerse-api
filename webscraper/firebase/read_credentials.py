@@ -19,12 +19,13 @@ def get_encrypted_credentials(id, platform_code):
     
     if doc.exists:
         doc_dict = doc.to_dict()
+        creds = doc_dict['CREDS']
 
         try:
             return {
                 "code" : '0',
-                "username_ciphertext" : doc_dict[f'{platform_code}_creds'][0],
-                "password_ciphertext" : doc_dict[f'{platform_code}_creds'][1]
+                "username_ciphertext" : creds[f'{platform_code}'][0],
+                "password_ciphertext" : creds[f'{platform_code}'][1]
             }
 
         except:
