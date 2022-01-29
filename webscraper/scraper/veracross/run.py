@@ -56,7 +56,10 @@ def scrape_veracross(username, password, today=True):
     schedule = parse_html(html)
 
     print("Finding day...")
-    day = get_day(html)
+    try:
+        day = get_day(html)
+    except:
+        day = "N/A"
     
     return (day, schedule)
 
