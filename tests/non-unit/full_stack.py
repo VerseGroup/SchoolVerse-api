@@ -18,7 +18,7 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # local imports
-from webscraper.firebase import write_task, get_encrypted_credentials, write_creds, write_schedule
+from webscraper.firebase import write_tasks, get_encrypted_credentials, write_creds, write_schedule
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 
@@ -51,8 +51,7 @@ def scrape_using_creds(key):
 
     tasks = scrape_schoology(username, password)['tasks']
     
-    for task in tasks:
-        write_task(task, 1)
+    write_tasks(tasks, 1)
 
     scraped_content = scrape_veracross(username, password)
     day = scraped_content[0]
