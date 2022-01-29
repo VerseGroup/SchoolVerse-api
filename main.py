@@ -18,21 +18,20 @@ app = FastAPI()
 from webscraper.scrape import scrape
 #from webscraper.ensure import ensure
 
-
 # scraping function request body
 class ScrapeRequest(BaseModel):
     user_id: int
     platform_code: str
-    encryption_key: str
+    user_encryption_key: str
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
     try: 
-        encryption_key = handler.decrypt_rsa(request.encryption_key, True)
+        user_encryption_key = handler.decrypt_rsa(request.user_encryption_key, True)
     except:
         return {"message": "encryption key did not come from the security server (unauthorized usage of the webscraper)"}
 
-    return scrape(user_id=request.user_id, platform_code=request.platform_code, encryption_key=request.encryption_key)
+    return scrape(user_id=request.user_id, platform_code=request.platform_code, encryption_key=request.user_encryption_key)
     
 '''
 @app.get("/ensure/{user_id}/{platform_code}", status_code=200)
