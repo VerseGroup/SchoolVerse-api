@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from webscraper.firebase import get_encrypted_credentials, write_creds, write_tasks, write_schedule
 from webscraper.scraper.schoology import scrape_schoology
-from webscraper.scraper.veracross import scrape_veracross
+from webscraper.scraper.veracross.run import scrape_veracross
 from vgem import EM
 
 app = FastAPI()
@@ -20,17 +20,17 @@ async def scrape(user_id: int, platform_code: str):
 
     # get keys from keychain
     try:
-        serialized_private_key = "test"
-    except:
-        return {"message" : "error with reading key from keychain"}
+        pass
+    except Exception as e:
+        return {"message" : "error with reading key from keychain", "error" : str(e)}
 
     # decrypt ciphers with keys
-    handler = EM(serialized_private_key=serialized_private_key)
     try:
+        handler = EM()
         username = handler.decrypt_rsa(username, True)
         password = handler.decrypt_rsa(password, True)
-    except:
-        return {"message": "error decrypting ciphers"}
+    except Exception as e:
+        return {"message": "error decrypting ciphers", "error" : str(e)}
 
     if platform_code == "sc":
         try:

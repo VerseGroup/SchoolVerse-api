@@ -12,7 +12,9 @@ sys.path.append(currentdir)
 
 # internal imports
 from get_element import get
-from veracross.urls import VERACROSS_URL
+
+# URLS
+VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"
 
 # selenium imports
 from selenium.webdriver.common.by import By
