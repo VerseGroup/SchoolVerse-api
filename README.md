@@ -30,5 +30,19 @@ Full Stack Testing (Veracross + Schoology + Firebase + vgem): 10 seconds
 - Google Classroom
 
 ## How to use
-
-
+1. Download or clone the repository
+2. Enter virtual environment
+~~~
+pip install virtualenv
+virtualenv env
+/env/bin/activate
+~~~
+3. Install requirements
+~~~
+pip install -r requirements.txt
+~~~
+4. Run API
+~~~
+uvicorn main:app --reload
+~~~
+5. Visit docs for options at <a href="localhost:8000/docs"> localhost:8000/docs </a>
