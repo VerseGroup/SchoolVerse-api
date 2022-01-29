@@ -1,5 +1,5 @@
 from vgem import EM
-from webscraper.firebase import get_encrypted_credentials, write_creds, write_tasks, write_schedule
+from webscraper.firebase import get_encrypted_credentials
 
 def get_creds(user_id, platform_code):
     # get ciphers from firebase
