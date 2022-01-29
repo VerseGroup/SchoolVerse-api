@@ -17,7 +17,7 @@ sys.path.append(tripleparentdir)
 from getpass import getpass
 
 # local imports
-from webscraper.scraper import scrape_schoology
+from webscraper.scraper.schoology.scraper import scrape_schoology
 
 def test_scraper():
     # loading schoology username/password to test

@@ -1,8 +1,8 @@
 # ensuring that user credentials work
 
+# local imports
 from webscraper.scraper.schoology.ensure import ensure
 from webscraper.creds import get_creds
-#from webscraper.scraper.veracross.ensure import ensure
 
 def ensure(user_id, platform_code):
     # get creds

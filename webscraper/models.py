@@ -1,6 +1,4 @@
 # task object
-from dataclasses import dataclass
-
 
 class Task():
    

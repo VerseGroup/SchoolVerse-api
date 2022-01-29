@@ -1,6 +1,6 @@
 # the main scraping function
 from webscraper.firebase import write_tasks, write_schedule
-from webscraper.scraper.schoology import scrape_schoology
+from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
 
