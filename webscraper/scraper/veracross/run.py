@@ -50,7 +50,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
         today = today.split('/')
 
     print("Gathering schedule contents...\n")
-    html = scrape_schedule(driver, today[0], today[1], today[2])
+    html = scrape_veracross(driver, today[0], today[1], today[2])
 
     print("Parsing schedule contents...\n")
     schedule = parse_html(html)
