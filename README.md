@@ -3,7 +3,7 @@
 A REST API server that runs a scraping engine to scrape various task/event information from school platforms, encrypt the data, and interact with firebase. 
 
 Currently uses:
-- API: Django Restful API
+- API: Fast API Restful API
 - Schoology: requests + parsing
 - Veracross: selenium + bs4 + parsing
 - Encrypting: vgem (extends python cryptography)
@@ -16,7 +16,7 @@ Schoology Scraping: 0.9 seconds
 
 Veracross Scraping: 6-8 seconds
 
-Full Stack Testing (Veracross + Schoology + Firebase + vgem): 10 seconds 
+Full Stack Testing (Veracross + Schoology + Firebase + vgem): 9 seconds 
 
 #### Currently Supported Platforms
 - Schoology (Engine v3)

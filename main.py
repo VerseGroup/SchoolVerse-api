@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # secrets
-file = open('private_key.pem', 'r')
+file = open('secrets/private_key.pem', 'r')
 SS_KEY = file.read()
 file.close()
 handler = EM(serialized_private_key=SS_KEY)
