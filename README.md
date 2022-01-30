@@ -46,3 +46,8 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ~~~
 5. Visit docs for options at http://localhost:8000/docs
+
+## Documentation
+/docs - > API Documentation (Test API)
+/scrape - > Run Scraping Engine, returns message (look to firebase for data)
+/ensure - > Ensure user credentials are valid (returns message)
