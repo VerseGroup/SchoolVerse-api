@@ -49,5 +49,7 @@ uvicorn main:app --reload
 
 ## Documentation
 /docs - > API Documentation (Test API)
+
 /scrape - > Run Scraping Engine, returns message (look to firebase for data)
+
 /ensure - > Ensure user credentials are valid (returns message)
