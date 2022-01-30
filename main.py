@@ -31,7 +31,9 @@ async def scrape_(request: ScrapeRequest):
     except:
         return {"message": "encryption key did not come from the security server (unauthorized usage of the webscraper)"}
 
-    return scrape(user_id=request.user_id, platform_code=request.platform_code, encryption_key=user_encryption_key) 
+    status = await scrape(user_id=request.user_id, platform_code=request.platform_code, encryption_key=user_encryption_key) 
+
+    return status
 
 # ensure function request body
 class EnsureRequest(BaseModel):
@@ -46,4 +48,6 @@ async def ensure_(user_id: int, platform_code: str, user_encryption_key: str):
     except:
         return {"message": "encryption key did not come from the security server (unauthorized usage of the webscraper)"}
 
-    return ensure(user_id=user_id, platform_code=platform_code, encryption_key=user_encryption_key)
+    status = await ensure(user_id=user_id, platform_code=platform_code, encryption_key=user_encryption_key)
+
+    return status
