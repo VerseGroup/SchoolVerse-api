@@ -1,7 +1,7 @@
 from vgem import EM
 from webscraper.firebase import get_encrypted_credentials
 
-def get_creds(user_id, platform_code):
+def get_creds(user_id, platform_code, encryption_key):
     # get ciphers from firebase
     try:
         cred_dict = get_encrypted_credentials(user_id, platform_code)
@@ -18,7 +18,7 @@ def get_creds(user_id, platform_code):
 
     # decrypt ciphers with keys
     try:
-        handler = EM()
+        handler = EM(serialized_private_key=encryption_key)
         username = handler.decrypt_rsa(username, True)
         password = handler.decrypt_rsa(password, True)
     except Exception as e:

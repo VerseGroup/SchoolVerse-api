@@ -5,12 +5,14 @@ import sys
 # adding dir to sys to allow local importing
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
+parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentdir)
 
 # local imports
-'''
-from auth import auth_schoology
+from schoology.auth import auth_schoology
 
-def ensure(username, password):
+# making sure that the schoology username and password are correct
+def ensure_schoology(username, password):
     s = auth_schoology(username, password)
 
     response = s.get('https://hackley.schoology.com/home')
@@ -26,4 +28,4 @@ def ensure(username, password):
             "message" : "Success",
             "code" : "0"
         }
-'''
+

@@ -8,21 +8,12 @@ from vgem import EM
 def scrape(user_id: int, platform_code: str, encryption_key: str):
 
     # get credentials
-    creds = get_creds(user_id, platform_code)
+    creds = get_creds(user_id, platform_code, encryption_key)
     if 'message' in creds:
         return creds['message']
     else:
         username = creds['username']
         password = creds['password']
-
-    # decrypt credentials with key
-    try:
-        handler = EM(serialized_private_key=encryption_key)
-        username = handler.decrypt_rsa(username, True)
-        password = handler.decrypt_rsa(password, True)
-    except:
-        return {"message": "Invalid encryption key"}
-
 
     if platform_code == "sc":
         try:
