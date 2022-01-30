@@ -7,4 +7,6 @@ if __name__ == "__main__":
     file = open('secrets/private_key.pem', 'w')
     file.write(key)
     file.close()
-    pc.copy(key)
+
+    public_key = handler.serialize_public_key()
+    pc.copy(public_key)
