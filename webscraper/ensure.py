@@ -2,6 +2,7 @@
 
 # local imports
 from webscraper.scraper.schoology.ensure import ensure_schoology
+from webscraper.scraper.veracross.ensure import ensure_veracross
 from webscraper.creds import get_creds
 
 def ensure(user_id, platform_code, encryption_key):
@@ -15,4 +16,7 @@ def ensure(user_id, platform_code, encryption_key):
 
     # test creds
     if platform_code == "sc":
-        return ensure(username, password)
+        return ensure_schoology(username, password)
+
+    elif platform_code == "vc":
+        return ensure_veracross(username, password)
