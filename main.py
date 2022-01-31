@@ -54,4 +54,5 @@ async def ensure_(user_id: int, platform_code: str, user_encryption_key: str):
 
 @app.get("/ping", status_code=200)
 async def ping():
-    return {"message": "recieved"}
+    return {"message": "pong"}
+
