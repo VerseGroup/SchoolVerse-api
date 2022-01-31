@@ -19,7 +19,7 @@ from veracross.auth import auth_veracross
 # selenium imports
 from selenium.webdriver.common.by import By
 
-def scrape_veracross(driver, day, month, year) -> str:
+def get_schedule(driver, day, month, year) -> str:
 
     SCHEDULE_URL = f"https://portals.veracross.com/hackley/student/student/daily-schedule?date={year}-{month}-{day}"
     driver.get(SCHEDULE_URL)
@@ -50,7 +50,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
         today = today.split('/')
 
     print("Gathering schedule contents...\n")
-    html = scrape_veracross(driver, today[0], today[1], today[2])
+    html = get_schedule(driver, today[0], today[1], today[2])
 
     print("Parsing schedule contents...\n")
     schedule = parse_html(html)
