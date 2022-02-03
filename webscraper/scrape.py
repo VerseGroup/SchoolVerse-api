@@ -4,11 +4,11 @@ from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
 from vgem import EM
-
-def scrape(user_id: int, platform_code: str, encryption_key: str):
+s
+def scrape(user_id: int, platform_code: str):
 
     # get credentials
-    creds = get_creds(user_id, platform_code, encryption_key)
+    creds = get_creds(user_id, platform_code)
     if 'message' in creds:
         return creds['message']
     else:

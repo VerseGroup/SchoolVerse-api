@@ -22,16 +22,11 @@ from webscraper.ensure import ensure
 class ScrapeRequest(BaseModel):
     user_id: int
     platform_code: str
-    user_encryption_key: str
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    try: 
-        user_encryption_key = handler.decrypt_rsa(request.user_encryption_key, True)
-    except:
-        return {"message": "encryption key did not come from the security server (unauthorized usage of the webscraper)"}
 
-    status = scrape(user_id=request.user_id, platform_code=request.platform_code, encryption_key=user_encryption_key) 
+    status = scrape(user_id=request.user_id, platform_code=request.platform_code) 
 
     return status
 

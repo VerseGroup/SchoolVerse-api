@@ -12,6 +12,7 @@ def get_creds(user_id, platform_code, encryption_key):
 
     # get keys from keychain
     try:
+        # encryptionkey = something from keychain
         pass
     except Exception as e:
         return {"message" : "error with reading key from keychain", "error" : str(e)}
