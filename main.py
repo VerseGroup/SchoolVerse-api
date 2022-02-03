@@ -25,26 +25,17 @@ class ScrapeRequest(BaseModel):
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-
     status = scrape(user_id=request.user_id, platform_code=request.platform_code) 
-
     return status
 
 # ensure function request body
 class EnsureRequest(BaseModel):
     user_id: int
     platform_code: str
-    user_encryption_key: str
 
-@app.get("/ensure", status_code=200)
-async def ensure_(user_id: int, platform_code: str, user_encryption_key: str):
-    try:
-        user_encryption_key = handler.decrypt_rsa(user_encryption_key, True)
-    except:
-        return {"message": "encryption key did not come from the security server (unauthorized usage of the webscraper)"}
-
-    status = ensure(user_id=user_id, platform_code=platform_code, encryption_key=user_encryption_key)
-
+@app.post("/ensure", status_code=200)
+async def ensure_(request: EnsureRequest):
+    status = ensure(user_id=request.user_id, platform_code=request.platform_code)
     return status
 
 @app.get("/ping", status_code=200)
