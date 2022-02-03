@@ -1,7 +1,12 @@
 from vgem import EM
 from webscraper.firebase import get_encrypted_credentials
 
-def get_creds(user_id, platform_code, encryption_key):
+# local imports
+file = open('secrets/test_key.pem', 'r')
+encryption_key = file.read()
+file.close()
+
+def get_creds(user_id, platform_code):
     # get ciphers from firebase
     try:
         cred_dict = get_encrypted_credentials(user_id, platform_code)
@@ -12,7 +17,6 @@ def get_creds(user_id, platform_code, encryption_key):
 
     # get keys from keychain
     try:
-        # encryptionkey = something from keychain
         pass
     except Exception as e:
         return {"message" : "error with reading key from keychain", "error" : str(e)}
