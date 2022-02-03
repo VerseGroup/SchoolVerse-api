@@ -14,9 +14,9 @@ from auth import db
 
 def write_tasks(tasks, user_id):
     user_ref = db.collection(u'USERS').document(f'{user_id}')
-    user_dict = user_ref.get().to_dict()
 
     for task in tasks:
+        user_dict = user_ref.get().to_dict()
         id = task['platform_information']['assignment_code']
         if check_task_exists(id, user_dict):
             print(f"Task {id} already exists")
