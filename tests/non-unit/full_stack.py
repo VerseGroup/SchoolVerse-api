@@ -90,6 +90,9 @@ def scrape_using_creds(key):
     threads.append(t2)
 
     for thread in threads:
+        print()
+        print("STARTING THREAD")
+        print()
         thread.start()
 
     for thread in threads:
@@ -98,6 +101,8 @@ def scrape_using_creds(key):
         print(response)
         print()
 
+        print("CLOSING THREAD")
+        print()
     # threading end #
 
     print()
