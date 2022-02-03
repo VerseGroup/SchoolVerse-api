@@ -82,14 +82,7 @@ def scrape_using_creds(key):
     for thread in threads:
         thread.join()
 
-    print("FINISHED FULL STACK")
-
-
-
-
-    
-
-    
+    print("FINISHED FULL STACK")  
 
 def full_stack():
     start_time = time.time()

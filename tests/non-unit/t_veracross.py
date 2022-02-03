@@ -17,7 +17,7 @@ sys.path.append(tripleparentdir)
 from getpass import getpass
 
 # local imports
-from webscraper.scraper import scrape_veracross
+from webscraper.scraper.veracross.run import scrape_veracross
 
 def test_veracross():
     USERNAME = input('USERNAME: ')
