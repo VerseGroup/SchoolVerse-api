@@ -81,6 +81,8 @@ def scrape_using_creds(key):
     username = handler.decrypt_rsa(en_username, True)
     password = handler.decrypt_rsa(en_password, True)
 
+    # threading start #
+
     threads = []
     t1 = ThreadWithReturnValue(target=schoology, args=(username, password))
     threads.append(t1)
@@ -96,12 +98,14 @@ def scrape_using_creds(key):
         print(response)
         print()
 
+    # threading end #
+
     print()
     print("FINISHED FULL STACK")  
     print()
 
 def full_stack():
-    start_time = time.time()
+    #start_time = time.time()
     key = get_creds()
 
     input('Continue? ')
