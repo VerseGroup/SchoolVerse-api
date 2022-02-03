@@ -8,6 +8,7 @@ FIREBASE - > SCRAPER - > PARSER -> FIREBASE
 import os
 import sys
 import time
+import threading 
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -38,21 +39,7 @@ def get_creds():
 
     return handler.serialize_private_key()
 
-def scrape_using_creds(key):
-    handler = EM(serialized_private_key=key)
-
-    cred_dict = get_encrypted_credentials(1, "sc")
-    
-    en_username = cred_dict['username_ciphertext']
-    en_password = cred_dict['password_ciphertext']
-
-    username = handler.decrypt_rsa(en_username, True)
-    password = handler.decrypt_rsa(en_password, True)
-
-    tasks = scrape_schoology(username, password)['tasks']
-    
-    write_tasks(tasks, 1)
-
+def veracross(username, password):
     scraped_content = scrape_veracross(username, password)
     day = scraped_content[0]
     schedule = scraped_content[1]
@@ -64,6 +51,46 @@ def scrape_using_creds(key):
     print(f"SCHEDULE: {schedule}")
     write_schedule(1, schedule, day)
 
+    print("FINISHED VERACROSS")
+
+def schoology(username, password):
+    tasks = scrape_schoology(username, password)['tasks']
+    write_tasks(tasks, 1)
+
+    print("FINISHED SCHOOLOGY")
+
+def scrape_using_creds(key):
+    handler = EM(serialized_private_key=key)
+
+    cred_dict = get_encrypted_credentials(1, "sc")
+    
+    en_username = cred_dict['username_ciphertext']
+    en_password = cred_dict['password_ciphertext']
+
+    username = handler.decrypt_rsa(en_username, True)
+    password = handler.decrypt_rsa(en_password, True)
+
+    threads = []
+    t1 = threading.Thread(target=schoology, args=(username, password))
+    threads.append(t1)
+    t2 = threading.Thread(target=veracross, args=(username, password))
+    threads.append(t2)
+
+    for thread in threads:
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    print("FINISHED FULL STACK")
+
+
+
+
+    
+
+    
+
 def full_stack():
     start_time = time.time()
     key = get_creds()
@@ -74,7 +101,7 @@ def full_stack():
     scrape_using_creds(key)
 
     print()
-    print(f"Executed in {time.time() - start_time} seconds")
+    #print(f"Executed in {time.time() - start_time} seconds")
     print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
     print()
 
