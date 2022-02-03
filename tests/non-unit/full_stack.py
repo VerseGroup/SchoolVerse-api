@@ -27,6 +27,17 @@ from webscraper.scraper.veracross.run import scrape_veracross
 from getpass import getpass
 from vgem import EM
 
+# from stack overflow
+class ThreadWithReturnValue(threading.Thread):
+    def __init__(self, *init_args, **init_kwargs):
+        threading.Thread.__init__(self, *init_args, **init_kwargs)
+        self._return = None
+    def run(self):
+        self._return = self._target(*self._args, **self._kwargs)
+    def join(self):
+        threading.Thread.join(self)
+        return self._return
+
 def get_creds():
     username = input('USERNAME: ')
     password = getpass()
@@ -51,13 +62,13 @@ def veracross(username, password):
     print(f"SCHEDULE: {schedule}")
     write_schedule(1, schedule, day)
 
-    print("FINISHED VERACROSS")
+    return "Finished Veracross"
 
 def schoology(username, password):
     tasks = scrape_schoology(username, password)['tasks']
     write_tasks(tasks, 1)
 
-    print("FINISHED SCHOOLOGY")
+    return "Finished Schoology"
 
 def scrape_using_creds(key):
     handler = EM(serialized_private_key=key)
@@ -71,18 +82,23 @@ def scrape_using_creds(key):
     password = handler.decrypt_rsa(en_password, True)
 
     threads = []
-    t1 = threading.Thread(target=schoology, args=(username, password))
+    t1 = ThreadWithReturnValue(target=schoology, args=(username, password))
     threads.append(t1)
-    t2 = threading.Thread(target=veracross, args=(username, password))
+    t2 = ThreadWithReturnValue(target=veracross, args=(username, password))
     threads.append(t2)
 
     for thread in threads:
         thread.start()
 
     for thread in threads:
-        thread.join()
+        response = thread.join()
+        print()
+        print(response)
+        print()
 
+    print()
     print("FINISHED FULL STACK")  
+    print()
 
 def full_stack():
     start_time = time.time()
