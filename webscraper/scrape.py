@@ -4,7 +4,7 @@ from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
 from vgem import EM
-s
+
 def scrape(user_id: int, platform_code: str):
 
     # get credentials
