@@ -55,7 +55,7 @@ pyparsing==3.0.7
 pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==1.4.3
-pytest==6.2.5
+pytest==7.0.0
 python-dotenv==0.19.2
 requests==2.27.1
 requests-html==0.10.0
