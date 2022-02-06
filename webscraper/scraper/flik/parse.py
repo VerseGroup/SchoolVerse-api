@@ -43,7 +43,6 @@ def parse_menu(json):
             current_header = None
 
             if menu_item["food"] is not None:
-                print('reached')
                 food = parse_food(menu_item["food"])
                 header = current_header
             else: 

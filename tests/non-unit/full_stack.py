@@ -9,6 +9,7 @@ import os
 import sys
 import time
 import threading 
+from datetime import date
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -19,9 +20,10 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # local imports
-from webscraper.firebase import write_tasks, get_encrypted_credentials, write_creds, write_schedule
+from webscraper.firebase import write_tasks, get_encrypted_credentials, write_creds, write_schedule, write_menu
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
+from webscraper.scraper.flik.scraper import scrape_flik
 
 # external imports
 from getpass import getpass
@@ -70,6 +72,18 @@ def schoology(username, password):
 
     return "Finished Schoology"
 
+def flik(today=True):
+    if today==True:
+        today = date.today()
+        today = today.strftime("%d/%m/%Y")
+        today = today.split('/')
+
+    menu = scrape_flik('lunch', today[0], today[1], today[2])
+
+    write_menu(menu)
+
+    return "Finished Flik"
+
 def scrape_using_creds(key):
     handler = EM(serialized_private_key=key)
 
@@ -88,6 +102,8 @@ def scrape_using_creds(key):
     threads.append(t1)
     t2 = ThreadWithReturnValue(target=veracross, args=(username, password))
     threads.append(t2)
+    t3 = ThreadWithReturnValue(target=flik)
+    threads.append(t3)
 
     for thread in threads:
         print()
