@@ -18,6 +18,10 @@ app = FastAPI()
 from webscraper.scrape import scrape
 from webscraper.ensure import ensure
 
+# flik functions
+from webscraper.scraper.flik.scraper import scrape_flik
+from webscraper.firebase.write_menu import write_menu
+
 # scraping function request body
 class ScrapeRequest(BaseModel):
     user_id: int
@@ -37,6 +41,22 @@ class EnsureRequest(BaseModel):
 async def ensure_(request: EnsureRequest):
     status = ensure(user_id=request.user_id, platform_code=request.platform_code)
     return status
+
+# flik menu scraping
+class MenuRequest(BaseModel):
+    year: int
+    month: int
+    day: int
+    mealtype: str
+    
+@app.post("/menu", status_code=200)
+async def menu(request: MenuRequest):
+    try:
+        menu = scrape_flik(request.mealtype, request.day, request.month, request.year)
+        write_menu(menu)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": str(e)}
 
 @app.get("/ping", status_code=200)
 async def ping():
