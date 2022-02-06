@@ -16,14 +16,16 @@ Schoology Scraping: 0.9 seconds
 
 Veracross Scraping: 4 seconds
 
-Full Stack Testing (Veracross + Schoology + Firebase + vgem): 5 seconds 
+Flik Scraping: 0.5 seconds
+
+Full Stack Testing (Veracross + Schoology + Firebase + vgem): 4-5 seconds 
 
 #### Currently Supported Platforms
 - Schoology (Engine v3)
 - Veracross (Engine v1)
+- Flik (Engine v1)
 
 #### Platforms In Development
-- Flik lunch menu
 
 #### Future Platforms
 - Showbie
