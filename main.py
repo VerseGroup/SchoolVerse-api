@@ -42,6 +42,8 @@ async def ensure_(request: EnsureRequest):
     status = ensure(user_id=request.user_id, platform_code=request.platform_code)
     return status
 
+#### NON-INDIVIDUAL (GENERAL SCHOOLWIDE) EVENTS ####
+
 # flik menu scraping
 class MenuRequest(BaseModel):
     year: int
