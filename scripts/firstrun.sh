@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cd ..
-cd ..
 
 pip -help 1> /dev/null || python -m ensurepip --upgrade
 

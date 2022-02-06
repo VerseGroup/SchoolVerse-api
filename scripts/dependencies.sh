@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cd ..
-cd ..
 
 if [[ "$VIRTUAL_ENV" != "" ]]
 then
