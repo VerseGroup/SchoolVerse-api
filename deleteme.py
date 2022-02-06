@@ -1,4 +1,5 @@
 from webscraper.scraper.flik.scraper import scrape_flik
 
 if '__main__' == __name__:
-    scrape_flik('lunch', '2', '5', '2022')
+    menu = scrape_flik('lunch', '5', '2', '2022')
+    print(menu)
