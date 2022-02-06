@@ -31,21 +31,16 @@ Full Stack Testing (Veracross + Schoology + Firebase + vgem): 5 seconds
 
 ## How to use
 1. Download or clone the repository
-2. Enter virtual environment
+2. Run the API with premade script
 ~~~
-pip install virtualenv
-virtualenv env
-/env/bin/activate
+sh run.sh 
 ~~~
-3. Install requirements
-~~~
-pip install -r requirements.txt
-~~~
-4. Run API
-~~~
-uvicorn main:app --reload
-~~~
-5. Visit docs for options at http://localhost:8000/docs
+Options Include: 
+- '-h' for help
+- '-d' for install dependencies
+- '-v' for activating existing/installing new virtual environments
+- '-t' for running tests on build
+3. Visit docs for API functions at http://localhost:8000/docs
 
 ## Documentation
 /docs - > API Documentation (Test API)
