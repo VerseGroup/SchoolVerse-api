@@ -63,4 +63,3 @@ async def menu(request: MenuRequest):
 @app.get("/ping", status_code=200)
 async def ping():
     return {"message": "pong"}
-

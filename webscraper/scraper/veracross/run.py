@@ -6,6 +6,8 @@ import sys
 import time
 from datetime import date
 
+from webscraper.scraper.veracross.events import scrape_events
+
 # adding parent directory to potential package locations 
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
@@ -60,9 +62,8 @@ def scrape_veracross(username, password, today=True) -> tuple:
         day = get_day(html)
     except:
         day = "N/A"
-    
-    return (day, schedule)
 
+    return (day, schedule)
 
 
 

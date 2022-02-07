@@ -85,7 +85,6 @@ RUN_SERVER()
 ############ FIRST TIME SETUP #############
 FIRST_TIME_SETUP()
 {
-    CHECK_VIRTUAL_ENV
     sleep 1
     if [[ "$INVENV" == "1" ]]
     then
@@ -118,6 +117,7 @@ while getopts ":htdvf:" option; do
             CHECK_VIRTUAL_ENV
             ;;
         f)
+            CHECK_VIRTUAL_ENV
             FIRST_TIME_SETUP
             ;;
         \?) # Invalid option
