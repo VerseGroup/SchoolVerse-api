@@ -50,3 +50,5 @@ Options Include:
 /scrape - > Run Scraping Engine, returns message (look to firebase for data)
 
 /ensure - > Ensure user credentials are valid (returns message)
+
+/menu - > Updates the general menu used by all users (probably only going to be accessible by cloud function)
