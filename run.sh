@@ -5,13 +5,15 @@ Help()
 {
    echo "OPTIONS"
    echo
-   echo "Syntax: sh run.sh -[h|t|d]"
+   echo "Syntax: sh run.sh -[h|t|d|v]"
    echo "options:"
    echo "h     Help"
    echo "t     Run tests"
    echo "d     Check dependencies"
    echo "v     Create test virtualenv"
+   echo "f     First time setup"
    echo
+   echo "Example: sh run.sh -t -d"
 }
 
 ############ DEPENDENCIES #############
@@ -80,10 +82,25 @@ RUN_SERVER()
     uvicorn main:app --reload
 }
 
+############ FIRST TIME SETUP #############
+FIRST_TIME_SETUP()
+{
+    CHECK_VIRTUAL_ENV
+    sleep 1
+    if [[ "$INVENV" == "1" ]]
+    then
+        pip install -r requirements.txt
+        TESTS
+        RUN_SERVER
+    else
+        echo Some error occured
+    fi
+}
+
 ############ RUN #############
 
 # Process Options
-while getopts ":htdv:" option; do
+while getopts ":htdvf:" option; do
     case $option in
         h) 
             Help
@@ -99,6 +116,9 @@ while getopts ":htdv:" option; do
             ;;
         v)
             CHECK_VIRTUAL_ENV
+            ;;
+        f)
+            FIRST_TIME_SETUP
             ;;
         \?) # Invalid option
             echo "Error: Invalid option"
