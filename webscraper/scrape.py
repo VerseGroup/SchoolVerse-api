@@ -6,10 +6,10 @@ from webscraper.creds import get_creds
 from keychain.network import get_key
 from vgem import EM
 
-def scrape(user_id: int, platform_code: str, token: str):
+def scrape(user_id: int, platform_code: str, token: str) -> dict:
 
     # get credentials
-    creds = get_creds(user_id, platform_code)
+    creds = get_creds(user_id, platform_code, token)
     if 'message' in creds:
         return creds['message']
     else:

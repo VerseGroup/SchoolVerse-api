@@ -1,16 +1,8 @@
 # python imports
-import os
-import sys
-
-# appendig dir to sys to allow local importing
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
-parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentdir)
 
 # local imports
-from veracross.auth import auth_veracross
-from veracross.driver import generate_driver
+from webscraper.scraper.veracross.auth import auth_veracross
+from webscraper.scraper.veracross.driver import generate_driver
 
 # selenium imports
 from selenium import webdriver

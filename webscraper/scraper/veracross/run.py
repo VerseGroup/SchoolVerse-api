@@ -1,22 +1,16 @@
 # function to scrape veracross using selenium
 
 # python imports
-import os
-import sys
 import time
 from datetime import date
 
+# internal imports
+from webscraper.scraper.veracross.get_element import get
+from webscraper.scraper.veracross.schedule import parse_html, get_day
+from webscraper.scraper.veracross.driver import generate_driver
+from webscraper.scraper.veracross.auth import auth_veracross
 from webscraper.scraper.veracross.events import scrape_events
 
-# adding parent directory to potential package locations 
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
-
-# internal imports
-from get_element import get
-from schedule import parse_html, get_day
-from driver import generate_driver
-from veracross.auth import auth_veracross
 
 # selenium imports
 from selenium.webdriver.common.by import By

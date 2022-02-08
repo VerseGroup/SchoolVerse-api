@@ -2,7 +2,7 @@ from vgem import EM
 from webscraper.firebase import get_encrypted_credentials
 from keychain.network import get_key
 
-def get_creds(user_id, platform_code):
+def get_creds(user_id, platform_code, token) -> dict:
     # get ciphers from firebase
     try:
         cred_dict = get_encrypted_credentials(user_id, platform_code)

@@ -1,17 +1,12 @@
 # function to scrape veracross using selenium
 
 # python imports
-import os
-import sys
 import time
 from datetime import date
 
-# adding parent directory to potential package locations 
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
 
 # internal imports
-from get_element import get
+from webscraper.scraper.veracross.get_element import get
 
 # URLS
 VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"

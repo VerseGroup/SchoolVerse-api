@@ -2,15 +2,9 @@
 
 # imports
 import uuid
-import os 
-import sys
-
-# adding directories for local imports
-parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentdir)
 
 # local import
-from models import Course
+from webscraper.models import Course
 
 # parses schoology given course information into SchoolVerse course objects
 def parse_courses(courses_json) -> list:
