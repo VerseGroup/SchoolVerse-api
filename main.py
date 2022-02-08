@@ -26,10 +26,11 @@ from webscraper.firebase.write_menu import write_menu
 class ScrapeRequest(BaseModel):
     user_id: int
     platform_code: str
+    token: str
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    status = scrape(user_id=request.user_id, platform_code=request.platform_code) 
+    status = scrape(user_id=request.user_id, platform_code=request.platform_code, token=request.token)
     return status
 
 # ensure function request body

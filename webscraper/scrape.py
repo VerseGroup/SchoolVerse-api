@@ -5,7 +5,7 @@ from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
 from vgem import EM
 
-def scrape(user_id: int, platform_code: str):
+def scrape(user_id: int, platform_code: str, token: str):
 
     # get credentials
     creds = get_creds(user_id, platform_code)
@@ -14,6 +14,8 @@ def scrape(user_id: int, platform_code: str):
     else:
         username = creds['username']
         password = creds['password']
+
+    # get the serialized private key
 
     if platform_code == "sc":
         try:
