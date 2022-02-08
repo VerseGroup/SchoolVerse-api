@@ -1,10 +1,14 @@
 from vgem import EM
 import pyperclip as pc
+import os
 
 if __name__ == "__main__":
+
+    user = os.popen('whoami').read()[:-1]
+
     handler = EM()
     key = handler.serialize_private_key()
-    file = open('secrets/test_key.pem', 'w')
+    file = open(f'/Users/{user}/Documents/SchoolVerse-webscraper/secrets/test_key.pem', 'w')
     file.write(key)
     file.close()
 
