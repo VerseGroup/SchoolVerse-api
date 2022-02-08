@@ -3,6 +3,7 @@ from webscraper.firebase import write_tasks, write_schedule
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
+from keychain.network import get_key
 from vgem import EM
 
 def scrape(user_id: int, platform_code: str, token: str):
@@ -14,8 +15,6 @@ def scrape(user_id: int, platform_code: str, token: str):
     else:
         username = creds['username']
         password = creds['password']
-
-    # get the serialized private key
 
     if platform_code == "sc":
         try:

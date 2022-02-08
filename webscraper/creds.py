@@ -1,10 +1,6 @@
 from vgem import EM
 from webscraper.firebase import get_encrypted_credentials
-
-# local imports
-file = open('secrets/test_key.pem', 'r')
-encryption_key = file.read()
-file.close()
+from keychain.network import get_key
 
 def get_creds(user_id, platform_code):
     # get ciphers from firebase
@@ -17,18 +13,22 @@ def get_creds(user_id, platform_code):
 
     # get keys from keychain
     try:
-        pass
+        key = get_key(user_id, platform_code)
     except Exception as e:
         return {"message" : "error with reading key from keychain", "error" : str(e)}
 
     # decrypt ciphers with keys
     try:
-        handler = EM(serialized_private_key=encryption_key)
+        handler = EM(serialized_private_key=key)
         username = handler.decrypt_rsa(username, True)
         password = handler.decrypt_rsa(password, True)
     except Exception as e:
+        del handler
         return {"message": "error decrypting ciphers", "error" : str(e)}
     
+    # delete handler
+    del handler, username, password, cred_dict
+
     return {
         "username" : username,
         "password" : password
