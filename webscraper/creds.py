@@ -23,11 +23,7 @@ def get_creds(user_id, platform_code):
         username = handler.decrypt_rsa(username, True)
         password = handler.decrypt_rsa(password, True)
     except Exception as e:
-        del handler
-        return {"message": "error decrypting ciphers", "error" : str(e)}
-    
-    # delete handler
-    del handler, username, password, cred_dict
+        return {"message": "error decrypting ciphers", "error" : str(e)} 
 
     return {
         "username" : username,
