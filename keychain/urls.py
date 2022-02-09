@@ -4,5 +4,4 @@ BASE_URL = file.read()
 file.close()
 
 GET_KEY = BASE_URL + '/users/getkey'
-ADD_KEY = BASE_URL + '/users/addkey'
 
