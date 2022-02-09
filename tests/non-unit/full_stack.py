@@ -10,6 +10,7 @@ import sys
 import time
 import threading 
 from datetime import date
+from tracemalloc import start
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -24,10 +25,13 @@ from webscraper.firebase.menu import write_menu
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.scraper.flik.scraper import scrape_flik
+from webscraper.firebase.auth import start_firebase
 
 # external imports
 from getpass import getpass
 from vgem import EM
+
+db = start_firebase()
 
 # from stack overflow
 class ThreadWithReturnValue(threading.Thread):
@@ -48,7 +52,7 @@ def get_creds():
     en_username = handler.encrypt_rsa(username, True)
     en_password = handler.encrypt_rsa(password, True)
 
-    write_creds(username=en_username, password=en_password, user_id='1', platform_code='sc')
+    write_creds(username=en_username, password=en_password, user_id='1', platform_code='sc', db=db)
 
     return handler.serialize_private_key()
 
@@ -68,7 +72,7 @@ def veracross(username, password):
 
 def schoology(username, password):
     tasks = scrape_schoology(username, password)['tasks']
-    write_tasks(tasks, 1)
+    write_tasks(tasks, 1, db)
 
     return "Finished Schoology"
 
@@ -80,14 +84,14 @@ def flik(today=True):
 
     menu = scrape_flik('lunch', today[0], today[1], today[2])
 
-    write_menu(menu)
+    write_menu(menu, db)
 
     return "Finished Flik"
 
 def scrape_using_creds(key):
     handler = EM(serialized_private_key=key)
 
-    cred_dict = get_encrypted_credentials(1, "sc")
+    cred_dict = get_encrypted_credentials(1, "sc", db)
     
     en_username = cred_dict['username_ciphertext']
     en_password = cred_dict['password_ciphertext']
