@@ -10,7 +10,7 @@ from vgem import EM
 def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
 
     # get credentials
-    creds = get_creds(user_id, platform_code, token)
+    creds = get_creds(user_id, platform_code, token, db)
     if 'message' in creds:
         return creds['message']
     else:
@@ -25,7 +25,7 @@ def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
 
         try:
             # write tasks to firebase
-            write_tasks(tasks, user_id)
+            write_tasks(tasks, user_id, db)
         except:
             return {"message": "error writing tasks to firebase"}
     
@@ -38,7 +38,7 @@ def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
             return {"message": "Error scraping veracross"}
 
         try:
-            write_schedule(user_id, schedule, day)
+            write_schedule(user_id, schedule, day, db)
         except:
             return {"message": "error writing schedule to firebase"}
 
