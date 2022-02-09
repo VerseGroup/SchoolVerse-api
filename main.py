@@ -22,7 +22,7 @@ from webscraper.ensure import ensure
 
 # flik functions
 from webscraper.scraper.flik.scraper import scrape_flik
-from webscraper.firebase.write_menu import write_menu
+from webscraper.firebase.menu import write_menu
 
 # scraping function request body
 class ScrapeRequest(BaseModel):
@@ -32,7 +32,7 @@ class ScrapeRequest(BaseModel):
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    status = scrape(user_id=request.user_id, platform_code=request.platform_code, token=request.token)
+    status = scrape(user_id=request.user_id, platform_code=request.platform_code, token=request.token, db=db)
     return status
 
 # ensure function request body
@@ -42,7 +42,7 @@ class EnsureRequest(BaseModel):
 
 @app.post("/ensure", status_code=200)
 async def ensure_(request: EnsureRequest):
-    status = ensure(user_id=request.user_id, platform_code=request.platform_code)
+    status = ensure(user_id=request.user_id, platform_code=request.platform_code, db=db)
     return status
 
 #### NON-INDIVIDUAL (GENERAL SCHOOLWIDE) EVENTS ####
@@ -58,7 +58,7 @@ class MenuRequest(BaseModel):
 async def menu(request: MenuRequest):
     try:
         menu = scrape_flik(request.mealtype, request.day, request.month, request.year)
-        write_menu(menu)
+        write_menu(menu, db=db)
         return {"message": "success"}
     except Exception as e:
         return {"message": str(e)}

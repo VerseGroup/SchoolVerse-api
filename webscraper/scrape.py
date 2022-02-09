@@ -1,12 +1,13 @@
 # imports
-from webscraper.firebase import write_tasks, write_schedule
+from webscraper.firebase.schedule import write_schedule
+from webscraper.firebase.tasks import write_tasks
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
 from keychain.network import get_key
 from vgem import EM
 
-def scrape(user_id: int, platform_code: str, token: str) -> dict:
+def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
 
     # get credentials
     creds = get_creds(user_id, platform_code, token)

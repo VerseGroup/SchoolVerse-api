@@ -1,7 +1,4 @@
-# local imports
-from main import db
-
-def write_tasks(tasks, user_id):
+def write_tasks(tasks, user_id, db):
     user_ref = db.collection(u'USERS').document(f'{user_id}')
 
     for task in tasks:
@@ -13,12 +10,12 @@ def write_tasks(tasks, user_id):
             write_task(task, id, user_id, user_dict)
 
 # writes a task to firebase within a user collection task collection, after checking that it doens't already exist
-def write_task(task, id, user_id, user_dict):
+def write_task(task, id, user_id, user_dict, db):
     db.collection(u'USERS').document(f'{user_id}').collection(u'TASKS').document(f'{id}').set(task)
     db.collection(u'USERS').document(f'{user_id}').update({"TASK_IDS": user_dict['TASK_IDS'] + [id]})
 
 # iterates through connections to make sure it doesn't overwrite existing data
-def check_task_exists(id, user_dict) -> bool:
+def check_task_exists(id, user_dict, db) -> bool:
 
     if user_dict is not None:
         existingids = user_dict['TASK_IDS']

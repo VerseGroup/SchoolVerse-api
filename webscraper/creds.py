@@ -1,11 +1,11 @@
 from vgem import EM
-from webscraper.firebase.read_credentials import get_encrypted_credentials
+from webscraper.firebase.credentials import get_encrypted_credentials
 from keychain.network import get_key
 
-def get_creds(user_id, platform_code, token) -> dict:
+def get_creds(user_id, platform_code, token, db) -> dict:
     # get ciphers from firebase
     try:
-        cred_dict = get_encrypted_credentials(user_id, platform_code)
+        cred_dict = get_encrypted_credentials(user_id, platform_code, db)
         username = cred_dict['username_ciphertext']
         password = cred_dict['password_ciphertext']
     except:
