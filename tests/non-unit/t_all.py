@@ -66,7 +66,7 @@ def veracross(username, password):
 
     print()
     print(f"SCHEDULE: {schedule}")
-    write_schedule(1, schedule, day)
+    write_schedule(1, schedule, day, db)
 
     return "Finished Veracross"
 

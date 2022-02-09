@@ -20,6 +20,9 @@ def auth_veracross(driver, username, password):
     username_field = get(driver, By.NAME, 'username')
     username_field.send_keys(username)
 
+    next = get(driver, By.NAME, 'commit')
+    next.click()
+
     password_field = get(driver, By.NAME, 'password')
     password_field.send_keys(password)
 

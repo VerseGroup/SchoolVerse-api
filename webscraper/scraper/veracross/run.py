@@ -10,6 +10,7 @@ from webscraper.scraper.veracross.schedule import parse_html, get_day
 from webscraper.scraper.veracross.driver import generate_driver
 from webscraper.scraper.veracross.auth import auth_veracross
 from webscraper.scraper.veracross.events import scrape_events
+from config import SELENIUM_TYPE
 
 
 # selenium imports
@@ -28,7 +29,7 @@ def get_schedule(driver, day, month, year) -> str:
 
 def scrape_veracross(username, password, today=True) -> tuple:
 
-    TYPE = "chrome"
+    TYPE = SELENIUM_TYPE
 
     print("Executing...\n")
     driver = generate_driver(TYPE)

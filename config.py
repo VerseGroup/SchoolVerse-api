@@ -1,0 +1,1 @@
+SELENIUM_TYPE = "chrome"
