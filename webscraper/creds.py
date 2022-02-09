@@ -13,7 +13,7 @@ def get_creds(user_id, platform_code, token) -> dict:
 
     # get keys from keychain
     try:
-        key = get_key(user_id, platform_code)
+        key = get_key(user_id, platform_code, token)
     except Exception as e:
         return {"message" : "error with reading key from keychain", "error" : str(e)}
 
