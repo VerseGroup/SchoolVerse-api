@@ -68,3 +68,7 @@ async def ping():
 @app.get("/", status_code=200)
 async def root():
     return "404 not found"
+
+@app.get("/kanye", status_code=200)
+async def kanye():
+    pass
