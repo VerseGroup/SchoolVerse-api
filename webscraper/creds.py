@@ -1,5 +1,5 @@
 from vgem import EM
-from webscraper.firebase import get_encrypted_credentials
+from webscraper.firebase.read_credentials import get_encrypted_credentials
 from keychain.network import get_key
 
 def get_creds(user_id, platform_code, token) -> dict:

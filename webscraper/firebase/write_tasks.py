@@ -1,8 +1,5 @@
-# firebase imports
-import firebase_admin
-
 # local imports
-from webscraper.firebase.auth import db
+from main import db
 
 def write_tasks(tasks, user_id):
     user_ref = db.collection(u'USERS').document(f'{user_id}')

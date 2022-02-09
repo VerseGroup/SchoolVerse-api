@@ -1,8 +1,5 @@
-# firebase imports
-import firebase_admin
-
 # local imports
-from webscraper.firebase.auth import db
+from main import db
 
 # writes inputted credential information to firebase (add a platform code parameter in the future)
 def write_creds(username, password, user_id, platform_code):

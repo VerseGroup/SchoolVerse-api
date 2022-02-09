@@ -1,8 +1,5 @@
-# firebase imports
-import firebase_admin
-
 # local imports
-from webscraper.firebase.auth import db
+from main import db
 
 # get user encryptions with id
 def get_encrypted_credentials(id, platform_code) -> dict:

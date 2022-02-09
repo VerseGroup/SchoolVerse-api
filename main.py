@@ -5,6 +5,7 @@ import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 from vgem import EM
+from webscraper.firebase.auth import start_firebase
 
 # secrets
 file = open('secrets/private_key.pem', 'r')
@@ -13,6 +14,7 @@ file.close()
 handler = EM(serialized_private_key=SS_KEY)
 
 app = FastAPI()
+db = start_firebase()
 
 # the main scraping function
 from webscraper.scrape import scrape
@@ -71,4 +73,4 @@ async def root():
 
 @app.get("/kanye", status_code=200)
 async def kanye():
-    pass
+    return {"message": "i'm impressed that you found this"}

@@ -13,14 +13,15 @@ from datetime import date
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentdir)
-currentdir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(currentdir)
 doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # local imports
-from webscraper.firebase import write_tasks, get_encrypted_credentials, write_creds, write_schedule, write_menu
+from webscraper.firebase.read_credentials import get_encrypted_credentials
+from webscraper.firebase.write_credentials import write_creds
+from webscraper.firebase.write_schedule import write_schedule
+from webscraper.firebase.write_tasks import write_tasks
+from webscraper.firebase.write_menu import write_menu
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.scraper.flik.scraper import scrape_flik
