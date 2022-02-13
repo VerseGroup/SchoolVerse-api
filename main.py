@@ -1,6 +1,5 @@
 # python imports
 import os
-from click import pass_context
 
 # external imports 
 from fastapi import FastAPI
