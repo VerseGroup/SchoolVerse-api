@@ -52,3 +52,6 @@ Options Include:
 /ensure - > Ensure user credentials are valid (returns message)
 
 /menu - > Updates the general menu used by all users (probably only going to be accessible by cloud function)
+
+## Notes
+- This server is not usable by Apple M1/Silicon Processors do to errors with firebase admin sdk's importing method. Run on windows or Apple Intel if possible instead. 
