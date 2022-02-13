@@ -3,6 +3,7 @@
 cd ..
 
 pip -help 1> /dev/null || python -m ensurepip --upgrade
+pip cache purge
 
 if [[ "$VIRTUAL_ENV" != "" ]]
 then

@@ -21,6 +21,7 @@ DEPENDENCIES()
 {
     if [[ "$VIRTUAL_ENV" != "" ]]
     then
+        pip cache purge
         pip uninstall -r requirements.txt -y
         pip install -r requirements.txt
     else

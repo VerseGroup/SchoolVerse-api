@@ -13,6 +13,7 @@ fi
 
 if [ $INVENV -eq 1 ]
 then
+    pip cache purge 
     pip uninstall -r requirements.txt -y
     pip install -r requirements.txt
 fi
