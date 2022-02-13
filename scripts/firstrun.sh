@@ -19,7 +19,7 @@ then
     pip install virtualenv || pip3 install virtualenv
     sleep 3
     virtualenv env 
-    /env/bin/activate
+    source env/bin/activate
 fi
 
 sleep 3
