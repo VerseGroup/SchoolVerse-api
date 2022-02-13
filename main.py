@@ -1,5 +1,6 @@
 # python imports
 import os
+from click import pass_context
 
 # external imports 
 from fastapi import FastAPI
@@ -62,6 +63,16 @@ async def menu(request: MenuRequest):
         return {"message": "success"}
     except Exception as e:
         return {"message": str(e)}
+
+# veracross events scraping
+class EventRequest(BaseModel):
+    year: int
+    month: int
+    day: int
+
+@app.post("/events", status_code=200)
+async def events(request: EventRequest):
+    pass
 
 @app.get("/ping", status_code=200)
 async def ping():
