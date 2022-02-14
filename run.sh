@@ -41,36 +41,40 @@ CHECK_VIRTUAL_ENV()
     if [[ "$VIRTUAL_ENV" != "" ]]
     then
         INVENV=1
-        echo VENV FOUND
+        echo "Found virtual environment"
     else
         INVENV=0
-        echo NO VENV ACTIVATED...
+        echo "No virtual environment activated"
 
-        echo TRYING TO ACTIVATE...
+        echo "Activating virtual environment..."
         source env/bin/activate
+
+        sleep 3
         
         if [[ "$VIRTUAL_ENV" != "" ]]
         then
             INVENV=1
-            echo VENV ACTIVATED
+            echo "Activated Venv"
         else
             INVENV=0
-            echo NO VENV INSTALLED
-            echo TRYING TO INSTALL VENV...
+            echo "No virtual environment found"
             
+            echo "installing virtualenv..."
             pip install virtualenv
-            echo INSTALLED VENV
+            
+            echo "starting venv: env"
             virtualenv env
-            echo STARTED ENV
+            
+            echo "Activating env"          
             source env/bin/activate
 
             if [[ "$VIRTUAL_ENV" != "" ]]
             then
                 INVENV=1
-                echo ACTIVATED ENV
+                echo "Activated VENV"
             else
                 INVENV=0
-                echo ERROR: FAILED TO ACTIVATE VENV
+                echo "Error: Failed to activate the VENV"
             fi
         fi
         
@@ -94,7 +98,7 @@ FIRST_TIME_SETUP()
         cd ..
         TESTS
     else
-        echo Error With VENV
+        echo "Some error with the VENV"
     fi
 }
 
@@ -104,21 +108,26 @@ FIRST_TIME_SETUP()
 while getopts ":htdvf:" option; do
     case $option in
         h) 
+            echo "Option: Help"
             Help
             exit
             ;;
         d) 
+            echo "Option: Dependencies"
             CHECK_VIRTUAL_ENV
             DEPENDENCIES
             ;;
         t)
+            echo "Option: Tests"
             CHECK_VIRTUAL_ENV
             TESTS
             ;;
         v)
+            echo "Option: Virtual Env"
             CHECK_VIRTUAL_ENV
             ;;
         f)
+            echo "Option: First Time Setup"
             CHECK_VIRTUAL_ENV
             FIRST_TIME_SETUP
             ;;
@@ -129,4 +138,7 @@ while getopts ":htdvf:" option; do
     esac
 done
 
+echo "Running Server..."
+echo "Press Ctrl+C to exit"
+echo ""
 RUN_SERVER
