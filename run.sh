@@ -89,11 +89,12 @@ FIRST_TIME_SETUP()
     sleep 1
     if [[ "$INVENV" == "1" ]]
     then
-        pip install -r requirements.txt
+        cd scripts
+        sh firstrun.sh
+        cd ..
         TESTS
-        RUN_SERVER
     else
-        echo Some error occured
+        echo Error With VENV
     fi
 }
 
