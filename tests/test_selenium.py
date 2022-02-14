@@ -20,13 +20,14 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.chrome.options import Options
 
+'''
 def test_selenium():
-    '''
+    
     driver = generate_driver("chrome")
     driver.get("https://www.google.com/")
     driver.close()
     driver.quit()
-    '''
+    
     assert True # checking for bugs
-
+'''
 

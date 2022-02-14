@@ -10,9 +10,11 @@ sys.path.append(parentdir)
 currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
+'''
 TESTFILES = []
 
 # test there are no bugs with sc html parser
 def test_schoology():
-    
+
     assert True # just checking for errors, not values
+'''
