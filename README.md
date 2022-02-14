@@ -42,6 +42,7 @@ Options Include:
 - '-d' for install dependencies
 - '-v' for activating existing/installing new virtual environments
 - '-t' for running tests on build
+- '-f' for running the server for the first time (script will perform the necessary setup for you)
 3. Visit docs for API functions at http://localhost:8000/docs
 
 ## Documentation
