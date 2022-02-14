@@ -34,7 +34,7 @@ grpcio-status==1.43.0
 h11==0.13.0
 httplib2==0.20.4
 idna==3.3
-importlib-metadata==4.10.1
+importlib-metadata==4.11.0
 iniconfig==1.1.1
 lxml==4.7.1
 msgpack==1.0.3
@@ -55,7 +55,7 @@ pyparsing==3.0.7
 pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==1.4.3
-pytest==7.0.0
+pytest==7.0.1
 python-dotenv==0.19.2
 requests==2.27.1
 requests-html==0.10.0
@@ -71,7 +71,7 @@ tomli==2.0.1
 tqdm==4.62.3
 trio==0.19.0
 trio-websocket==0.9.2
-typing_extensions==4.0.1
+typing_extensions==4.1.0
 uritemplate==4.1.1
 urllib3==1.26.8
 uvicorn==0.17.4
