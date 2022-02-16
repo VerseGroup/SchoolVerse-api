@@ -3,6 +3,7 @@
 # local imports
 from webscraper.scraper.veracross.auth import auth_veracross
 from webscraper.scraper.veracross.driver import generate_driver
+from config import SELENIUM_TYPE
 
 # selenium imports
 from selenium import webdriver
@@ -11,7 +12,7 @@ from selenium.webdriver.common.by import By
 
 def ensure_veracross(username, password):
 
-    TYPE = "chrome"
+    TYPE = SELENIUM_TYPE
     driver = generate_driver(TYPE)
     print(f"Running {TYPE} browser\n")
 

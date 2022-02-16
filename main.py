@@ -7,12 +7,6 @@ from pydantic import BaseModel
 from vgem import EM
 from webscraper.firebase.auth import start_firebase
 
-# secrets
-file = open('secrets/private_key.pem', 'r')
-SS_KEY = file.read()
-file.close()
-handler = EM(serialized_private_key=SS_KEY)
-
 app = FastAPI()
 db = start_firebase()
 
@@ -63,15 +57,12 @@ async def menu(request: MenuRequest):
     except Exception as e:
         return {"message": str(e)}
 
-# veracross events scraping
-class EventRequest(BaseModel):
-    year: int
-    month: int
-    day: int
-
+# scrape the general schoolwide events
 @app.post("/events", status_code=200)
-async def events(request: EventRequest):
+async def events():
     pass
+
+# some basic endpoints #
 
 @app.get("/ping", status_code=200)
 async def ping():
