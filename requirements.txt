@@ -36,7 +36,7 @@ httplib2==0.20.4
 idna==3.3
 importlib-metadata==4.11.1
 iniconfig==1.1.1
-lxml==4.7.1
+lxml==4.8.0
 msgpack==1.0.3
 outcome==1.1.0
 packaging==21.3
