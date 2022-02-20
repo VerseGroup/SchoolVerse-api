@@ -59,9 +59,13 @@ async def menu(request: MenuRequest):
         return {"message": str(e)}
 
 # scrape the general schoolwide events
+class EventRequest(BaseModel):
+    username: str
+    password: str
+
 @app.post("/events", status_code=200)
-async def events():
-    return do_events()
+async def events(request: EventRequest):
+    return do_events(request.username, request.password)
 
 # some basic endpoints #
 
