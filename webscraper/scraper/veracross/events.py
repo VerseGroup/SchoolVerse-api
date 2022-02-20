@@ -28,8 +28,7 @@ def scrape_events(start_year, start_month, start_day, end_year, end_month, end_d
     soup = BeautifulSoup(html, 'html.parser')
     data = soup.find_all('pre')[0].text
     
-    json_data = data.json()
-    return json_data
+    return data
 
 def get_events(username, password):
 
@@ -53,8 +52,8 @@ def get_events(username, password):
 
     try:
         json_events = scrape_events(year, month, day, year, month+1, day, driver)
-    except:
-        return {'message': 'failed to pull events'}
+    except Exception as e:
+        return {'message': 'failed to pull events', 'error': str(e)}
 
     file = open('logs/events.json', 'w')
     file.write(json.dumps(json_events))

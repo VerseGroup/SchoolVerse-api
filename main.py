@@ -13,6 +13,7 @@ db = start_firebase()
 # the main scraping function
 from webscraper.scrape import scrape
 from webscraper.ensure import ensure
+from webscraper.events import do_events
 
 # flik functions
 from webscraper.scraper.flik.scraper import scrape_flik
@@ -60,7 +61,7 @@ async def menu(request: MenuRequest):
 # scrape the general schoolwide events
 @app.post("/events", status_code=200)
 async def events():
-    pass
+    return do_events()
 
 # some basic endpoints #
 
