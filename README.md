@@ -44,6 +44,19 @@ Options Include:
 - '-f' for running the server for the first time (script will perform the necessary setup for you)
 3. Visit docs for API functions at http://localhost:8000/docs
 
+### Fixing dependencies
+Built in script to merge dependencies:
+
+~~~
+cd scripts
+~~~
+~~~
+sh dependencies.sh
+~~~
+~~~
+cd ..
+~~~
+
 ## Documentation
 /docs - > API Documentation (Test API)
 
@@ -53,5 +66,8 @@ Options Include:
 
 /menu - > Updates the general menu used by all users (probably only going to be accessible by cloud function)
 
+/events - > Scrapes veracross schoolwide events (probably only going to be accessible by cloud function)
+
 ## Notes
 - This server is not usable by Apple M1/Silicon Processors do to errors with firebase admin sdk's importing method. Run on windows or Apple Intel if possible instead. 
+- Deploy to linux/unix/windows
