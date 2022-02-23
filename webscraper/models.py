@@ -1,5 +1,4 @@
-# task object
-
+# holds information scraped
 class Task():
    
     # attributes
@@ -50,7 +49,6 @@ class Task():
 
         return serialized_task
 
-# course object
 # used to group and identify task objects
 class Course():
 

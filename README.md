@@ -1,7 +1,6 @@
-# SchoolVerse Scraping Server
+# SchoolVerse Scraping Engine + API
 
-A REST API server that runs a scraping engine to scrape various task/event information from school platforms, encrypt the data, and interact with firebase. 
-
+## Tech Stack
 Currently uses:
 - API: Fast API Restful API
 - Schoology: requests + parsing

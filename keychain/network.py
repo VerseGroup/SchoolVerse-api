@@ -1,5 +1,5 @@
 import requests
-from keychain.urls import BASE_URL, GET_KEY
+from keychain.urls import GET_KEY
 
 def get_key(firebase_id, platform_code, token):
     data = {
