@@ -1,73 +1,58 @@
-# SchoolVerse Scraping Engine + API
+# SchoolVerse Scraping Server
+This is a custom REST API that scrapes information from the web, handles encryption with the keychain, and interacts with firebase. 
 
 ## Tech Stack
-Currently uses:
-- API: Fast API Restful API
-- Schoology: requests + parsing
-- Veracross: selenium + bs4 + parsing
-- Encrypting: vgem (extends python cryptography)
-- Firebase
+Languages: Python, Shell
 
-## General Information
+DB: Firebase
 
-#### Current Average Execution Time:
-Schoology Scraping: 0.9 seconds
+API: FastAPI in python
 
-Veracross Scraping: 4 seconds
+Scraping: Selenium, BS4, Requests, JSON parsing
 
-Flik Scraping: 0.5 seconds
+Scraping Drivers: Chrome (Headless), Firefox
 
-Full Stack Testing (Veracross + Schoology + Firebase + vgem): 4-5 seconds 
+Encryption: RSA
 
-#### Currently Supported Platforms
-- Schoology (Engine v3)
-- Veracross (Engine v1)
-- Flik (Engine v1)
+## Platforms
+Supported: Veracross (Schedule + Events), Schoology, Flik
 
-#### Platforms In Development
+In-Development:
 
-#### Future Platforms
-- Showbie
-- Google Classroom
+Planned Support: Google Classroom, Showbie
 
-## How to use
-1. Download or clone the repository
-2. Run the API with premade script
+## Usage
+- Activate Virtual Env
+- Install Dependencies
+- Run With:
 ~~~
-sh run.sh 
+sh run.sh
 ~~~
-Options Include: 
-- '-h' for help
-- '-d' for install dependencies
-- '-v' for activating existing/installing new virtual environments
-- '-t' for running tests on build
-- '-f' for running the server for the first time (script will perform the necessary setup for you)
-3. Visit docs for API functions at http://localhost:8000/docs
 
-### Fixing dependencies
-Built in script to merge dependencies:
+## Help
+- For Running options:
+~~~
+sh run.sh -h
+~~~
 
+## Scripts
+- Found in scripts folder:
 ~~~
 cd scripts
 ~~~
+- Reinstall dependencies quickly
 ~~~
 sh dependencies.sh
 ~~~
-~~~
-cd ..
-~~~
+- Clear pycs
+- Generate a new RSA key
 
-## Documentation
-/docs - > API Documentation (Test API)
+## Official Documentation
+To view documentation: run the server and visit http://localhost:8000/docs
 
-/scrape - > Run Scraping Engine, returns message (look to firebase for data)
+## Alternative Documentation
+- /scrape (scrape a user's information and save to firebase)
+- /menu (update the firebase menu snapshot)
+- /ensure (validate user credentials)
+- /docs (official documentation)
 
-/ensure - > Ensure user credentials are valid (returns message)
-
-/menu - > Updates the general menu used by all users (probably only going to be accessible by cloud function)
-
-/events - > Scrapes veracross schoolwide events (probably only going to be accessible by cloud function)
-
-## Notes
-- This server is not usable by Apple M1/Silicon Processors do to errors with firebase admin sdk's importing method. Run on windows or Apple Intel if possible instead. 
-- Deploy to linux/unix/windows
