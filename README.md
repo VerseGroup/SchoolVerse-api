@@ -45,7 +45,15 @@ cd scripts
 sh dependencies.sh
 ~~~
 - Clear pycs
+~~~
+sh clear_pycs.sh
+~~~
 - Generate a new RSA key
+~~~
+sh newkey.sh
+~~~
+
+(All other scripts are not for direct user use)
 
 ## Official Documentation
 To view documentation: run the server and visit http://localhost:8000/docs

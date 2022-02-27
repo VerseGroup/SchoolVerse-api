@@ -56,7 +56,7 @@ async def menu(request: MenuRequest):
         write_menu(menu, db=db)
         return {"message": "success"}
     except Exception as e:
-        return {"message": str(e)}
+        return {"message": "failed", "error" : str(e)}
 
 # scrape the general schoolwide events
 class EventRequest(BaseModel):
@@ -67,7 +67,7 @@ class EventRequest(BaseModel):
 async def events(request: EventRequest):
     return do_events(request.username, request.password)
 
-# some basic endpoints #
+# basic endpoints #
 
 @app.get("/ping", status_code=200)
 async def ping():

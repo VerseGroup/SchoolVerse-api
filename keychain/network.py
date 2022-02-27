@@ -7,8 +7,8 @@ def get_key(firebase_id, platform_code, token):
         'platform_code': platform_code,
         'token': token,
     }
-    URL = GET_KEY
-    response = requests.get(URL, params=data).json()
+    url = GET_KEY
+    response = requests.get(url, params=data).json()
 
     if response is None:
         return None
