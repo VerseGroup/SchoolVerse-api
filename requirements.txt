@@ -21,7 +21,7 @@ fastapi==0.75.0
 firebase-admin==5.2.0
 google-api-core==2.7.1
 google-api-python-client==2.41.0
-google-auth==2.6.0
+google-auth==2.6.2
 google-auth-httplib2==0.1.0
 google-cloud-core==2.2.3
 google-cloud-firestore==2.4.0
@@ -55,7 +55,7 @@ pyparsing==3.0.7
 pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==1.4.3
-pytest==7.0.1
+pytest==7.1.1
 python-dotenv==0.19.2
 requests==2.27.1
 requests-html==0.10.0
@@ -68,7 +68,7 @@ soupsieve==2.3.1
 starlette==0.17.1
 toml==0.10.2
 tomli==2.0.1
-tqdm==4.63.0
+tqdm==4.63.1
 trio==0.20.0
 trio-websocket==0.9.2
 typing_extensions==4.1.1
