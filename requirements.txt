@@ -20,8 +20,8 @@ fake-useragent==0.1.11
 fastapi==0.75.0
 firebase-admin==5.2.0
 google-api-core==2.7.1
-google-api-python-client==2.41.0
-google-auth==2.6.0
+google-auth==2.6.2
+google-api-python-client==2.42.0
 google-auth-httplib2==0.1.0
 google-cloud-core==2.2.3
 google-cloud-firestore==2.4.0
@@ -34,7 +34,7 @@ grpcio-status==1.44.0
 h11==0.13.0
 httplib2==0.20.4
 idna==3.3
-importlib-metadata==4.11.2
+importlib-metadata==4.11.3
 iniconfig==1.1.1
 lxml==4.8.0
 msgpack==1.0.3
