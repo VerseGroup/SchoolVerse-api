@@ -64,3 +64,6 @@ To view documentation: run the server and visit http://localhost:8000/docs
 - /ensure (validate user credentials)
 - /docs (official documentation)
 
+## Notable Bugs
+- M1 chip not supported with Firebase functionality
+
