@@ -84,7 +84,7 @@ def flik(today=True):
 
     menu = scrape_flik('lunch', today[0], today[1], today[2])
 
-    write_menu(menu, db)
+    write_menu(menu, 'lunch', db)
 
     return "Finished Flik"
 
