@@ -1,3 +1,5 @@
 def write_schedule(user_id, schedule, day, db):
-    for period in schedule:
-        db.collection(u'USERS').document(f'{user_id}').collection(u"SCHEDULE").document(f'DAY{day}').collection(u"PERIODS").document(f"{period}").set(schedule[period])
+    schedule = {"schedule": schedule}
+    schedule['day'] = day
+    schedule['user_id'] = user_id
+    db.collection(u'SCHEDULES').document(f'{user_id}').set(schedule)
