@@ -70,7 +70,7 @@ soupsieve==2.3.1
 starlette==0.17.1
 toml==0.10.2
 tomli==2.0.1
-tqdm==4.63.1
+tqdm==4.63.2
 trio==0.20.0
 trio-websocket==0.9.2
 typing_extensions==4.1.1
