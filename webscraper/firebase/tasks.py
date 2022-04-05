@@ -13,7 +13,6 @@ def write_tasks(tasks, user_id, db):
 
 # writes a task to firebase within a user collection task collection, after checking that it doens't already exist
 def write_task(task, schoology_id, user_id, user_dict, db):
-    task = {"task": task}
     task['user_id'] = user_id
 
     task_uuid = str(uuid.uuid4())
