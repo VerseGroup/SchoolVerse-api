@@ -24,7 +24,7 @@ def write_task(task, schoology_id, user_id, user_dict, db):
 
 # converts the schoology date into firebase timsetamp
 def convert_date(date):
-    date = date.split('-')
+    date = date.split(' ')
 
     time = date[1]
     date = date[0]
@@ -34,8 +34,13 @@ def convert_date(date):
     month = date[1]
     day = date[2]
 
-    date_object = datetime(int(year), int(month), int(day), int(time))
-    return date_object.timestamp()
+    time = time.split(':')
+    hour = time[0]
+    minute = time[1]
+    second = time[2]
+
+    date_object = datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
+    return date_object
 
 # iterates through connections to make sure it doesn't overwrite existing data
 def check_task_exists(id, user_dict, db) -> bool:
