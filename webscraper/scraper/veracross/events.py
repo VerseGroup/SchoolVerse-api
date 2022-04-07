@@ -1,6 +1,8 @@
 # external imports
+from platform import platform
 from bs4 import BeautifulSoup
 import json
+import uuid
 
 # python imports
 from datetime import date
@@ -8,6 +10,7 @@ from datetime import date
 # local imports
 from webscraper.scraper.veracross.auth import auth_veracross
 from webscraper.scraper.veracross.driver import generate_driver
+from webscraper.models import Event
 from config import SELENIUM_TYPE
 
 # selenium imports
@@ -29,6 +32,38 @@ def scrape_events(start_year, start_month, start_day, end_year, end_month, end_d
     data = soup.find_all('pre')[0].text
     
     return data
+
+def parse_events(events):
+    events = json.loads(events)
+
+    parsed_events = []
+
+    for event in events:
+        start_date = event['start_date']
+        end_date = event['end_date']
+        start_time = event['start_time']
+        end_time = event['end_time']
+        description = event['description']
+        location = event['location']
+        name = event['tooltip']
+
+        vc_id = event['record_identifier']
+        platform_information = {
+            'platform_code': 'vc',
+            'event_id': vc_id
+        }
+
+        id = str(uuid.uuid4())
+
+        parsed_event = Event(id, name, location, description, start_date, start_time, end_date, end_time, platform_information=platform_information)
+        parsed_events.append(parsed_event.serialize())
+
+
+    file = open('logs/events.json', 'w')
+    file.write(json.dumps(events))
+    file.close()
+
+    return parsed_events
 
 def get_events(username, password):
 
@@ -55,8 +90,10 @@ def get_events(username, password):
     except Exception as e:
         return {'message': 'failed to pull events', 'error': str(e)}
 
-    file = open('logs/events.json', 'w')
+    file = open('logs/raw_events.json', 'w')
     file.write(json.dumps(json_events))
     file.close()
 
-    return json_events
+    events = parse_events(json_events)
+
+    return events

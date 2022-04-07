@@ -26,6 +26,7 @@ from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.scraper.flik.scraper import scrape_flik
 from webscraper.firebase.auth import start_firebase
+from webscraper.scraper.veracross.events import get_events
 
 # external imports
 from getpass import getpass
@@ -69,6 +70,9 @@ def veracross(username, password):
     write_schedule(1, schedule, day, db)
 
     return "Finished Veracross"
+
+def events(username, password):
+    events = get_events(username, password)
 
 def schoology(username, password):
     tasks = scrape_schoology(username, password)['tasks']

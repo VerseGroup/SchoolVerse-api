@@ -95,17 +95,34 @@ class Course():
 # event object, like "winter break today" for example
 class Event():
 
-    def __init__(self, id, name, date):
+    def __init__(self, id, name, location, description, start_date, start_time, end_date, end_time, platform_information=None):
         self.id = id
         self.name = name
-        self.date = date
+        self.start_date = start_date
+        self.end_date = end_date
+        self.start_time = start_time
+        self.end_time = end_time
+        self.location = location
+        self.description = description
+
+        self.platform_information = platform_information
 
     def serialize(self):
-        return {
-            "id" : self.id,
-            "name" : self.name,
-            "date" : self.date
+        serialized_event = {
+            'id' : self.id,
+            'name' : self.name,
+            'start_date' : self.start_date,
+            'end_date' : self.end_date,
+            'start_time' : self.start_time,
+            'end_time' : self.end_time,
+            'location' : self.location,
+            'description' : self.description
         }
+
+        if self.platform_information is not None:
+            serialized_event['platform_information'] = self.platform_information
+
+        return serialized_event
 
 # User object to represent a client
 class User():
