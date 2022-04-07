@@ -17,29 +17,38 @@ def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
         username = creds['username']
         password = creds['password']
 
+    # dealing with different platforms
     if platform_code == "sc":
-        try:
-            tasks = scrape_schoology(username, password)['tasks']
-        except:
-            return {"message": "Error scraping schoology"}
-
-        try:
-            # write tasks to firebase
-            write_tasks(tasks, user_id, db)
-        except:
-            return {"message": "error writing tasks to firebase"}
-    
+        schoology(username, password, user_id, db)  
     elif platform_code == "vc":
-        try:
-            scraped_content = scrape_veracross(username, password)
-            day = scraped_content[0]
-            schedule = scraped_content[1]
-        except:
-            return {"message": "Error scraping veracross"}
-
-        try:
-            write_schedule(user_id, schedule, day, db)
-        except:
-            return {"message": "error writing schedule to firebase"}
-
+        veracross(username, password, user_id, db)
+    else:
+        return {"message": "invalid platform code"}
+       
     return {"message" : "success"}
+
+def schoology(username, password, user_id, db):
+    try:
+        tasks = scrape_schoology(username, password)['tasks']
+    except:
+        return {"message": "Error scraping schoology"}
+
+    try:
+        # write tasks to firebase
+        write_tasks(tasks, user_id, db)
+    except:
+        return {"message": "error writing tasks to firebase"}
+
+def veracross(username, password, user_id, db):
+    try:
+        scraped_content = scrape_veracross(username, password)
+        day = scraped_content[0]
+        schedule = scraped_content[1]
+    except:
+        return {"message": "Error scraping veracross"}
+
+    try:
+        # write the schedule to firebase
+        write_schedule(user_id, schedule, day, db)
+    except:
+        return {"message": "error writing schedule to firebase"}
