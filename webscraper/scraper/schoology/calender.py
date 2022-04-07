@@ -7,8 +7,21 @@ from webscraper.models import Event, Task
 # external imports
 import markdownify as md 
 
-def parse_event(event) -> Event:
-    return Event(id=event['id'], name=event['title'], date=event['start']).serialize()
+class Temp_Event:
+    def __init__(self, id, name, date):
+        self.name = name
+        self.date = date
+        self.id = id
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date
+        }
+
+def parse_event(event) -> Temp_Event:
+    return Temp_Event(id=event['id'], name=event['title'], date=event['start']).serialize()
 
 def parse_task(task) -> Task:
     platform_information={
