@@ -27,6 +27,7 @@ from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.scraper.flik.scraper import scrape_flik
 from webscraper.firebase.auth import start_firebase
 from webscraper.scraper.veracross.events import get_events
+from webscraper.firebase.events import write_events
 
 # external imports
 from getpass import getpass
@@ -73,6 +74,9 @@ def veracross(username, password):
 
 def events(username, password):
     events = get_events(username, password)
+    write_events(events, db)
+
+    return "Finished Events"
 
 def schoology(username, password):
     tasks = scrape_schoology(username, password)['tasks']
@@ -112,6 +116,8 @@ def scrape_using_creds(key):
     threads.append(t2)
     t3 = ThreadWithReturnValue(target=flik)
     threads.append(t3)
+    t4 = ThreadWithReturnValue(target=events, args=(username, password))
+    threads.append(t4)
 
     for thread in threads:
         print()
