@@ -21,6 +21,6 @@ def check_event_exists(event, db):
     existing_events_dict = db.collection(u'EVENTS').document('EXISTING_EVENTS').get().to_dict()
     existing_events = existing_events_dict['EVENTS']
     if existing_events is not None:
-        if event['id'] in existing_events:
+        if event['platform_information']['event_id'] in existing_events:
             return True
     return False
