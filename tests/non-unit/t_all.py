@@ -17,17 +17,20 @@ parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pard
 doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
-# local imports
+# firebase imports
 from webscraper.firebase.credentials import get_encrypted_credentials, write_creds
 from webscraper.firebase.schedule import write_schedule
 from webscraper.firebase.tasks import write_tasks
 from webscraper.firebase.menu import write_menu
+from webscraper.firebase.courses import write_courses
+from webscraper.firebase.events import write_events
+
+# scraper imports
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.scraper.flik.scraper import scrape_flik
 from webscraper.firebase.auth import start_firebase
 from webscraper.scraper.veracross.events import get_events
-from webscraper.firebase.events import write_events
 
 # external imports
 from getpass import getpass
@@ -79,8 +82,11 @@ def events(username, password):
     return "Finished Events"
 
 def schoology(username, password):
-    tasks = scrape_schoology(username, password)['tasks']
+    returns = scrape_schoology(username, password)
+    tasks = returns['tasks']
     write_tasks(tasks, 1, db)
+    courses = returns['courses']
+    write_courses(courses, 1, db)
 
     return "Finished Schoology"
 

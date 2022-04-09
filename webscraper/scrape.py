@@ -1,6 +1,7 @@
 # imports
 from webscraper.firebase.schedule import write_schedule
 from webscraper.firebase.tasks import write_tasks
+from webscraper.firebase.courses import write_courses
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
@@ -39,6 +40,18 @@ def schoology(username, password, user_id, db):
     except:
         return {"message": "error writing tasks to firebase"}
 
+def schoology_courses(username, password, user_id, db):
+    try:
+        courses = scrape_schoology(username, password)['courses']
+    except:
+        return {"message": "Error scraping schoology"}
+
+    try:
+        # write courses to firebase
+        write_courses(courses, user_id, db)
+    except:
+        return {"message": "error writing courses to firebase"}
+
 def veracross(username, password, user_id, db):
     try:
         scraped_content = scrape_veracross(username, password)
@@ -52,3 +65,4 @@ def veracross(username, password, user_id, db):
         write_schedule(user_id, schedule, day, db)
     except:
         return {"message": "error writing schedule to firebase"}
+
