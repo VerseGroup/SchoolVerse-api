@@ -11,7 +11,7 @@ app = FastAPI()
 db = start_firebase()
 
 # the main scraping function
-from webscraper.scrape import scrape
+from webscraper.scrape import scrape, schoology_courses
 from webscraper.ensure import ensure
 from webscraper.events import do_events
 
@@ -66,6 +66,18 @@ class EventRequest(BaseModel):
 @app.post("/events", status_code=200)
 async def events(request: EventRequest):
     return do_events(request.username, request.password)
+
+class CourseRequest(BaseModel):
+    user_id: int
+    username: str
+    password: str
+
+@app.post("/courses", status_code=200)
+async def courses(request: CourseRequest):
+    try:
+        return schoology_courses(request.username, request.password, request.user_id, db)
+    except Exception as e:
+        return {"message": "failed", "error" : str(e)}
 
 # basic endpoints #
 
