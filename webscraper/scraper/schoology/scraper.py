@@ -21,12 +21,12 @@ from webscraper.scraper.schoology.calender import parse_calender
 from webscraper.scraper.schoology.urls import SCHOOLOGY_IAPI2_URL
 
 # schoology webscraper
-def scrape_schoology(username, password, courses=False, ) -> dict:
+def scrape_schoology(username, password, do_courses=True) -> dict:
     
     s = auth_schoology(username, password)
 
     # user courses 
-    if courses:
+    if do_courses:
         response = s.get(url=SCHOOLOGY_IAPI2_URL)
         jsonresponse = json.loads(response.text)
         try:
