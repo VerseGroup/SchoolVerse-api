@@ -5,9 +5,10 @@ from webscraper.scraper.schoology.ensure import ensure_schoology
 from webscraper.scraper.veracross.ensure import ensure_veracross
 from webscraper.creds import get_creds
 
-def ensure(user_id, platform_code):
+def ensure(user_id, platform_code, token, db):
+    
     # get creds
-    creds = get_creds(user_id, platform_code)
+    creds = get_creds(user_id, platform_code, token, db)
     if 'message' in creds:
         return creds['message']
     else:

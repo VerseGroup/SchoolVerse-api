@@ -1,1 +1,3 @@
 SELENIUM_TYPE = "chrome"
+MODE = "dev"
+SUPPORTED_PLATFORMS=["sc"]
