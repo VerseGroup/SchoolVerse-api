@@ -5,19 +5,20 @@ import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 from vgem import EM
+
+# firebase
 from webscraper.firebase.auth import start_firebase
 
-app = FastAPI()
-db = start_firebase()
-
-# the main scraping function
+# functions to be used
 from webscraper.scrape import scrape, schoology_courses
 from webscraper.ensure import ensure
 from webscraper.events import do_events
-
-# flik functions
 from webscraper.scraper.flik.scraper import scrape_flik
 from webscraper.firebase.menu import write_menu
+
+# startup
+app = FastAPI()
+db = start_firebase()
 
 # scraping function request body
 class ScrapeRequest(BaseModel):
