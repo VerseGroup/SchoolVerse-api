@@ -1,10 +1,8 @@
 # DEPLOYMENT VERSION
 
 # external
-import os
 from fastapi import FastAPI
 from pydantic import BaseModel
-from vgem import EM
 
 # firebase
 from webscraper.firebase.auth import start_firebase
