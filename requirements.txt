@@ -3,7 +3,7 @@ appdirs==1.4.4
 asgiref==3.5.0
 async-generator==1.10
 attrs==21.4.0
-beautifulsoup4==4.11.0
+beautifulsoup4==4.11.1
 bs4==0.0.1
 CacheControl==0.12.10
 cachetools==5.0.0
