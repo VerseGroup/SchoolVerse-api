@@ -22,8 +22,6 @@ def get_schedule(driver, day, month, year) -> str:
     driver.get(SCHEDULE_URL)
 
     schedule_page = driver.page_source
-    driver.close()
-    driver.quit()
 
     return schedule_page
 
@@ -47,25 +45,54 @@ def scrape_veracross(username, password, today=True) -> tuple:
         today = today.split('/')
 
     required_days = [1, 2, 3, 4, 5, 6, 7]
-
+    required_days_count = len(required_days)
+    count = 0
     days = {}
 
-    while(len(required_days) > 0):
+    scraping_day = int(today[0])
+    scraping_month = int(today[1])
 
-        html = get_schedule(driver, today[0], today[1], today[2])
+    while count < 30:
+
+        scraping_day += 1
+
+        if scraping_day > 28:
+            scraping_day = 1
+            scraping_month = scraping_month + 1
+
+        print("Getting schedule...\n")
+        html = get_schedule(driver, str(scraping_day), str(scraping_month), today[2])
+
+        print("Parsing schedule...\n")
         schedule = parse_html(html)
 
+        print("Getting day...\n")
         try:
-            day = get_day(html)
+            day = int(get_day(html))
         except:
-            day = "N/A"
+            count += 1
+            continue
 
+        print("Found new day...\n")
         if day in required_days:
-            required_days.remove(day)
+            days[day] = schedule
+            required_days.remove(int(day))
+            required_days_count -= 1
+            print(f"FOUND day {day}...\n")
 
-        days[day] = schedule
+        count += 1
+        print(f"Loop Iterations: {count}")
+        print(f"Required Days Remaining: {required_days}" + "\n")
+        print(f"Number of Required Days Remaining: {required_days_count}" + "\n")
 
-        
+        if required_days_count == 0:
+            break
+
+    driver.close()
+    driver.quit()
+
+    if count == 30:
+        print("Couldn't find all required days...\n")
 
     return days
 

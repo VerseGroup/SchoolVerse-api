@@ -25,17 +25,9 @@ def test_veracross():
 
     start_time = time.time()
     
-    scraped_content = scrape_veracross(USERNAME, PASSWORD)
-    day = scraped_content[0]
-    schedule = scraped_content[1]
+    days = scrape_veracross(USERNAME, PASSWORD)
+    print(days)
     
-    print()
-    print(f"DAY : {day}")
-
-    print()
-    print(schedule)
-
-    print()
     print(f"Executed in {time.time() - start_time} seconds\n")
 
 if __name__ == "__main__":

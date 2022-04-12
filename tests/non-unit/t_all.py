@@ -31,6 +31,7 @@ from webscraper.scraper.veracross.events import get_events
 from getpass import getpass
 from vgem import EM
 
+# start firebase instance
 db = start_firebase()
 
 # from stack overflow
@@ -134,7 +135,6 @@ def scrape_using_creds(key):
     print()
 
 def full_stack():
-    #start_time = time.time()
     key = get_creds()
 
     input('Continue? ')
@@ -143,7 +143,6 @@ def full_stack():
     scrape_using_creds(key)
 
     print()
-    #print(f"Executed in {time.time() - start_time} seconds")
     print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
     print()
 
