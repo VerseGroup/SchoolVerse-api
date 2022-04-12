@@ -29,8 +29,7 @@ class ScrapeRequest(BaseModel):
 async def scrape_(request: ScrapeRequest):
     status = scrape(user_id=request.user_id, platform_code=request.platform_code, token=request.token, db=db)
     return status
-
-# ADD A LINK FUNCTION
+    
 # LINK - > ENSURE + SCHEDULE + COURSES - > Store/Encrypt everything 
 
 class LinkRequest(BaseModel):

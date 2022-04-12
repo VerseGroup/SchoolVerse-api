@@ -5,7 +5,6 @@ from webscraper.firebase.courses import write_courses
 from webscraper.scraper.schoology.scraper import scrape_schoology
 from webscraper.scraper.veracross.run import scrape_veracross
 from webscraper.creds import get_creds
-from keychain.network import get_key
 from vgem import EM
 
 def scrape(user_id: int, platform_code: str, token: str, db) -> dict:
