@@ -5,10 +5,10 @@ cd ..
 if [[ "$VIRTUAL_ENV" != "" ]]
 then
   INVENV=1
-  echo VENV FOUND
 else
   INVENV=0
-  echo NO VENV FOUND
+  echo "No virtual environment found"
+  exit
 fi
 
 if [ $INVENV -eq 1 ]

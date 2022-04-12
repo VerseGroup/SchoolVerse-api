@@ -11,9 +11,9 @@ Help()
    echo "t     Run tests"
    echo "d     Check dependencies"
    echo "v     Create test virtualenv"
-   echo "f     First time setup"
+   echo "f     Run server with full prep"
    echo
-   echo "Example: sh run.sh -t -d"
+   echo "Example: sh run.sh -f"
 }
 
 ############ DEPENDENCIES #############
@@ -25,7 +25,8 @@ DEPENDENCIES()
         sh dependencies.sh
         cd ..
     else
-        echo "Activate a virtual environment to run"
+        echo "No VENV found. Please create a virtualenv first."
+        exit
     fi
 }
 
@@ -75,6 +76,7 @@ CHECK_VIRTUAL_ENV()
             else
                 INVENV=0
                 echo "Error: Failed to activate the VENV"
+                exit
             fi
         fi
         
@@ -85,21 +87,6 @@ CHECK_VIRTUAL_ENV()
 RUN_SERVER()
 {
     uvicorn main:app --reload
-}
-
-############ FIRST TIME SETUP #############
-FIRST_TIME_SETUP()
-{
-    sleep 1
-    if [[ "$INVENV" == "1" ]]
-    then
-        cd scripts
-        sh firstrun.sh
-        cd ..
-        TESTS
-    else
-        echo "Some error with the VENV"
-    fi
 }
 
 ############ RUN #############
@@ -127,9 +114,10 @@ while getopts ":htdvf:" option; do
             CHECK_VIRTUAL_ENV
             ;;
         f)
-            echo "Option: First Time Setup"
+            echo "Option: Complete Execution"
             CHECK_VIRTUAL_ENV
-            FIRST_TIME_SETUP
+            DEPENDENCIES
+            TESTS
             ;;
         \?) # Invalid option
             echo "Error: Invalid option"
@@ -138,7 +126,9 @@ while getopts ":htdvf:" option; do
     esac
 done
 
+echo ""
 echo "Running Server..."
 echo "Press Ctrl+C to exit"
 echo ""
+
 RUN_SERVER

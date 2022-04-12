@@ -9,8 +9,6 @@ import json
 import time
 from datetime import datetime
 
-# adding directories for local imports
-
 # local imports
 from webscraper.models import Task, Course
 from webscraper.scraper.schoology.courses import parse_courses
