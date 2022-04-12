@@ -13,7 +13,6 @@ sys.path.append(currentdir)
 from webscraper.scraper.flik.scraper import scrape_flik
 
 def test_flik(doPrint=False):
-    TYPES = ['breakfast', 'lunch', 'dinner']
 
     today = date.today()
     today = today.strftime("%d/%m/%Y")
@@ -22,11 +21,10 @@ def test_flik(doPrint=False):
     day = int(today[0])
     month = int(today[1])
     year = int(today[2])
-
-    for type in TYPES:
-        menu = scrape_flik(type, day, month, year)
-        if doPrint:
-            print(menu)
+    
+    menu = scrape_flik(day, month, year)
+    if doPrint:
+        print(menu)
 
     assert True # testing bugs
 

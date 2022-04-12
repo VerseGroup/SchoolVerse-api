@@ -1,3 +1,5 @@
+import json
+
 def parse_header(header):
     header_value = header["text"].encode().decode('utf-8')
     return header_value
@@ -27,6 +29,9 @@ def parse_food(food):
     return food_item
 
 def parse_meal(meal):
+    
+    meal = json.loads(meal)
+
     days_list = meal["days"]
 
     menu = {}
