@@ -48,7 +48,14 @@ def parse_events(events):
         name = event['tooltip']
 
         vc_id = event['record_identifier']
+        
         link_style = event['link_style']
+
+        try:
+            link_style = link_style.split("#")[1]
+        except:
+            link_style = event['link_style']
+        
         platform_information = {
             'platform_code': 'vc',
             'event_id': vc_id,
