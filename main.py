@@ -20,7 +20,6 @@ from webscraper.firebase.menu import write_menu
 app = FastAPI()
 db = start_firebase()
 
-# scraping function request body
 class ScrapeRequest(BaseModel):
     user_id: int
     platform_code: str
@@ -34,6 +33,16 @@ async def scrape_(request: ScrapeRequest):
 # ADD A LINK FUNCTION
 # LINK - > ENSURE + SCHEDULE + COURSES - > Store/Encrypt everything 
 
+class LinkRequest(BaseModel):
+    user_id: int
+    platform_code: str
+    token: str
+    username: str
+    password: str
+
+@app.post("/link", status_code=200)
+async def link_(request: LinkRequest):
+    return {"message": "link function not yet implemented"}
 
 # GENERAL #
 
