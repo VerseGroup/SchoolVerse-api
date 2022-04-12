@@ -96,14 +96,8 @@ def flik(today=True):
         today = today.strftime("%d/%m/%Y")
         today = today.split('/')
 
-    menu = scrape_flik('lunch', today[0], today[1], today[2])
-    write_menu(menu, 'lunch', db)
-
-    menu = scrape_flik('breakfast', today[0], today[1], today[2])
-    write_menu(menu, 'breakfast', db)
-
-    menu = scrape_flik('dinner', today[0], today[1], today[2])
-    write_menu(menu, 'dinner', db)
+    menu = scrape_flik(today[0], today[1], today[2])
+    write_menu(menu, db)
 
     return "Finished Flik"
 

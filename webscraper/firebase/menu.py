@@ -1,6 +1,7 @@
 # writes menu to firebase
-def write_menu(menu, type, db):
-    menu = {"menu": menu}
+def write_menu(menu, db):
 
-    menu_ref = db.collection(u'MENUS').document(type)
-    menu_ref.set(menu)
+    for key in menu:
+        date = key
+        menu_ref = db.collection(u'MENUS').document(date)
+        menu_ref.set(menu[key])

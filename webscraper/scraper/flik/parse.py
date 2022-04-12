@@ -23,12 +23,13 @@ def parse_food(food):
         "ingredients": ingredients,
         "serving_size": serving_size
     }
+    
     return food_item
 
-menu = []
+def parse_meal(meal):
+    days_list = meal["days"]
 
-def parse_menu(json):
-    days_list = json["days"]
+    menu = {}
 
     for day in days_list:
         day_menu = {}
@@ -54,8 +55,30 @@ def parse_menu(json):
                 food_items.append(food)
 
         day_menu["food"] = food_items
+
+        menu[date] = day_menu
     
-        menu.append(day_menu)
     return menu
+
+def parse_menu(breakfast, lunch, dinner):
+
+    menu = {}
+
+    breakfast = parse_meal(breakfast)
+    lunch = parse_meal(lunch)
+    dinner = parse_meal(dinner)
+
+    for date in breakfast:
+        menu[date] = {
+            "breakfast": breakfast[date],
+            "lunch": lunch[date],
+            "dinner": dinner[date]
+        }
+
+    return menu
+
+
+
+
 
 

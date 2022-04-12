@@ -48,12 +48,11 @@ class MenuRequest(BaseModel):
     year: int
     month: int
     day: int
-    mealtype: str
     
 @app.post("/menu", status_code=200)
 async def menu(request: MenuRequest):
     try:
-        menu = scrape_flik(request.mealtype, request.day, request.month, request.year)
+        menu = scrape_flik(request.day, request.month, request.year)
         write_menu(menu, db=db)
         return {"message": "success"}
     except Exception as e:

@@ -5,7 +5,7 @@ import requests
 from webscraper.scraper.flik.urls import get_flik_url
 from webscraper.scraper.flik.parse import parse_menu
 
-def scrape_flik(type, day, month, year):
+def get_flik_data(type, day, month, year):
 
     # request for data
     url = get_flik_url(type, year, month, day)
@@ -19,9 +19,19 @@ def scrape_flik(type, day, month, year):
     file.write(response_text)
     file.close()
 
-    # parse data
-    menu = parse_menu(response.json())
+    return response_text
+
+def scrape_flik(day, month, year):
+
+    breakfast = get_flik_data("breakfast", day, month, year)
+    lunch = get_flik_data("lunch", day, month, year)
+    dinner = get_flik_data("dinner", day, month, year)
+
+    menu = parse_menu(breakfast, lunch, dinner)
 
     return menu
+
+
+
     
 
