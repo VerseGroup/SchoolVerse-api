@@ -1,3 +1,5 @@
 SELENIUM_TYPE = "chrome"
 MODE = "dev"
 SUPPORTED_PLATFORMS=["sc"]
+MAX_TASKS=2
+

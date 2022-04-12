@@ -9,16 +9,11 @@ from vgem import EM
 # firebase
 from webscraper.firebase.auth import start_firebase
 
-# functions to be used
-from webscraper.scrape import scrape, schoology_courses
-from webscraper.ensure import ensure
-from webscraper.events import do_events
-from webscraper.scraper.flik.scraper import scrape_flik
-from webscraper.firebase.menu import write_menu
-
 # startup
 app = FastAPI()
 db = start_firebase()
+
+# ROUTES [MAIN] #
 
 class ScrapeRequest(BaseModel):
     user_id: int
@@ -27,10 +22,7 @@ class ScrapeRequest(BaseModel):
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    status = scrape(user_id=request.user_id, platform_code=request.platform_code, token=request.token, db=db)
-    return status
-    
-# LINK - > ENSURE + SCHEDULE + COURSES - > Store/Encrypt everything 
+    return {"message": "Hello World"}
 
 class LinkRequest(BaseModel):
     user_id: int
@@ -43,7 +35,7 @@ class LinkRequest(BaseModel):
 async def link_(request: LinkRequest):
     return {"message": "link function not yet implemented"}
 
-# GENERAL #
+# ROUTES [GENERAL] #
 
 @app.get("/ping", status_code=200)
 async def ping():

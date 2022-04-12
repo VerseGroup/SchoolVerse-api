@@ -1,4 +1,4 @@
-# secrets
+# environment variables
 .env
 
 # pyc files could contain compiled secrets
@@ -7,5 +7,5 @@
 # geckodriver log
 geckodriver.log
 
-# secrets
+# secrets folder
 secrets
