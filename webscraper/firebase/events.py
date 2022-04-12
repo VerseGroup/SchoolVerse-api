@@ -37,6 +37,10 @@ def check_event_exists(event, db):
 
 def convert_date(date, time):
 
+    if date is None or time is None:
+        return None
+    
+
     date = date.split("/")
     
     month = date[0]
