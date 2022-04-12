@@ -115,24 +115,17 @@ def scrape_using_creds(key):
     threads.append(t4)
 
     for thread in threads:
-        print()
-        print("STARTING THREAD")
-        print()
+        print("\n STARTING THREAD \n")
         thread.start()
 
     for thread in threads:
         response = thread.join()
-        print()
-        print(response)
-        print()
+        print(f"{response} \n")
 
-        print("CLOSING THREAD")
-        print()
+        print("CLOSING THREAD \n")
     # threading end #
 
-    print()
-    print("FINISHED FULL STACK")  
-    print()
+    print("FINISHED FULL STACK \n")  
 
 def full_stack():
     key = get_creds()
@@ -142,9 +135,7 @@ def full_stack():
     scraping_start_time = time.time()
     scrape_using_creds(key)
 
-    print()
-    print(f"Scraping Executed in {time.time() - scraping_start_time} seconds")
-    print()
+    print(f"\n Scraping Executed in {time.time() - scraping_start_time} seconds \n")
 
 if __name__ == '__main__':
     full_stack()
