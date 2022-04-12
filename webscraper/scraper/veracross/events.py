@@ -69,9 +69,9 @@ def parse_events(events):
         parsed_events.append(parsed_event.serialize())
 
 
-    file = open('logs/events.json', 'w')
-    file.write(json.dumps(events))
-    file.close()
+    #file = open('logs/events.json', 'w')
+    #file.write(json.dumps(events))
+    #file.close()
 
     return parsed_events
 

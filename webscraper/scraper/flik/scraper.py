@@ -15,9 +15,9 @@ def get_flik_data(type, day, month, year):
     response_text = response.text
 
     # log data
-    file = open("logs/menu.json", "a")
-    file.write(response_text)
-    file.close()
+    #file = open("logs/menu.json", "a")
+    #file.write(response_text)
+    #file.close()
 
     return response_text
 
