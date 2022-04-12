@@ -55,6 +55,7 @@ def parse_events(events):
             link_style = link_style.split("#")[1]
         except:
             link_style = event['link_style']
+        link_style = "#" + str(link_style)
         
         platform_information = {
             'platform_code': 'vc',
