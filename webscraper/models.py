@@ -1,18 +1,13 @@
-# holds information scraped
 class Task():
    
-    # attributes
     def __init__(self, name, due_date, course_id=None, course_name=None, completed=False, platform_information=None, description=None):
+    
+        self.name = name 
+        self.due_date = due_date # unformatted here, formatted when dumped to firebase
         
-        # basic information
-        self.name = name # Name of the task
-        self.due_date = due_date # Unformatted date to be changed to format
-        
-        # course information
-        self.course_id = course_id
+        self.course_id = course_id 
         self.course_name = course_name
 
-        # platform connection
         self.platform_information = platform_information
         # stores connection in a dictionary with a platform code and a assignment code. 
         '''
@@ -22,15 +17,11 @@ class Task():
             }
         '''
 
-        # storing checkmarks as boolean, defaulted to false
-        self.completed = completed
+        self.completed = completed # default to false
+        self.description = description # optional extended description
 
-        # optionals
-        self.description = description # stores an optional extended description for the assignment
-
-    # serialize task object to dictionary that represents JSON
     def serialize(self):
-        # adding ensured data 
+        
         serialized_task = {
             'name' : self.name,
             'due_date' : self.due_date,
@@ -49,22 +40,16 @@ class Task():
 
         return serialized_task
 
-# used to group and identify task objects
 class Course():
 
-    #attributes
     def __init__(self, id, name, section, platform_information=None, tasks=None):
 
-        # basic information
         self.id = id
         self.name = name
         self.section = section
 
-        # platform connection
         self.platform_information = platform_information
-        # platform connection is important to ensure that assignments
-        # already in firebase are not overwritten (we can do this by comparing
-        # schoology assigned codes and our own ids)
+        # platform information looks like this:
         '''
             {
                 'platform_code' : 'sc',
@@ -75,9 +60,8 @@ class Course():
         # optionals 
         self.tasks= tasks # an array of task objects that are related to this course object
 
-    # serialize course object to dictionary that represents JSON
     def serialize(self):
-        # adding ensured data
+        
         serialized_course = {
             'id' : self.id,
             'name' : self.name,
@@ -124,29 +108,14 @@ class Event():
 
         return serialized_event
 
-# User object to represent a client
 class User():
 
     def __init__(self, id, credentials, courses=None):
         self.id = id,
-
-        # array of course objects
         self.courses = courses
+        self.credentials = credentials # as a dict with platform code as key and {"username": username, "password": password} as value
 
-        # Holding user credentials
-        self.credentials = credentials 
-        # formatted as a json file (containing ciphertext)
-        '''
-        {
-            "sc": [username, password],
-            "gc": [username, password],
-            "vc" : [username, password]
-        }
-        '''
-
-    # serialize object to dict representing JSON
     def serialize(self):
-        # ensured data
         serialized_user = {
             "id" : self.id,
             "credentials" : self.credentials
