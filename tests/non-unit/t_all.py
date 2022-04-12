@@ -1,8 +1,4 @@
-# full stack test 
-'''
-USERNAME + PASSWORD - > VGEM - > FIREBASE
-FIREBASE - > SCRAPER - > PARSER -> FIREBASE
-'''
+# full stack test #
 
 # python imports
 import os
@@ -10,7 +6,6 @@ import sys
 import time
 import threading 
 from datetime import date
-from tracemalloc import start
 
 # adding directories for local imports
 parentdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -62,16 +57,10 @@ def get_creds():
     return handler.serialize_private_key()
 
 def veracross(username, password):
-    scraped_content = scrape_veracross(username, password)
-    day = scraped_content[0]
-    schedule = scraped_content[1]
+    days = scrape_veracross(username, password)
 
-    print()
-    print(f"DAY : {day}")
-
-    print()
-    print(f"SCHEDULE: {schedule}")
-    write_schedule(1, schedule, day, db)
+    print(f"SCHEDULE: {days}")
+    write_schedule(1, days, db)
 
     return "Finished Veracross"
 

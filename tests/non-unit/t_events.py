@@ -1,5 +1,4 @@
 # python imports
-from operator import ge
 import os
 import sys
 from datetime import date

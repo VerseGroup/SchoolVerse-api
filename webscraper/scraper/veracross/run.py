@@ -46,19 +46,28 @@ def scrape_veracross(username, password, today=True) -> tuple:
         today = today.strftime("%d/%m/%Y")
         today = today.split('/')
 
-    print("Gathering schedule contents...\n")
-    html = get_schedule(driver, today[0], today[1], today[2])
+    required_days = [1, 2, 3, 4, 5, 6, 7]
 
-    print("Parsing schedule contents...\n")
-    schedule = parse_html(html)
+    days = {}
 
-    print("Finding day...")
-    try:
-        day = get_day(html)
-    except:
-        day = "N/A"
+    while(len(required_days) > 0):
 
-    return (day, schedule)
+        html = get_schedule(driver, today[0], today[1], today[2])
+        schedule = parse_html(html)
+
+        try:
+            day = get_day(html)
+        except:
+            day = "N/A"
+
+        if day in required_days:
+            required_days.remove(day)
+
+        days[day] = schedule
+
+        
+
+    return days
 
 
 
