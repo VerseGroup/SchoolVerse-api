@@ -2,7 +2,7 @@
 import requests
 
 # internal imports
-from webscraper.scraper.schoology.urls import SCHOOLOGY_LOGIN_URL
+from src.webscraper.scraper.schoology.urls import SCHOOLOGY_LOGIN_URL
 
 def auth_schoology(username, password) -> requests.Session:
     

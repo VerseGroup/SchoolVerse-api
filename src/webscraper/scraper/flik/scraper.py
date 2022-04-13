@@ -2,8 +2,8 @@
 import requests
 
 # local imporst
-from webscraper.scraper.flik.urls import get_flik_url
-from webscraper.scraper.flik.parse import parse_menu
+from src.webscraper.scraper.flik.urls import get_flik_url
+from src.webscraper.scraper.flik.parse import parse_menu
 
 def get_flik_data(type, day, month, year):
 

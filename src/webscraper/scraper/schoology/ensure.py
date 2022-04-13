@@ -1,7 +1,7 @@
 # python imports
 
 # local imports
-from webscraper.scraper.schoology.auth import auth_schoology
+from src.webscraper.scraper.schoology.auth import auth_schoology
 
 # making sure that the schoology username and password are correct
 def ensure_schoology(username, password):

@@ -12,7 +12,7 @@ tripleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(tripleparentdir)
 
 # imports
-from webscraper.scraper.veracross.events import get_events
+from src.webscraper.scraper.veracross.events import get_events
 from getpass import getpass
 
 

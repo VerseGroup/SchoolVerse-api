@@ -6,7 +6,7 @@ from datetime import date
 
 
 # internal imports
-from webscraper.scraper.veracross.get_element import get
+from src.webscraper.scraper.veracross.get_element import get
 
 # URLS
 VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"

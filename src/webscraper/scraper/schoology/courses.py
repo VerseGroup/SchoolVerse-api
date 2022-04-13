@@ -4,7 +4,7 @@
 import uuid
 
 # local import
-from webscraper.models import Course
+from src.webscraper.models import Course
 
 # parses schoology given course information into SchoolVerse course objects
 def parse_courses(courses_json) -> list:

@@ -13,19 +13,19 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # firebase imports
-from webscraper.firebase.credentials import get_encrypted_credentials, write_creds
-from webscraper.firebase.schedule import write_schedule
-from webscraper.firebase.tasks import write_tasks
-from webscraper.firebase.menu import write_menu
-from webscraper.firebase.courses import write_courses
-from webscraper.firebase.events import write_events
+from src.webscraper.firebase.credentials import get_encrypted_credentials, write_creds
+from src.webscraper.firebase.schedule import write_schedule
+from src.webscraper.firebase.tasks import write_tasks
+from src.webscraper.firebase.menu import write_menu
+from src.webscraper.firebase.courses import write_courses
+from src.webscraper.firebase.events import write_events
 
 # scraper imports
-from webscraper.scraper.schoology.scraper import scrape_schoology
-from webscraper.scraper.veracross.run import scrape_veracross
-from webscraper.scraper.flik.scraper import scrape_flik
-from webscraper.firebase.auth import start_firebase
-from webscraper.scraper.veracross.events import get_events
+from src.webscraper.scraper.schoology.scraper import scrape_schoology
+from src.webscraper.scraper.veracross.run import scrape_veracross
+from src.webscraper.scraper.flik.scraper import scrape_flik
+from src.webscraper.firebase.auth import start_firebase
+from src.webscraper.scraper.veracross.events import get_events
 
 # external imports
 from getpass import getpass

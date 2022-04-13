@@ -10,7 +10,7 @@ currentdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(currentdir)
 
 # imports
-from webscraper.scraper.flik.scraper import scrape_flik
+from src.webscraper.scraper.flik.scraper import scrape_flik
 
 def test_flik(doPrint=False):
 

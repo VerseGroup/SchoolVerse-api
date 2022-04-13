@@ -10,13 +10,11 @@ import time
 from datetime import datetime
 
 # local imports
-from webscraper.models import Task, Course
-from webscraper.scraper.schoology.courses import parse_courses
-from webscraper.scraper.schoology.auth import auth_schoology
-from webscraper.scraper.schoology.calender import parse_calender
-
-# load urls
-from webscraper.scraper.schoology.urls import SCHOOLOGY_IAPI2_URL
+from src.webscraper.models import Task, Course
+from src.webscraper.scraper.schoology.courses import parse_courses
+from src.webscraper.scraper.schoology.auth import auth_schoology
+from src.webscraper.scraper.schoology.calender import parse_calender
+from src.webscraper.scraper.schoology.urls import SCHOOLOGY_IAPI2_URL
 
 # schoology webscraper
 def scrape_schoology(username, password, do_courses=True) -> dict:

@@ -2,7 +2,7 @@
 from datetime import datetime
 
 # internal imports 
-from webscraper.models import Event, Task
+from src.webscraper.models import Event, Task
 
 # external imports
 import markdownify as md 

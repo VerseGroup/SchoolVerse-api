@@ -86,7 +86,7 @@ CHECK_VIRTUAL_ENV()
 ############ RUN SERVER #############
 RUN_SERVER()
 {
-    uvicorn main:app --reload
+    uvicorn src.main:app --reload
 }
 
 ############ RUN #############
