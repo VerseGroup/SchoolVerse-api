@@ -20,6 +20,8 @@ COPY ./logs /app/logs
 
 COPY ./driver /app/driver
 
+COPY ./secrets /app/secrets
+
 COPY ./src /app/src
 
 CMD ["sh", "./run.sh"]

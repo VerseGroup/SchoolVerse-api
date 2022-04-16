@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # firebase
-from webscraper.firebase.auth import start_firebase
+from src.webscraper.firebase.auth import start_firebase
 
 # startup
 app = FastAPI()

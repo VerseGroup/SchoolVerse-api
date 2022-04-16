@@ -67,5 +67,17 @@ To view documentation: run the server and visit /docs
 = /ping (ping the server)   
 
 ## Notable Bugs
-- M1 chip not supported with Firebase functionality (to use on a M1, run on a Docker Image built on Linux)
+- M1 chip not supported with Firebase functionality (workaround: run through a docker image built on linux instead)
+    - Ensure Docker, Docker Compose, and Docker Desktop are all installed
+    - Run Docker Desktop
+    - Run: (This will execute the docker file which will handle dependencies and file management)
+    ~~~
+    docker-compose build
+    ~~~
+    - Run: (Launches the server by running the docker image and assigns the port)
+    ~~~
+    docker-compose up
+    ~~~
+    - Navigate to localhost at port 80 (http://localhost:80)
+
 
