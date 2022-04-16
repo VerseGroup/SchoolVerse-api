@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  server: 
+  api: 
     build: .
     volumes:
       - ./src:/src

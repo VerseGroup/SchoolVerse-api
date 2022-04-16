@@ -10,6 +10,16 @@ COPY ./run.sh /app/run.sh
 
 RUN chmod +x /app/run.sh
 
+COPY ./scripts /app/scripts
+
+RUN chmod +x /app/scripts/*
+
+RUN sh /app/scripts/InstallChrome.sh
+
+COPY ./logs /app/logs
+
+COPY ./driver /app/driver
+
 COPY ./src /app/src
 
 CMD ["sh", "./run.sh"]
