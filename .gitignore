@@ -8,4 +8,15 @@
 geckodriver.log
 
 # secrets folder
-secrets
+secrets/
+
+# Apple
+.DS_Store
+**/.DS_Store
+
+# test
+.cache
+.pytest_cache/
+
+# env
+env/

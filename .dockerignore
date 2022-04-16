@@ -2,7 +2,6 @@
 geckodriver.log
 
 # vscode environment folder
-env
 env/
 
 # pytest cache
@@ -16,7 +15,13 @@ __pycache__/
 */__pycache__/
 */*/__pycache__/
 */*/*/__pycache__/
+*/*/*/*/__pycache__/
+*/*/*/*/*/__pycache__/
 *.pyc
+*/*.pyc
+*/*/*.pyc
+*/*/*/*.pyc
+*/*/*/*/*.pyc
 
 # git files
 .git
@@ -24,3 +29,11 @@ __pycache__/
 
 # cache files
 .cache
+
+# Apple 
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+*/*/*/*/.DS_Store
+*/*/*/*/*/.DS_Store
