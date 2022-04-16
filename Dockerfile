@@ -12,4 +12,4 @@ RUN chmod +x /app/run.sh
 
 COPY ./src /app/src
 
-CMD ["sh", "./server.sh"]
+CMD ["sh", "./run.sh"]
