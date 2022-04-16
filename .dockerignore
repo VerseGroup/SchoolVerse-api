@@ -1,0 +1,26 @@
+# geckodriver log file
+geckodriver.log
+
+# vscode environment folder
+env
+env/
+
+# pytest cache
+.pytest_cache
+
+# github actions
+.github
+
+# python cache
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.pyc
+
+# git files
+.git
+.gitignore
+
+# cache files
+.cache
