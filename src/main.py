@@ -9,6 +9,11 @@ from vgem import EM
 # firebase
 from src.webscraper.firebase.auth import start_firebase
 
+# flik
+from src.webscraper.scraper.flik.scraper import scrape_flik
+from src.webscraper.firebase.menu import write_menu
+from datetime import date
+
 # startup
 app = FastAPI()
 db = start_firebase()
@@ -45,20 +50,16 @@ async def ping():
 async def kanye():
     return {"message": "what?"}
 
-from src.webscraper.scraper.flik.scraper import scrape_flik
-from src.webscraper.firebase.menu import write_menu
-from datetime import date
-
-def flik(today=True):
-    if today==True:
+def flik(useToday=True, day=None):
+    if useToday:
         today = date.today()
         today = today.strftime("%d/%m/%Y")
-        today = today.split('/')
+        day = today.split('/')
 
-    menu = scrape_flik(today[0], today[1], today[2])
+    menu = scrape_flik(day[0], day[1], day[2])
     write_menu(menu, db)
 
-    return "Finished Flik"
+    return {"message": "successfully scraped flik"}
 
 @app.get("/menu", status_code=200)
 async def menu():
