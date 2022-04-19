@@ -22,6 +22,8 @@ COPY ./driver /app/driver
 
 COPY ./secrets /app/secrets
 
+COPY ./lib /app/lib
+
 COPY ./src /app/src
 
 CMD ["sh", "./run.sh"]
