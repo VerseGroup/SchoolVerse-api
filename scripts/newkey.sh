@@ -1,3 +1,3 @@
 cd utils
 
-python3 newkey.py
+python3 lib/newkey.py
