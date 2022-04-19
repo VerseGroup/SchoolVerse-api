@@ -44,3 +44,22 @@ async def ping():
 @app.get("/kanye", status_code=200)
 async def kanye():
     return {"message": "what?"}
+
+from src.webscraper.scraper.flik.scraper import scrape_flik
+from src.webscraper.firebase.menu import write_menu
+from datetime import date
+
+def flik(today=True):
+    if today==True:
+        today = date.today()
+        today = today.strftime("%d/%m/%Y")
+        today = today.split('/')
+
+    menu = scrape_flik(today[0], today[1], today[2])
+    write_menu(menu, db)
+
+    return "Finished Flik"
+
+@app.get("/menu", status_code=200)
+async def menu():
+    return flik()
