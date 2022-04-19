@@ -1,17 +1,19 @@
 #!/bin/bash
 
+cd lib/resets
+
 COMPLETED="n/a"
 
 while getopts ":ft:" option; do
     case $option in
         f)
             echo "Option: Reset Flik"
-            python3 lib/resets/reset_flik.py
+            python3 reset_flik.py
             COMPLETED="flik"
             ;;
         t)
             echo "Option: Reset Tasks"
-            python3 lib/resets/reset_tasks.py
+            python3 reset_tasks.py
             COMPLETED="tasks"
             ;;
         \?) # Invalid option
