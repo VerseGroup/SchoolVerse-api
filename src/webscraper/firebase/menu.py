@@ -3,6 +3,11 @@ from datetime import datetime
 # writes menu to firebase
 def write_menu(menu, db):
 
+    menu_reference = db.collection(u'MENUS')
+    menu_docs = menu_reference.list_documents()
+    for doc in menu_docs:
+        menu_reference.document(doc.id).delete()
+
     for key in menu:
         date = key
         menu_ref = db.collection(u'MENUS').document(date)

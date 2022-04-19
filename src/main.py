@@ -44,7 +44,7 @@ async def link_(request: LinkRequest):
 
 @app.get("/ping", status_code=200)
 async def ping():
-    return {"message": "pong"}
+    return {"message": "pong"} 
 
 @app.get("/kanye", status_code=200)
 async def kanye():
