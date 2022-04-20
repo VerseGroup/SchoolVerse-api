@@ -18,7 +18,7 @@ from datetime import date
 app = FastAPI()
 db = start_firebase()
 
-# ROUTES [MAIN] #
+####### ROUTES [MAIN] #######
 
 class ScrapeRequest(BaseModel):
     user_id: int
@@ -27,7 +27,7 @@ class ScrapeRequest(BaseModel):
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    return {"message": "Hello World"}
+    return {"message": "Will finish later"}
 
 class LinkRequest(BaseModel):
     user_id: int
@@ -40,7 +40,7 @@ class LinkRequest(BaseModel):
 async def link_(request: LinkRequest):
     return {"message": "link function not yet implemented"}
 
-# ROUTES [GENERAL] #
+####### ROUTES [GENERAL] #######
 
 @app.get("/ping", status_code=200)
 async def ping():
@@ -49,6 +49,8 @@ async def ping():
 @app.get("/kanye", status_code=200)
 async def kanye():
     return {"message": "what?"}
+
+####### MENU #######
 
 def flik(useToday=True, day=None):
     if useToday:
