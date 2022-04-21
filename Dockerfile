@@ -22,6 +22,8 @@ COPY ./driver /app/driver
 
 COPY ./secrets /app/secrets
 
+COPY ./tests /app/tests
+
 COPY ./lib /app/lib
 
 COPY ./src /app/src
