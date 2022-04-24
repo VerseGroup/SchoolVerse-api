@@ -26,7 +26,7 @@ Planned Support: Google Classroom, Showbie
 ## Usage
 - With docker and docker compose installed run the command
 ~~~
-docker-compose up
+sh docker.sh
 ~~~
 - End server with
 ~~~
