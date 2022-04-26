@@ -14,13 +14,13 @@ click==8.1.2
 colorama==0.4.4
 configparser==5.2.0
 crayons==0.4.0
-cryptography==36.0.2
+cryptography==37.0.0
 cssselect==1.1.0
 fake-useragent==0.1.11
 fastapi==0.75.2
 firebase-admin==5.2.0
 google-api-core==2.7.2
-google-api-python-client==2.45.0
+google-api-python-client==2.46.0
 google-auth==2.6.6
 google-auth-httplib2==0.1.0
 google-cloud-core==2.3.0
@@ -57,7 +57,7 @@ pyperclip==1.8.2
 pyppeteer==1.0.2
 pyquery==1.4.3
 PySocks==1.7.1
-pytest==7.1.1
+pytest==7.1.2
 python-dotenv==0.20.0
 requests==2.27.1
 requests-html==0.10.0
