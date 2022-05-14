@@ -46,6 +46,34 @@ class Backend_Interface:
         self.conn.commit()
         cursor.close()
 
+    #generate a user
+    def generate_users(self, firebase_id):
+        """
+        This function creates a user in the database.
+        """
+        insert_user_query = """
+        INSERT INTO users (firebase_id)
+        VALUES (%s);
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(insert_user_query, (firebase_id,))
+        self.conn.commit()
+        cursor.close()
+    
+    #generate a key for a user 
+    def generate_keys(self, platform_code, key, fk_user):
+        """
+        This function creates a key in the database.
+        """
+        insert_user_query = """
+        INSERT INTO keys (platform_code, key, fk_user)
+        VALUES (%s, %s, %s);
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(insert_user_query, (platform_code, key, fk_user))
+        self.conn.commit()
+        cursor.close()
+
 interface = Backend_Interface()
 #interface.create_user_table()
 #interface.create_key_table()
