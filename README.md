@@ -24,9 +24,15 @@ In-Development:
 Planned Support: Google Classroom, Showbie
 
 ## Usage
-- Activate Virtual Env
-- Install Dependencies
-- Run With:
+- With docker and docker compose installed run the command
+~~~
+sh docker.sh
+~~~
+- End server with
+~~~
+docker-compose down
+~~~
+- Server can also be run through (ensure venv and dependencies working/installed)
 ~~~
 sh run.sh
 ~~~
