@@ -23,7 +23,7 @@ def write_event(event, db):
         event['start'] = start
         event['end'] = end
 
-        if "Day" in event['description']:
+        if "Day" in event['description'] and len(event['description']) == 5:
             event.pop('location')
             event.pop('end')
             event.pop('description')
