@@ -71,9 +71,7 @@ def parse_html(html) -> list:
         }
 
         schedule_list.append(period)
-
-    
-
+        
     return schedule_list
 
 # returns the day being scraped
