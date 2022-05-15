@@ -70,7 +70,7 @@ def parse_html(html) -> list:
             "period" : period_number,
         }
 
-        schedule_list['time'] = period
+        schedule_list[time] = period
         
     return schedule_list
 
