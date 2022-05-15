@@ -11,13 +11,6 @@ def ensure_schoology(username, password):
     content = response.text
 
     if '<span class="h3 sign-in-header">Sign in to Schoology</span>' in content:
-        return {
-            "message" : "Invalid username or password",
-            "code" : "1"
-        }
+        return False
     else:
-        return {
-            "message" : "Success",
-            "code" : "0"
-        }
-
+        return True

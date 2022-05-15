@@ -25,6 +25,6 @@ def ensure_veracross(username, password):
     try:
         driver.get("https://portals.veracross.com/hackley/student")
         driver.find_element(By.ID, "username")
-        return {'message': 'failed to authenticate', 'code': '1'}
+        return False
     except:
-        return {'message': 'success', 'code': '0'}
+        return True

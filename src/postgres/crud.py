@@ -25,7 +25,6 @@ class Backend_Interface:
         self.conn.commit()
         cursor.close()
 
-    
 
     #generate a user
     def create_user(self, firebase_id, key):
