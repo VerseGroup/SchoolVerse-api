@@ -24,7 +24,6 @@ def schoology(db, ss, user_id):
     # getting keys
     try:
         key = ss.get_user_keychain(user_id)
-        return key # delete
     except Exception as e:
         return {"message": "user does not exist"}
     handler = EM(serialized_private_key=key)
@@ -76,9 +75,10 @@ def link(db, ss, user_id, platform_code, username, password):
     
     user_id = str(user_id)
 
-    try:
-        key = ss.get_user_keychain(user_id)
-    except:
+
+    key = ss.get_user_keychain(user_id)
+   
+    if key is None:
         response = create_user(ss, user_id)
         if response is not None:
             return response

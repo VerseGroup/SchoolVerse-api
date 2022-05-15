@@ -94,7 +94,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
-            return {"message": "FAILED TO GET USER KEYCHAIN"}
+            return None
     
     #delete user by firebase_id
     def delete_user(self, firebase_id):
