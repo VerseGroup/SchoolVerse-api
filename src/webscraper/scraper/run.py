@@ -1,3 +1,6 @@
+# encryption
+from vgem import EM
+
 # flik
 from src.webscraper.scraper.flik.scraper import scrape_flik
 from src.webscraper.firebase.menu import write_menu
@@ -8,6 +11,7 @@ from src.webscraper.firebase.tasks import write_tasks
 from src.webscraper.scraper.schoology.scraper import scrape_schoology
 from src.webscraper.firebase.courses import write_courses
 from src.webscraper.scraper.schoology.ensure import ensure_schoology
+from src.webscraper.firebase.credentials import get_encrypted_credentials, write_creds
 
 # veracross
 from src.webscraper.scraper.veracross.run import scrape_veracross
@@ -15,7 +19,21 @@ from src.webscraper.firebase.schedule import write_schedule
 from src.webscraper.firebase.events import write_events
 from src.webscraper.scraper.veracross.events import get_events
 
-def schoology(db, username, password, user_id):
+def schoology(db, ss, user_id):
+
+    # getting keys
+    key = ss.get_user_keychain(user_id)
+    handler = EM(serialized_private_key=key)
+
+    # getting ciphers
+    creds = get_encrypted_credentials(user_id, db)
+    c_username = creds['username_ciphertext']
+    c_password = creds['password_ciphertext']
+
+    # getting username
+    username = handler.decrypt_rsa(c_username, True)
+    password = handler.decrypt_rsa(c_password, True)
+
     returns = scrape_schoology(username, password)
     tasks = returns['tasks']
     write_tasks(tasks, user_id, db)
@@ -45,9 +63,23 @@ def events(db, username, password):
 
     return {"message": "successfully scraped events"}
 
-def link(db, ss, platform_code, username, password):
+def create_user(ss, user_id):
+    handler = EM()
+    key = handler.serialize_private_key()
+    ss.create_user(user_id, 'key')
+
+def link(db, ss, user_id, platform_code, username, password):
+    try:
+        key = ss.get_user_keychain(user_id)
+    except:
+        create_user(ss, user_id)
+    
     if platform_code == 'sc':
         if not ensure_schoology(username, password):
             return {"message": "schoology credentials are incorrect"}
         else:
-            pass
+            key = ss.get_user_keychain(user_id)
+            handler = EM(serialized_private_key=key)
+            username_cipher = handler.encrypt_rsa(username, True)
+            password_cipher = handler.encrypt_rsa(password, True)
+            write_creds(username_cipher, password_cipher, user_id, platform_code, db)
