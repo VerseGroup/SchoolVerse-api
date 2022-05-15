@@ -8,6 +8,7 @@ from vgem import EM
 
 # firebase
 from src.webscraper.firebase.auth import start_firebase
+from src.postgres.crud import Backend_Interface
 
 # flik
 from src.webscraper.scraper.flik.scraper import scrape_flik
@@ -17,6 +18,7 @@ from datetime import date
 # startup
 app = FastAPI()
 db = start_firebase()
+ss = Backend_Interface()
 
 ####### ROUTES [MAIN] #######
 

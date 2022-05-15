@@ -1,11 +1,8 @@
-from json import load
 import os
 import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv()
-
-
 
 class Backend_Interface:
     def __init__(self):
