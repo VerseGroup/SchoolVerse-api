@@ -24,12 +24,13 @@ def schoology(db, ss, user_id):
     # getting keys
     try:
         key = ss.get_user_keychain(user_id)
+        return key # delete
     except Exception as e:
         return {"message": "user does not exist"}
     handler = EM(serialized_private_key=key)
 
     # getting ciphers
-    creds = get_encrypted_credentials(user_id, db)
+    creds = get_encrypted_credentials(user_id, 'sc', db)
     c_username = creds['username_ciphertext']
     c_password = creds['password_ciphertext']
 
@@ -68,15 +69,19 @@ def events(db, username, password):
 
 def create_user(ss, user_id):
     handler = EM()
-    key = handler.serialize_private_key()
+    key = str(handler.serialize_private_key())
     ss.create_user(user_id, key)
 
 def link(db, ss, user_id, platform_code, username, password):
     
+    user_id = str(user_id)
+
     try:
         key = ss.get_user_keychain(user_id)
     except:
-        create_user(ss, user_id)
+        response = create_user(ss, user_id)
+        if response is not None:
+            return response
     
     if platform_code == 'sc':
         #if not ensure_schoology(username, password):
@@ -87,3 +92,5 @@ def link(db, ss, user_id, platform_code, username, password):
         username_cipher = handler.encrypt_rsa(username, True)
         password_cipher = handler.encrypt_rsa(password, True)
         write_creds(username_cipher, password_cipher, user_id, platform_code, db)
+    
+    return {"message": "successfully linked"}

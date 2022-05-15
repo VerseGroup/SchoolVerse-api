@@ -29,6 +29,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
+            return {"message": "FAILED TO CREATE USER TABLE"}
 
     #generate a user
     def create_user(self, firebase_id, key):
@@ -44,10 +45,12 @@ class Backend_Interface:
             cursor.execute(insert_user_query, (firebase_id, key,))
             self.conn.commit()
             cursor.close()
-        except:
+            return None
+        except Exception as e:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
+            return {"error": "FAILED TO CREATE USER", "message": str(e)}
 
 
     #update user keychain
@@ -69,6 +72,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
+            return {"message": "FAILED TO UPDATE USER KEYCHAIN"}
     
     #get user keychain
     def get_user_keychain(self, firebase_id):
@@ -90,6 +94,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
+            return {"message": "FAILED TO GET USER KEYCHAIN"}
     
     #delete user by firebase_id
     def delete_user(self, firebase_id):
@@ -109,6 +114,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
+            return {"message": "FAILED TO DELETE USER"}
     
 
 #interface = Backend_Interface()
