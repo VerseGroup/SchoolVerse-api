@@ -16,6 +16,9 @@ from src.requests import ScrapeRequest, LinkRequest
 # scraper
 from src.webscraper.scraper.run import flik, schoology, veracross
 
+# linking
+from src.webscraper.scraper.run import link
+
 # startup
 app = FastAPI()
 db = start_firebase()
@@ -26,10 +29,13 @@ ss = Backend_Interface()
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
 
-    if request.platform_code == 'sc':
-        return schoology(db, request.username, request.password, request.user_id)
-    else:
-        return {"message": "unsupported platform code"}
+    try:
+        if request.platform_code == 'sc':
+            return schoology(db, ss, request.username, request.password, request.user_id)
+        else:
+            return {"message": "unsupported platform code"}
+    except Exception as e:
+        return {"message": str(e)}
 
 
 @app.get("/menu", status_code=200)
@@ -40,7 +46,10 @@ async def menu():
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
-    return {"message": "link function not yet implemented"}
+    try:
+        return link(db, ss, request.user_id, request.platform_code, request.username, request.password)
+    except Exception as e:
+        return {"message": str(e)}
 
 ####### ROUTES [GENERAL] #######
 
