@@ -75,7 +75,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
 
         print("Found new day...\n")
         if day in required_days:
-            days[day] = schedule
+            days["Day " + str(day)] = schedule
             required_days.remove(int(day))
             required_days_count -= 1
             print(f"FOUND day {day}...\n")
