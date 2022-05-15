@@ -6,7 +6,7 @@ def write_schedule(user_id, days, db):
 
     for key in days:
         day = days[key]
-        #day['day'] = "Day " + str(key)
+        day['day'] = "Day " + str(key)
         day_array.append(day)
 
     schedule = {
@@ -16,6 +16,8 @@ def write_schedule(user_id, days, db):
 
     # wierd type issue fix
     schedule = json.loads(json.dumps(schedule))
+
+    print(schedule)
 
     db.collection(u'SCHEDULES').document(f'{user_id}').set(schedule)
 
