@@ -63,6 +63,9 @@ def parse_html(html) -> list:
         else:
             period_number = None
 
+        if period_number is None:
+            continue
+
         period = {
             "class_name" : class_,
             "information" : teacher,
