@@ -69,7 +69,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
         print("Getting day...\n")
         try:
             day = int(get_day(html))
-            schedule['day'] = day
+            schedule['day'] =  f"Day {day}"
         except:
             count += 1
             continue
