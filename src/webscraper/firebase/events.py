@@ -19,7 +19,19 @@ def write_event(event, db):
         event['start'] = start
         event['end'] = end
 
-        db.collection(u'EVENTS').document(doc_name).set(event)
+        if "Day" in event['description']:
+            event.pop('location')
+            event.pop('end')
+            event.pop('description')
+            event['day'] = event['name']
+            event.pop('name')
+            event['date'] = event['start']
+            event.pop('start')
+
+            db.collection(u'DAYS').document(doc_name).set(event)
+
+        else:
+            db.collection(u'EVENTS').document(doc_name).set(event)
         
         existing_events = db.collection(u'EVENTS').document('EXISTING_EVENTS').get().to_dict()['EVENTS']
 
