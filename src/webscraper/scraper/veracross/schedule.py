@@ -40,14 +40,39 @@ def parse_html(html) -> list:
         teacher = strip_string(teacher)
 
         if time == '':
-            time = "ALWAYS"
+            continue
+
+        if time == "8:05am":
+            period_number = "Homeroom"
+        elif time == "8:15am":
+            period_number = "Period 1"
+        elif time == "9:05am":
+            period_number = "Period 2"
+        elif time == "9:55am":
+            period_number = "Period 3"
+        elif time == "11:00am":
+            period_number =  "Period 4"
+        elif time == "12:15pm":
+            period_number = "Period 5a"
+        elif time == "12:45pm":
+            period_number = "Period 5b"
+        elif time == "1:30pm":
+            period_number = "Period 6"
+        elif time == "2:20pm":
+            period_number = "Period 7"
+        else:
+            period_number = None
 
         period = {
-            "class" : class_,
+            "class_name" : class_,
             "information" : teacher,
+            "start_time" : time,
+            "period" : period_number,
         }
 
         schedule_list[time] = period
+
+    
 
     return schedule_list
 
