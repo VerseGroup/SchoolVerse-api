@@ -18,7 +18,7 @@ def parse_html(html) -> list:
     log.write(schedule.prettify())
     log.close()
 
-    schedule_list = {}
+    schedule_list = []
 
     try:
         columns = schedule.contents
@@ -73,7 +73,7 @@ def parse_html(html) -> list:
             "period" : period_number,
         }
 
-        schedule_list[period_number] = period
+        schedule_list.append(period)
 
     
     new_schedule_list = {
