@@ -81,8 +81,8 @@ def link(db, ss, user_id, platform_code, username, password):
     if key is None:
         response = create_user(ss, user_id)
         if response is not None:
-            return response
-    
+            return {"message": "user creation failed with exception: " + str(response)}
+
     if platform_code == 'sc':
         #if not ensure_schoology(username, password):
         #    return {"message": "schoology credentials are incorrect"}
