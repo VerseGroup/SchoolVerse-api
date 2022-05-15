@@ -31,7 +31,7 @@ async def scrape_(request: ScrapeRequest):
 
     try:
         if request.platform_code == 'sc':
-            return schoology(db, ss, request.username, request.password, request.user_id)
+            return schoology(db, ss, request.user_id)
         else:
             return {"message": "unsupported platform code"}
     except Exception as e:
