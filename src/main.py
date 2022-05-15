@@ -10,24 +10,33 @@ from vgem import EM
 from src.webscraper.firebase.auth import start_firebase
 from src.postgres.crud import Backend_Interface
 
-# flik
-from src.webscraper.scraper.flik.scraper import scrape_flik
-from src.webscraper.firebase.menu import write_menu
-from datetime import date
-
 # requests
 from src.requests import ScrapeRequest, LinkRequest
+
+# scraper
+from src.webscraper.scraper.run import flik, schoology, veracross
 
 # startup
 app = FastAPI()
 db = start_firebase()
 ss = Backend_Interface()
 
-####### ROUTES [MAIN] #######
+####### ROUTES [SCRAPER] #######
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-    return {"message": "Will finish later"}
+
+    if request.platform_code == 'sc':
+        return schoology(db, request.username, request.password, request.user_id)
+    else:
+        return {"message": "unsupported platform code"}
+
+
+@app.get("/menu", status_code=200)
+async def menu():
+    return flik(db)
+
+####### ROUTES [USER MANAGEMENT] #######
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
@@ -38,26 +47,3 @@ async def link_(request: LinkRequest):
 @app.get("/ping", status_code=200)
 async def ping():
     return {"message": "pong"} 
-
-'''
-@app.get("/kanye", status_code=200)
-async def kanye():
-    return {"message": "what?"}
-'''
-
-####### MENU #######
-
-def flik(useToday=True, day=None):
-    if useToday:
-        today = date.today()
-        today = today.strftime("%d/%m/%Y")
-        day = today.split('/')
-
-    menu = scrape_flik(day[0], day[1], day[2])
-    write_menu(menu, db)
-
-    return {"message": "successfully scraped flik"}
-
-@app.get("/menu", status_code=200)
-async def menu():
-    return flik()
