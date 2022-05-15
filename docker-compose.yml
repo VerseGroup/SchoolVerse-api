@@ -4,5 +4,6 @@ services:
     build: .
     ports:
       - "80:80"
+    user: root
     volumes:
       - ./src:/src
