@@ -1,7 +1,5 @@
 FROM python:3.9
 
-USER root
-
 WORKDIR /app
 
 RUN pip install --upgrade setuptools
