@@ -15,6 +15,9 @@ from src.webscraper.scraper.flik.scraper import scrape_flik
 from src.webscraper.firebase.menu import write_menu
 from datetime import date
 
+# requests
+from src.requests import ScrapeRequest, LinkRequest
+
 # startup
 app = FastAPI()
 db = start_firebase()
@@ -22,21 +25,9 @@ ss = Backend_Interface()
 
 ####### ROUTES [MAIN] #######
 
-class ScrapeRequest(BaseModel):
-    user_id: int
-    platform_code: str
-    token: str
-
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
     return {"message": "Will finish later"}
-
-class LinkRequest(BaseModel):
-    user_id: int
-    platform_code: str
-    token: str
-    username: str
-    password: str
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
