@@ -8,8 +8,12 @@ def write_event(event, db):
     if check_event_exists(event, db) == False:
         doc_name = f"{event['id']}"
         
-        start = convert_date(event['start_date'], event['start_time'])
-        end = convert_date(event['end_date'], event['end_time'])
+        try:
+            start = convert_date(event['start_date'], event['start_time'])
+            end = convert_date(event['end_date'], event['end_time'])
+        except:
+            start = "something broke"
+            end = "something broke"
 
         event.pop('start_date')
         event.pop('start_time')
