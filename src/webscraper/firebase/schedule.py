@@ -1,10 +1,17 @@
 import json
 
 def write_schedule(user_id, days, db):
-    
+
+    day_array = []
+
+    for key in days:
+        day = days[key]
+        day['day'] = "Day " + str(key)
+        day_array.append(day)
+
     schedule = {
         "user_id": user_id,
-        "days": days
+        "days": day_array
     }
 
     # wierd type issue fix

@@ -50,7 +50,7 @@ class Backend_Interface:
             curs = self.conn.cursor()
             curs.execute("ROLLBACK")
             self.conn.commit()
-            return {"error": "FAILED TO CREATE USER", "message": str(e)}
+            return {"error": "FAILED TO CREATE USER", "message": "hello" + str(e)}
 
 
     #update user keychain
