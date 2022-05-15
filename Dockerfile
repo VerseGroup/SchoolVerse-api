@@ -28,4 +28,6 @@ COPY ./lib /app/lib
 
 COPY ./src /app/src
 
+COPY .env /app/.env
+
 CMD ["sh", "./run.sh"]

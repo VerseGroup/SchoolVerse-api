@@ -11,7 +11,7 @@ from datetime import date
 from src.webscraper.scraper.veracross.auth import auth_veracross
 from src.webscraper.scraper.veracross.driver import generate_driver
 from src.webscraper.models import Event
-from config import SELENIUM_TYPE
+from src.config import SELENIUM_TYPE
 
 # selenium imports
 from selenium import webdriver

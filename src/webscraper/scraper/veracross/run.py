@@ -10,7 +10,7 @@ from src.webscraper.scraper.veracross.schedule import parse_html, get_day
 from src.webscraper.scraper.veracross.driver import generate_driver
 from src.webscraper.scraper.veracross.auth import auth_veracross
 from src.webscraper.scraper.veracross.events import scrape_events
-from config import SELENIUM_TYPE
+from src.config import SELENIUM_TYPE
 
 
 # selenium imports
