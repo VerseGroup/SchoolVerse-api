@@ -6,7 +6,7 @@ def write_schedule(user_id, days, db):
 
     for key in days:
         day = days[key]
-        day['day'] = "Day " + str(key)
+        #day['day'] = "Day " + str(key)
         day_array.append(day)
 
     schedule = {
