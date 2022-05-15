@@ -47,7 +47,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
     required_days = [1, 2, 3, 4, 5, 6, 7]
     required_days_count = len(required_days)
     count = 0
-    days = {}
+    days = []
 
     scraping_day = int(today[0])
     scraping_month = int(today[1])
@@ -69,13 +69,14 @@ def scrape_veracross(username, password, today=True) -> tuple:
         print("Getting day...\n")
         try:
             day = int(get_day(html))
+            schedule['day'] = day
         except:
             count += 1
             continue
 
         print("Found new day...\n")
         if day in required_days:
-            days["Day " + str(day)] = schedule
+            days.append(schedule)
             required_days.remove(int(day))
             required_days_count -= 1
             print(f"FOUND day {day}...\n")
