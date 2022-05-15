@@ -74,8 +74,13 @@ def parse_html(html) -> list:
         }
 
         schedule_list[period_number] = period
+
+    
+    new_schedule_list = {
+        "periods" : schedule_list,
+    } 
         
-    return schedule_list
+    return new_schedule_list
 
 # returns the day being scraped
 def get_day(html) -> str:
