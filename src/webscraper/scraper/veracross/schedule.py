@@ -46,7 +46,7 @@ def parse_html(html) -> list:
         teacher = rows[3].contents[5].string
 
         time = strip_string(time)
-        teacher = strip_string(teacher)
+        teacher = strip_string(teacher).replace("•", "-")
 
         if time == '':
             continue
@@ -117,22 +117,22 @@ def parse_html(html) -> list:
 
     for period in schedule_list:
         period_num = period['period']
-        period_num = period_num.replace("Period ", "")
-        if period_num == "5a":
-            period_num = 5
-        elif period_num == "5b":
-            period_num = 5.5
         if period_num == "Homeroom":
             period_num = 0
+        else:
+            period_num = period_num.replace("Period ", "")
+            if period_num == "5a":
+                period_num = 5
+            elif period_num == "5b":
+                period_num = 5.5
         period_num = float(period_num)
         period['period_num'] = period_num
 
-    for i in len(schedule_list):
-        for j in range(len(schedule_list)):
-            if schedule_list[j]['period_num'] < schedule_list[i]['period_num']:
-                sorted_schedule_list.append(schedule_list[j])
-            else:
-                sorted_schedule_list.append(schedule_list[i])
+    print(schedule_list)
+
+    # sort the schedule_list array into the sorted_schedule_list array by period number
+    for period in sorted(schedule_list, key=lambda k: k['period_num']):
+        sorted_schedule_list.append(period)
 
     for period in sorted_schedule_list:
         del period['period_num']
