@@ -16,6 +16,8 @@ def add_free(period, time):
     }
     free_template["start_time"] = time
     free_template["period"] = period
+    if time == "12:15pm" or time == "12:45pm":
+        free_template["class_name"] = "Lunch"
     return free_template
 
 # parses veracross schedule into period objects
