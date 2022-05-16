@@ -56,7 +56,11 @@ async def adduser(request: SignUpRequest):
     handler = EM()
     key = handler.serialize_private_key()
     try:
-        return ss.create_user(request.userid, key)
+        response = ss.create_user(request.userid, key)
+        if response is not None:
+            return response
+        else:
+            return {"message": "no response, assumed success"}
     except Exception as e:
         return {"message": str(e)}
 
