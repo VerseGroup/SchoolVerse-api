@@ -75,20 +75,11 @@ def parse_html(html) -> list:
         if period_number is None:
             continue
 
-        period_num = period_number
-        period_num = period_num.replace("Period ", "")
-        if period_num == "5a":
-            period_num = 5
-        elif period_num == "5b":
-            period_num = 5.5
-        period_num = float(period_num)
-
         period = {
             "class_name" : class_,
             "information" : teacher,
             "start_time" : time,
             "period" : period_number,
-            "period_num": period_num,
         }
 
         schedule_list.append(period)
@@ -124,12 +115,25 @@ def parse_html(html) -> list:
 
     sorted_schedule_list = []
 
+    for period in schedule_list:
+        period_num = period['period']
+        period_num = period_num.replace("Period ", "")
+        if period_num == "5a":
+            period_num = 5
+        elif period_num == "5b":
+            period_num = 5.5
+        period_num = float(period_num)
+        period['period_num'] = period_num
+
     for i in len(schedule_list):
         for j in range(len(schedule_list)):
             if schedule_list[j]['period_num'] < schedule_list[i]['period_num']:
                 sorted_schedule_list.append(schedule_list[j])
             else:
                 sorted_schedule_list.append(schedule_list[i])
+
+    for period in sorted_schedule_list:
+        del period['period_num']
         
     new_schedule_list = {
         "periods" : schedule_list,
