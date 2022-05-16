@@ -22,13 +22,12 @@ from src.webscraper.scraper.run import link
 # startup
 app = FastAPI()
 db = start_firebase()
-ss = Backend_Interface()
 
 ####### ROUTES [SCRAPER] #######
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
-
+    ss = Backend_Interface()
     try:
         if request.platform_code == 'sc':
             return schoology(db, ss, request.user_id)
@@ -46,6 +45,7 @@ async def menu():
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
+    ss = Backend_Interface()
     try:
         return link(db, ss, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
@@ -53,6 +53,7 @@ async def link_(request: LinkRequest):
 
 @app.post("/adduser", status_code=200)
 async def adduser(request: SignUpRequest):
+    ss = Backend_Interface()
     handler = EM()
     key = handler.serialize_private_key()
     try:
