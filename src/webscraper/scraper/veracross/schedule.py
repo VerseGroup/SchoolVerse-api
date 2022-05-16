@@ -127,7 +127,7 @@ def parse_html(html) -> list:
         period_num = float(period_num)
         period['period_num'] = period_num
 
-    for i in len(schedule_list):
+    for i in range(len(schedule_list)):
         for j in range(len(schedule_list)):
             if schedule_list[j]['period_num'] < schedule_list[i]['period_num']:
                 sorted_schedule_list.append(schedule_list[j])
