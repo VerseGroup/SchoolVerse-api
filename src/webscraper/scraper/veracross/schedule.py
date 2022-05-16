@@ -136,7 +136,7 @@ def parse_html(html) -> list:
         del period['period_num']
         
     new_schedule_list = {
-        "periods" : schedule_list,
+        "periods" : sorted_schedule_list,
     } 
         
     return new_schedule_list
