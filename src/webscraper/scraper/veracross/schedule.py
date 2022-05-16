@@ -9,6 +9,15 @@ def strip_string(string) -> str:
     stripped_string = stripped_string.replace("\n", "")
     return stripped_string
 
+def add_free(period, time):
+    free_template = {
+        "class_name" : "Free",
+        "information" : "",
+    }
+    free_template["start_time"] = time
+    free_template["period"] = period
+    return free_template
+
 # parses veracross schedule into period objects
 def parse_html(html) -> list:
     soup = BeautifulSoup(html, 'html.parser')
@@ -75,7 +84,35 @@ def parse_html(html) -> list:
 
         schedule_list.append(period)
 
-    
+    full_schedule = ["Period 1", "Period 2", "Period 3", "Period 4", "Period 5a", "Period 5b", "Period 6", "Period 7"]
+
+    for period in schedule_list:
+        if period['period'] in full_schedule:
+            full_schedule.remove(period['period'])
+
+    for period in full_schedule:
+
+        if period == "Period 1":
+            time = "8:15am"
+        elif period == "Period 2":
+            time = "9:05am"
+        elif period == "Period 3":
+            time = "9:55am"
+        elif period == "Period 4":
+            time = "11:00am"
+        elif period == "Period 5a":
+            time = "12:15pm"
+        elif period == "Period 5b":
+            time = "12:45pm"
+        elif period == "Period 6":
+            time = "1:30pm"
+        elif period == "Period 7":
+            time = "2:20pm"
+        elif period == "Homeroom":
+            time = "8:05am"
+
+        schedule_list.append(add_free(period, time))  
+        
     new_schedule_list = {
         "periods" : schedule_list,
     } 
