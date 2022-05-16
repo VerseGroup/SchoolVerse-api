@@ -24,6 +24,7 @@ class Backend_Interface:
         cursor.execute(create_user_table_query)
         self.conn.commit()
         cursor.close()
+        self.conn.close()
 
     #generate a user
     def create_user(self, firebase_id, key):
@@ -35,6 +36,7 @@ class Backend_Interface:
         cursor.execute(insert_user_query, (firebase_id, key,))
         self.conn.commit()
         cursor.close()
+        self.conn.close()
         return None
 
 
@@ -52,22 +54,24 @@ class Backend_Interface:
         cursor.execute(update_user_keychain_query, (key, firebase_id,))
         self.conn.commit()
         cursor.close()
+        self.conn.close()
 
     #get user keychain
     def get_user_keychain(self, firebase_id):
-            """
-            This function gets a user's keychain from the database.
-            """
-            get_user_keychain_query = """
-            SELECT keychain
-            FROM users
-            WHERE firebase_id = %s;
-            """
-            cursor = self.conn.cursor()
-            cursor.execute(get_user_keychain_query, (firebase_id,))
-            keychain = cursor.fetchone()
-            cursor.close()
-            return keychain
+        """
+        This function gets a user's keychain from the database.
+        """
+        get_user_keychain_query = """
+        SELECT keychain
+        FROM users
+        WHERE firebase_id = %s;
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(get_user_keychain_query, (firebase_id,))
+        keychain = cursor.fetchone()
+        cursor.close()
+        self.conn.close()
+        return keychain
     
     #delete user by firebase_id
     def delete_user(self, firebase_id):
@@ -82,6 +86,7 @@ class Backend_Interface:
         cursor.execute(delete_user_query, (firebase_id,))
         self.conn.commit()
         cursor.close()
+        self.conn.close()
 
 '''
 interface = Backend_Interface()
