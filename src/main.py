@@ -37,6 +37,7 @@ async def scrape_(request: ScrapeRequest):
         return {"message": str(e)}
 
 
+
 @app.get("/menu", status_code=200)
 async def menu():
     return flik(db)
