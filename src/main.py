@@ -36,8 +36,6 @@ async def scrape_(request: ScrapeRequest):
     except Exception as e:
         return {"message": str(e)}
 
-
-
 @app.get("/menu", status_code=200)
 async def menu():
     return flik(db)
@@ -58,9 +56,21 @@ async def adduser(request: SignUpRequest):
     handler = EM()
     key = handler.serialize_private_key()
     try:
-        response = ss.create_user(request.userid, key)
+        response = ss.create_user(request.userid, key, True)
         if response is not None:
-            return response
+            return {"message (probably an error)" : response}
+        else:
+            return {"message": "no response, assumed success"}
+    except Exception as e:
+        return {"message": str(e)}
+
+@app.post("/checkuser", status_code=200)
+async def checkuser(request: SignUpRequest):
+    ss = Backend_Interface()
+    try:
+        response = ss.get_user_keychain(request.userid)
+        if response is not None:
+            return {"message (probably an error)" : response}
         else:
             return {"message": "no response, assumed success"}
     except Exception as e:

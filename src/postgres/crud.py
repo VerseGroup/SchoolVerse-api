@@ -16,7 +16,7 @@ class Backend_Interface:
         create_user_table_query = """
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
-            firebase_id VARCHAR(255) NOT NULL,
+            firebase_id VARCHAR(500) NOT NULL,
             keychain VARCHAR(5000) NOT NULL
         );
         """
@@ -27,18 +27,36 @@ class Backend_Interface:
         self.conn.close()
 
     #generate a user
-    def create_user(self, firebase_id, key):
-        insert_user_query = """
-        INSERT INTO users (firebase_id, keychain)
-        VALUES (%s, %s);
-        """
-        cursor = self.conn.cursor()
-        cursor.execute(insert_user_query, (firebase_id, key,))
-        self.conn.commit()
-        cursor.close()
-        self.conn.close()
-        return None
+    def create_user(self, firebase_id: str, key: str, check=False):
+        try:
+            insert_user_query = """
+            INSERT INTO users (firebase_id, keychain)
+            VALUES (%s, %s);
+            """
+            cursor = self.conn.cursor()
+            cursor.execute(insert_user_query, (firebase_id, key,))
+            self.conn.commit()
+            cursor.close()
+            self.conn.close()
 
+            if check:
+                try:
+                    get_user_keychain_query = """
+                    SELECT keychain
+                    FROM users
+                    WHERE firebase_id = %s;
+                    """
+                    cursor = self.conn.cursor()
+                    cursor.execute(get_user_keychain_query, (firebase_id,))
+                    keychain = cursor.fetchone()
+                    cursor.close()
+                    self.conn.close()
+                    return None
+                except (Exception, psycopg2.DatabaseError) as error:
+                    return error
+            return None
+        except (Exception, psycopg2.DatabaseError) as error:
+            return error
 
     #update user keychain
     def update_user_keychain(self, firebase_id, key):
@@ -91,5 +109,5 @@ class Backend_Interface:
 '''
 interface = Backend_Interface()
 interface.create_user_table()
-interface.create_user(42, "hello")
+interface.create_user("42", "hello")
 '''
