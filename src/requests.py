@@ -11,3 +11,6 @@ class LinkRequest(BaseModel):
     platform_code: str
     username: str
     password: str
+
+class SignUpRequest(BaseModel):
+    userid: str

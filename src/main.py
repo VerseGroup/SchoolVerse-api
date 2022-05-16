@@ -11,7 +11,7 @@ from src.webscraper.firebase.auth import start_firebase
 from src.postgres.crud import Backend_Interface
 
 # requests
-from src.requests import ScrapeRequest, LinkRequest
+from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
 
 # scraper
 from src.webscraper.scraper.run import flik, schoology, veracross
@@ -48,6 +48,15 @@ async def menu():
 async def link_(request: LinkRequest):
     try:
         return link(db, ss, request.user_id, request.platform_code, request.username, request.password)
+    except Exception as e:
+        return {"message": str(e)}
+
+@app.post("/adduser", status_code=200)
+async def adduser(request: SignUpRequest):
+    handler = EM()
+    key = handler.serialize_private_key()
+    try:
+        return ss.create_user(request.userid, key)
     except Exception as e:
         return {"message": str(e)}
 
