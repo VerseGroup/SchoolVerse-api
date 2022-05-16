@@ -74,8 +74,6 @@ def create_user(ss, user_id):
 def link(db, ss, user_id, platform_code, username, password):
     
     user_id = str(user_id)
-
-
     key = ss.get_user_keychain(user_id)
    
     if key is None:
@@ -84,13 +82,33 @@ def link(db, ss, user_id, platform_code, username, password):
             return {"message": "user creation failed with exception: " + str(response)}
 
     if platform_code == 'sc':
-        #if not ensure_schoology(username, password):
-        #    return {"message": "schoology credentials are incorrect"}
-        #else:
-        key = ss.get_user_keychain(user_id)
+        if not ensure_schoology(username, password):
+            return {"message": "schoology credentials are incorrect"}
+        else:
+            try:
+                key = ss.get_user_keychain(user_id)
+            except:
+                return {"message": "user does not exist"}
+            handler = EM(serialized_private_key=key)
+            username_cipher = handler.encrypt_rsa(username, True)
+            password_cipher = handler.encrypt_rsa(password, True)
+            try:
+                write_creds(username_cipher, password_cipher, user_id, platform_code, db)
+            except:
+                return {"message": "user does not exist in firebase"}
+    
+    elif platform_code == 'vc':
+        try:
+            key = ss.get_user_keychain(user_id)
+        except:
+            return {"message": "user does not exist"}
+
         handler = EM(serialized_private_key=key)
         username_cipher = handler.encrypt_rsa(username, True)
         password_cipher = handler.encrypt_rsa(password, True)
-        write_creds(username_cipher, password_cipher, user_id, platform_code, db)
+        try:
+            write_creds(username_cipher, password_cipher, user_id, platform_code, db)
+        except:
+            return {"message": "user does not exist in firebase"}
     
     return {"message": "successfully linked"}
