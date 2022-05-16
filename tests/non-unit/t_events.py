@@ -20,17 +20,8 @@ def test_events():
     username = input('Username: ')
     password = getpass()
 
-    today = date.today()
-    today = today.strftime("%d/%m/%Y")
-    today = today.split('/')
-
-    day = int(today[0])
-    month = int(today[1])
-    year = int(today[2])
-
-    events = get_events(username, password)
-    return events
-
+    return get_events(username, password)
+    
 if __name__ == '__main__':
     events = test_events()
     print(events)
