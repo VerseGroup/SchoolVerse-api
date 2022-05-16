@@ -1,4 +1,4 @@
-import date
+from datetime import date
 
 # scraper imports
 from src.webscraper.firebase.events import write_events
@@ -6,6 +6,10 @@ from src.webscraper.scraper.veracross import get_events
 from src.webscraper.firebase.auth import start_firebase
 from src.webscraper.firebase.menu import write_menu
 from src.webscraper.scraper.flik import scrape_flik
+
+# reset imports
+from lib.resets.reset_events import reset_events
+from lib.resets.reset_flik import reset_flik_tables
 
 from getpass import getpass
 
@@ -27,6 +31,12 @@ def script():
     password = getpass()
 
     db = start_firebase()
+
+    # clearing
+    reset_events(db)
+    reset_flik_tables(db)
+
+    # filling
     scrape_events(db, username, password)
     scrape_menus(db)
 
