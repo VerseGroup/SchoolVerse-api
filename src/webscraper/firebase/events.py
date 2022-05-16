@@ -64,7 +64,7 @@ def convert_date(date, time):
     date = date.split("/")
     
     month = date[0]
-    day = date[1]
+    day = str(int(date[1]) + 1) # bug where dates are off by one
     year = date[2]
 
     if time is None:
