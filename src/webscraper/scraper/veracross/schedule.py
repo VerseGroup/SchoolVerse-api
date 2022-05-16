@@ -81,6 +81,8 @@ def parse_html(html) -> list:
             period_num = 5
         elif period_num == "5b":
             period_num = 5.5
+        if period_num == "Homeroom":
+            period_num = 0
         period_num = float(period_num)
 
         period = {
