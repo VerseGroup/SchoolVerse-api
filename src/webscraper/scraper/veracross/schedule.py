@@ -133,9 +133,6 @@ def parse_html(html) -> list:
                 sorted_schedule_list.append(schedule_list[j])
             else:
                 sorted_schedule_list.append(schedule_list[i])
-
-    for period in sorted_schedule_list:
-        del period['period_num']
         
     new_schedule_list = {
         "periods" : sorted_schedule_list,
