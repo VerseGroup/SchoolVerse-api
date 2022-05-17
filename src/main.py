@@ -34,6 +34,7 @@ async def scrape_(request: ScrapeRequest):
         else:
             return {"message": "unsupported platform code"}
     except Exception as e:
+        e = str(e).replace('\'','-')
         return {"message": "error", "exception": str(e)}
 
 # Lunch is a script for now
@@ -49,6 +50,7 @@ async def link_(request: LinkRequest):
     try:
         return link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
+        e = str(e).replace('\'','-')
         return {"message": "error", "exception": str(e)}
 
 @app.post("/adduser", status_code=200)
@@ -63,6 +65,7 @@ async def adduser(request: SignUpRequest):
         else:
             return {"message": "no response, assumed success"}
     except Exception as e:
+        e = str(e).replace('\'','-')
         return {"message": "error", "exception" : str(e)}
 
 ####### ROUTES [GENERAL] #######

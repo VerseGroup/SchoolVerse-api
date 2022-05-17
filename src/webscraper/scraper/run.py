@@ -28,6 +28,7 @@ def schoology(db, ss, user_id):
     try:
         key = ss.get_user_keychain(user_id)
     except Exception as e:
+        e = str(e).replace('\'','-')
         return {"message": "user does not exist postgres", "exception": str(e)}
     
     handler = EM(serialized_private_key=key)
@@ -36,6 +37,7 @@ def schoology(db, ss, user_id):
     try:
         creds = get_encrypted_credentials(user_id, 'sc', db)
     except Exception as e:
+        e = str(e).replace('\'','-')
         return {"message": "user does not exist in firebase", "exception": str(e)}
     c_username = creds['username_ciphertext']
     c_password = creds['password_ciphertext']
@@ -132,6 +134,7 @@ def link(db, user_id, platform_code, username, password):
             objectives.update({'user_ids': newusers})
             
         except Exception as e:
+            e = str(e).replace('\'','-')
             return {"message": "firebase scraper objectives document error", "exception": str(e)}
     
     return {"message": "success"}
