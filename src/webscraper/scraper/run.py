@@ -93,9 +93,9 @@ def link(db, user_id, platform_code, username, password):
             return {"message": "user creation failed with exception: " + str(response)}
 
     if platform_code == 'sc':
-        #if not ensure_schoology(username, password):
-        #    return {"message": "schoology credentials are incorrect"}
-        #else:
+        if not ensure_schoology(username, password):
+            return {"message": "schoology credentials are incorrect"}
+        else:
             handler = EM(serialized_private_key=key)
             username_cipher = handler.encrypt_rsa(username, True)
             password_cipher = handler.encrypt_rsa(password, True)

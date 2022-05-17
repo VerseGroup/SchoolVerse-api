@@ -63,18 +63,6 @@ async def adduser(request: SignUpRequest):
     except Exception as e:
         return {"message": str(e)}
 
-@app.post("/checkuser", status_code=200)
-async def checkuser(request: SignUpRequest):
-    ss = Backend_Interface()
-    try:
-        response = ss.get_user_keychain(request.user_id)
-        if response is not None:
-            return {"message": "user exists", "key": response}
-        else:
-            return {"message": "user does not exist"}
-    except Exception as e:
-        return {"message": str(e)}
-
 ####### ROUTES [GENERAL] #######
 
 @app.get("/ping", status_code=200)
