@@ -112,5 +112,24 @@ def link(db, user_id, platform_code, username, password):
             write_creds(username_cipher, password_cipher, user_id, platform_code, db)
         except:
             return {"message": "user does not exist in firebase"}
+
+        try:
+            objectives = db.collection(u'SCRAPER_OBJECTIVES').document(f'newusers')
+            doc = objectives.get()
+    
+            if doc.exists:
+                doc_dict = doc.to_dict()
+            else:
+                return {"message": "firebase scraper objectives document does not exist"}
+
+            for user in doc_dict['newusers']:
+                if user == user_id:
+                    return {"message": "user already exists in firebase scraper objectives"}
+
+            doc_dict = doc_dict['newusers'].append(user_id)
+            objectives.set(doc_dict)
+            
+        except:
+            return {"message": "firebase scraper objectives document error"}
     
     return {"message": "success"}
