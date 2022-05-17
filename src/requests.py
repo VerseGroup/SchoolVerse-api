@@ -13,4 +13,4 @@ class LinkRequest(BaseModel):
     password: str
 
 class SignUpRequest(BaseModel):
-    userid: str
+    user_id: str

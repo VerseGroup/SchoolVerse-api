@@ -44,9 +44,8 @@ async def menu():
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
-    ss = Backend_Interface()
     try:
-        return link(db, ss, request.user_id, request.platform_code, request.username, request.password)
+        return link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
         return {"message": str(e)}
 
@@ -56,11 +55,23 @@ async def adduser(request: SignUpRequest):
     handler = EM()
     key = handler.serialize_private_key()
     try:
-        response = ss.create_user(request.userid, key)
+        response = ss.create_user(request.user_id, key)
         if response is not None:
             return {"message (probably an error)" : response}
         else:
             return {"message": "no response, assumed success"}
+    except Exception as e:
+        return {"message": str(e)}
+
+@app.post("/checkuser", status_code=200)
+async def checkuser(request: SignUpRequest):
+    ss = Backend_Interface()
+    try:
+        response = ss.get_user_keychain(request.user_id)
+        if response is not None:
+            return {"message": "user exists", "key": response}
+        else:
+            return {"message": "user does not exist"}
     except Exception as e:
         return {"message": str(e)}
 

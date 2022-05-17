@@ -89,7 +89,7 @@ class Backend_Interface:
         keychain = cursor.fetchone()
         cursor.close()
         self.conn.close()
-        return keychain
+        return keychain[0]
     
     #delete user by firebase_id
     def delete_user(self, firebase_id):
