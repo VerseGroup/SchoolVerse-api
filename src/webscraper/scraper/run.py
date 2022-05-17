@@ -114,7 +114,7 @@ def link(db, user_id, platform_code, username, password):
             return {"message": "user does not exist in firebase"}
 
         try:
-            objectives = db.collection(u'SCRAPER_OBJECTIVES').document(f'newusers')
+            objectives = db.collection(u'QUEUES').document(f'schedule_queue')
             doc = objectives.get()
     
             if doc.exists:
@@ -122,14 +122,16 @@ def link(db, user_id, platform_code, username, password):
             else:
                 return {"message": "firebase scraper objectives document does not exist"}
 
-            for user in doc_dict['newusers']:
+            newusers = doc_dict['user_ids']
+
+            for user in newusers:
                 if user == user_id:
                     return {"message": "user already exists in firebase scraper objectives"}
 
-            doc_dict = doc_dict['newusers'].append(user_id)
-            objectives.set(doc_dict)
+            newusers.append(user_id)
+            objectives.update({'user_ids': newusers})
             
-        except:
-            return {"message": "firebase scraper objectives document error"}
+        except Exception as e:
+            return {"message": "firebase scraper objectives document error", "exception": str(e)}
     
     return {"message": "success"}
