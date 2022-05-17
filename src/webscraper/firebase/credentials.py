@@ -1,7 +1,7 @@
 def write_creds(username, password, user_id, platform_code, db):
 
     # getting the current cred array
-    user_ref = db.collection(u'USERS').document(f'{id}')
+    user_ref = db.collection(u'USERS').document(f'{user_id}')
     doc = user_ref.get()
     
     # if it exists, update the array

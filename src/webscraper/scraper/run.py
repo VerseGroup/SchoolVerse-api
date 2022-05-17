@@ -103,7 +103,7 @@ def link(db, user_id, platform_code, username, password):
                 write_creds(username_cipher, password_cipher, user_id, platform_code, db)
             except:
                 return {"message": "user does not exist in firebase"}
-    
+
     elif platform_code == 'vc':
         handler = EM(serialized_private_key=key)
         username_cipher = handler.encrypt_rsa(username, True)
