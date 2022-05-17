@@ -34,11 +34,13 @@ async def scrape_(request: ScrapeRequest):
         else:
             return {"message": "unsupported platform code"}
     except Exception as e:
-        return {"message": str(e)}
+        return {"message": "error", "exception": str(e)}
 
-@app.get("/menu", status_code=200)
-async def menu():
-    return flik(db)
+# Lunch is a script for now
+
+#@app.get("/menu", status_code=200)
+#async def menu():
+#    return flik(db)
 
 ####### ROUTES [USER MANAGEMENT] #######
 
@@ -47,7 +49,7 @@ async def link_(request: LinkRequest):
     try:
         return link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
-        return {"message": str(e)}
+        return {"message": "error", "exception": str(e)}
 
 @app.post("/adduser", status_code=200)
 async def adduser(request: SignUpRequest):
@@ -57,11 +59,11 @@ async def adduser(request: SignUpRequest):
     try:
         response = ss.create_user(request.user_id, key)
         if response is not None:
-            return {"message (probably an error)" : response}
+            return {"message" : "error (assumed)", "exception" : response}
         else:
             return {"message": "no response, assumed success"}
     except Exception as e:
-        return {"message": str(e)}
+        return {"message": "error", "exception" : str(e)}
 
 ####### ROUTES [GENERAL] #######
 

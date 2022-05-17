@@ -28,7 +28,7 @@ def schoology(db, ss, user_id):
     try:
         key = ss.get_user_keychain(user_id)
     except Exception as e:
-        return {"message": "user does not exist"}
+        return {"message": "user does not exist postgres", "exception": str(e)}
     
     handler = EM(serialized_private_key=key)
 
@@ -48,7 +48,7 @@ def schoology(db, ss, user_id):
     tasks = returns['tasks']
     write_tasks(tasks, user_id, db)
 
-    return {"message": "successfully scraped schoology"}
+    return {"message": "success"}
 
 def flik(db, useToday=True, day=None):
     if useToday:
@@ -59,19 +59,19 @@ def flik(db, useToday=True, day=None):
     menu = scrape_flik(day[0], day[1], day[2])
     write_menu(menu, db)
 
-    return {"message": "successfully scraped flik"}
+    return {"message": "success"}
 
 def veracross(db, username, password):
     days = scrape_veracross(username, password)
     write_schedule(1, days, db)
 
-    return {"message": "successfully scraped veracross"}
+    return {"message": "success"}
 
 def events(db, username, password):
     events = get_events(username, password)
     write_events(events, db)
 
-    return {"message": "successfully scraped events"}
+    return {"message": "success"}
 
 def create_user(ss, user_id):
     handler = EM()
@@ -85,12 +85,12 @@ def link(db, user_id, platform_code, username, password):
     try:
         key = ss.get_user_keychain(user_id)
     except:
-        return {"message": "user does not exist in postgres [failed at start]"}
+        return {"message": "user does not exist in postgres"}
    
     if key is None:
         response = create_user(ss, user_id)
         if response is not None:
-            return {"message": "user creation failed with exception: " + str(response)}
+            return {"message": "user creation failed", "exception" : str(response)}
 
     if platform_code == 'sc':
         if not ensure_schoology(username, password):
@@ -113,4 +113,4 @@ def link(db, user_id, platform_code, username, password):
         except:
             return {"message": "user does not exist in firebase"}
     
-    return {"message": "successfully linked"}
+    return {"message": "success"}
