@@ -26,8 +26,8 @@ COPY ./tests /app/tests
 
 COPY ./lib /app/lib
 
-COPY ./src /app/src
-
 COPY .env /app/.env
+
+COPY ./src /app/src
 
 CMD ["sh", "./run.sh"]
