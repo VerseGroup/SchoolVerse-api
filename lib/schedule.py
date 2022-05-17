@@ -1,6 +1,9 @@
+# THIS SCRIPT CANNOT RUN ON M1 #
+
 # imports
 from vgem import EM
 import os, sys
+import psycopg2
 
 # append paths
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
