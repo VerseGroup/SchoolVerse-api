@@ -65,10 +65,14 @@ def update_schedules(db, ss):
     return {"message" : "finished", "successes": success, "failed": failed}
 
 if __name__ == "__main__":
-    db = start_firebase()
-    ss = Backend_Interface()
-    update_schedules(db, ss)
+    try: 
+        db = start_firebase()
+        ss = Backend_Interface()
+    except Exception as e:
+        print(f"failed with error \"{str(e)}\"")
+    returns = update_schedules(db, ss)
     db.close()
+    print(returns)
 
 
 
