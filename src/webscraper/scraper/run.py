@@ -29,7 +29,10 @@ def schoology(db, ss, user_id):
     handler = EM(serialized_private_key=key)
 
     # getting ciphers
-    creds = get_encrypted_credentials(user_id, 'sc', db)
+    try:
+        creds = get_encrypted_credentials(user_id, 'sc', db)
+    except Exception as e:
+        return {"message": "user does not exist in firebase", "exception": str(e)}
     c_username = creds['username_ciphertext']
     c_password = creds['password_ciphertext']
 
