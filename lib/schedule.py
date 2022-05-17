@@ -69,13 +69,14 @@ if __name__ == "__main__":
         db = start_firebase()
         ss = Backend_Interface()
     except Exception as e:
+        db = None
+        ss = None
         print(f"failed with error \"{str(e)}\"")
-    returns = update_schedules(db, ss)
-    db.close()
-    print(returns)
 
-
-
-
-
-
+    try:
+        if db is not None and ss is not None:    
+            returns = update_schedules(db, ss)
+            db.close()
+            print(returns)
+    except Exception as e:
+        print(f"failed with error \"{str(e)}\"")
