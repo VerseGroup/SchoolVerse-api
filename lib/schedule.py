@@ -1,5 +1,10 @@
 # imports
 from vgem import EM
+import os, sys
+
+# append paths
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parent_dir)
 
 # databases
 from src.webscraper.firebase.auth import start_firebase
@@ -8,9 +13,10 @@ from src.webscraper.firebase.schedule import write_schedule
 from src.postgres.crud import Backend_Interface
 
 # veracross
-from src.webscraper.scraper.veracross import scrape_veracross
+from src.webscraper.scraper.veracross.run import scrape_veracross
 
 def scrape_schedule(user_id):
+    
     ss = Backend_Interface()
     db = start_firebase()
 
@@ -25,7 +31,7 @@ def scrape_schedule(user_id):
         return {"message": "key not valid"}
 
     try:
-        creds = get_encrypted_credentials(db, user_id)
+        creds = get_encrypted_credentials(user_id, 'vc', db)
         username = creds['username_ciphertext']
         password = creds['password_ciphertext']
     except:

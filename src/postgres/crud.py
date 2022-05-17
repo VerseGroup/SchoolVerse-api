@@ -7,7 +7,11 @@ load_dotenv()
 class Backend_Interface:
     def __init__(self):
         self.DATABASE_URL = os.environ['DATABASE_URL']
-        self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        try:
+            self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(f"\nFailed: unable to connect to database with error \"{error}\"")
+            return None
 
     def create_user_table(self):
         """
