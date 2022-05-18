@@ -1,10 +1,17 @@
 # python imports
 import os
+import uuid
 
 # external imports 
 from fastapi import FastAPI
 from pydantic import BaseModel
 from vgem import EM
+
+# config
+from src.config import AUTH_TOKEN_REQUIRED
+
+# token
+from src.token import verify_token, verify_ios_token
 
 # firebase
 from src.webscraper.firebase.auth import start_firebase
@@ -27,6 +34,11 @@ db = start_firebase()
 
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
+
+    token = request.auth_token
+    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
+        return {"error": "Invalid token"}
+
     ss = Backend_Interface()
     try:
         if request.platform_code == 'sc':
@@ -37,16 +49,15 @@ async def scrape_(request: ScrapeRequest):
         e = str(e).replace('\'','-')
         return {"message": "error", "exception": str(e)}
 
-# Lunch is a script for now
-
-#@app.get("/menu", status_code=200)
-#async def menu():
-#    return flik(db)
-
 ####### ROUTES [USER MANAGEMENT] #######
 
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
+
+    token = request.auth_token
+    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
+        return {"error": "Invalid token"}
+
     try:
         return link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
@@ -55,9 +66,29 @@ async def link_(request: LinkRequest):
 
 @app.post("/adduser", status_code=200)
 async def adduser(request: SignUpRequest):
+
+    # checking ios token
+    token = request.auth_token
+    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
+        return {"error": "Invalid token"}
+
+    # generating a new user token
+    if AUTH_TOKEN_REQUIRED:
+        new_token = str(uuid.uuid4())
+    try:
+        db.collection(u'USERS').document(request.user_id).set({'token': new_token})
+    except Exception as e:
+        e = str(e).replace('\'','-')
+        return {"message": "user does not exist in firebase", "exception": str(e)}
+
+    # opening postgres
     ss = Backend_Interface()
+
+    # generating user key
     handler = EM()
     key = handler.serialize_private_key()
+    
+    # creating the user in postgres
     try:
         response = ss.create_user(request.user_id, key)
         if response is not None:

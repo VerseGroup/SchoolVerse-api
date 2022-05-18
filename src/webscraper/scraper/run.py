@@ -1,6 +1,12 @@
 # encryption
 from vgem import EM
 
+# config
+from src.config import AUTH_TOKEN_REQUIRED
+
+# token
+import uuid
+
 # flik
 from src.webscraper.scraper.flik.scraper import scrape_flik
 from src.webscraper.firebase.menu import write_menu
@@ -75,7 +81,8 @@ def events(db, username, password):
 
     return {"message": "success"}
 
-def create_user(ss, user_id):
+def create_user(ss, user_id)
+
     handler = EM()
     key = str(handler.serialize_private_key())
     ss.create_user(user_id, key)
