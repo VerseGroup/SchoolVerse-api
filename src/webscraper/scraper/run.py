@@ -29,7 +29,7 @@ def schoology(db, ss, user_id):
         key = ss.get_user_keychain(user_id)
     except Exception as e:
         e = str(e).replace('\'','-')
-        return {"message": "user does not exist postgres", "exception": str(e)}
+        return {"message": "user does not exist in postgres", "exception": str(e)}
     
     handler = EM(serialized_private_key=key)
 
