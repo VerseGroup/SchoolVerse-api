@@ -81,7 +81,8 @@ def events(db, username, password):
 
     return {"message": "success"}
 
-def create_user(ss, user_id)
+# this is a helper function for the link function below
+def create_user(ss, user_id):
 
     handler = EM()
     key = str(handler.serialize_private_key())

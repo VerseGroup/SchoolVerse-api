@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED
+from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
 
 # token
 from src.token import verify_token, verify_ios_token
@@ -35,9 +35,14 @@ db = start_firebase()
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
 
+    # verify token
     token = request.auth_token
     if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
         return {"error": "Invalid token"}
+
+    # check platform code
+    if request.platform_code not in SUPPORTED_PLATFORMS:
+        return {"error": "unsupported platform code"}
 
     ss = Backend_Interface()
     try:
@@ -54,10 +59,16 @@ async def scrape_(request: ScrapeRequest):
 @app.post("/link", status_code=200)
 async def link_(request: LinkRequest):
 
+    # verify token
     token = request.auth_token
     if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
         return {"error": "Invalid token"}
 
+    # check code
+    if request.platform_code not in SUPPORTED_PLATFORMS:
+        return {"message": "unsupported platform code"}
+
+    # linking user
     try:
         return link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
@@ -69,7 +80,7 @@ async def adduser(request: SignUpRequest):
 
     # checking ios token
     token = request.auth_token
-    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
+    if AUTH_TOKEN_REQUIRED and not verify_ios_token(db, token):
         return {"error": "Invalid token"}
 
     # generating a new user token
