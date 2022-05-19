@@ -11,9 +11,9 @@ def write_event(event, db):
         try:
             start = convert_date(event['start_date'], event['start_time'])
             end = convert_date(event['end_date'], event['end_time'])
-        except:
-            start = "something broke"
-            end = "something broke"
+        except Exception as e:
+            start = f"something broke with error {str(e)}"
+            end = f"something broke with error {str(e)}"
 
         event.pop('start_date')
         event.pop('start_time')
@@ -77,7 +77,7 @@ def convert_date(date, time):
     minute = time[1]
 
     am_pm = times[1]
-    if am_pm == "PM":
+    if am_pm == "PM" and hour != "12":
         hour = int(hour) + 12
 
     date_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
