@@ -86,11 +86,11 @@ async def adduser(request: SignUpRequest):
     # generating a new user token
     if AUTH_TOKEN_REQUIRED:
         new_token = str(uuid.uuid4())
-    try:
-        db.collection(u'USERS').document(request.user_id).set({'token': new_token})
-    except Exception as e:
-        e = str(e).replace('\'','-')
-        return {"message": "user does not exist in firebase", "exception": str(e)}
+        try:
+            db.collection(u'USERS').document(request.user_id).set({'token': new_token})
+        except Exception as e:
+            e = str(e).replace('\'','-')
+            return {"message": "user does not exist in firebase", "exception": str(e)}
 
     # opening postgres
     ss = Backend_Interface()
