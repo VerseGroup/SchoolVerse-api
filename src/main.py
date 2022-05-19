@@ -92,6 +92,21 @@ async def adduser(request: SignUpRequest):
             e = str(e).replace('\'','-')
             return {"message": "user does not exist in firebase", "exception": str(e)}
 
+    # new user template
+    USER = {
+        'user_id': request.user_id,
+        'CREDS' : {},
+        'SCHOOLOGY_TASK_IDS' : [],
+        'courses' : [],
+    }
+
+    # adding user document to firebase
+    try:
+        db.collection(u'USERS').document(request.user_id).set(USER)
+    except Exception as e:
+        e = str(e).replace('\'','-')
+        return {"message": "error adding user doc to firebase", "exception": str(e)}
+
     # opening postgres
     ss = Backend_Interface()
 
