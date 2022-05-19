@@ -7,7 +7,7 @@ SELENIUM_TYPE = "chrome"
 MODE = "dev"
 
 # supported platforms to scrape
-SUPPORTED_PLATFORMS=["sc"]
+SUPPORTED_PLATFORMS=["sc", "vc"]
 
 # number of api tasks at once
 MAX_TASKS=2
