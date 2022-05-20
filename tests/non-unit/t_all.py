@@ -19,6 +19,7 @@ from src.webscraper.firebase.tasks import write_tasks
 from src.webscraper.firebase.menu import write_menu
 from src.webscraper.firebase.courses import write_courses
 from src.webscraper.firebase.events import write_events
+from src.webscraper.firebase.sports import write_sports
 
 # scraper imports
 from src.webscraper.scraper.schoology.scraper import scrape_schoology
@@ -26,6 +27,7 @@ from src.webscraper.scraper.veracross.run import scrape_veracross
 from src.webscraper.scraper.flik.scraper import scrape_flik
 from src.webscraper.firebase.auth import start_firebase
 from src.webscraper.scraper.veracross.events import get_events
+from src.webscraper.scraper.veracross.sports import run_sports_scraper
 
 # external imports
 from getpass import getpass
@@ -69,7 +71,10 @@ def events(username, password):
     events = get_events(username, password)
     write_events(events, db)
 
-    return "Finished Events"
+    sports = run_sports_scraper(username, password)
+    write_sports(sports, db)
+
+    return "Finished Events and Sports"
 
 def schoology(username, password):
     returns = scrape_schoology(username, password)

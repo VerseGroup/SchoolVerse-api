@@ -1,5 +1,4 @@
 # external imports
-from platform import platform
 from bs4 import BeautifulSoup
 import json
 import uuid
