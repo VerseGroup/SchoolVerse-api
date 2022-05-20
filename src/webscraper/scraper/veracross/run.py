@@ -50,7 +50,7 @@ def scrape_veracross(username, password, today=True) -> tuple:
     days = []
 
     scraping_day = int(today[0])
-    scraping_month = int(today[1])
+    scraping_month = int(today[1]) - 2 # remove -=2
 
     while count < 30:
 
