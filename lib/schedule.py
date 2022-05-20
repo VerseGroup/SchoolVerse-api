@@ -25,7 +25,10 @@ def update_schedules(db, ss):
     success = []
     
     # get the list of users that need schedules
-    ids = db.collection(u'QUEUES').document(u'schedules_queue').get().to_dict()['user_ids']
+    ids = db.collection(u'QUEUES').document(u'schedule_queue').get().to_dict()['user_ids']
+    
+    print("reached:")
+    print(ids)
 
     for id in ids:
 
@@ -60,7 +63,7 @@ def update_schedules(db, ss):
             failed.append(failure)
 
     # write queue back to firebase
-    db.collection(u'QUEUES').document(u'schedules_queue').set({'user_ids': ids})
+    db.collection(u'QUEUES').document(u'schedule_queue').set({'user_ids': ids})
 
     return {"message" : "finished", "successes": success, "failed": failed}
 
@@ -68,13 +71,19 @@ if __name__ == "__main__":
     try: 
         db = start_firebase()
         ss = Backend_Interface()
+        print("DBS STARTED \n")
     except Exception as e:
         db = None
         ss = None
         print(f"failed with error \"{str(e)}\"")
 
+    print("starting schedule process... \n")
+
     try:
         if db is not None and ss is not None:    
+
+            print("reached... \n")
+
             returns = update_schedules(db, ss)
             db.close()
             print(returns)
