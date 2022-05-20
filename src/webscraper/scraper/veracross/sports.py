@@ -77,6 +77,10 @@ def get_url(start_day, start_month, start_year, end_day, end_month, end_year):
     return f"https://portals.veracross.com/hackley/student/calendar/athletic/events?begin_date={start_date}&end_date={end_date}"
 
 def parse_sports(html):
+
+    soup = BeautifulSoup(html, 'html.parser')
+    html = soup.find_all('pre')[0].text
+
     sports = json.loads(html)
     parsed_sports = []
     
@@ -95,6 +99,8 @@ def parse_sports(html):
             continue
 
         parsed_sports.append(SportModel(id, start_date, start_time, end_date, end_time, description, location, link_style).serialize())
+
+    return parsed_sports
 
 def get_sport_data(start_day, start_month, start_year, end_day, end_month, end_year, driver):
    
@@ -134,5 +140,7 @@ def run_sports_scraper(username, password):
     file.close()
 
     sports = parse_sports(sports)
+
+    print(sports)
 
     return sports
