@@ -54,6 +54,10 @@ async def scrape_(request: ScrapeRequest):
         e = str(e).replace('\'','-')
         return {"message": "error", "exception": str(e)}
 
+@app.post("/menu", status_code=200)
+async def menu_() -> dict:
+    return flik(db)
+
 ####### ROUTES [USER MANAGEMENT] #######
 
 @app.post("/link", status_code=200)

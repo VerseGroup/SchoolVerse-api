@@ -15,3 +15,6 @@ class LinkRequest(BaseModel):
 class SignUpRequest(BaseModel):
     user_id: str
     auth_token: str 
+
+class SignInRequest(BaseModel):
+    oauth_token: str
