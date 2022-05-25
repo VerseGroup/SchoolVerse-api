@@ -154,4 +154,6 @@ def get_day(html) -> str:
     day = day.replace("\n", "")
     day = day.replace("Day", "")
 
+    print(f"\n \n \n DAY: {day} \n \n \n")
+
     return day
