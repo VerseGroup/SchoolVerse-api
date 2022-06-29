@@ -67,7 +67,7 @@ six==1.16.0
 sniffio==1.2.0
 sortedcontainers==2.4.0
 soupsieve==2.3.2.post1
-starlette==0.17.1
+starlette==0.20.4
 toml==0.10.2
 tomli==2.0.1
 tqdm==4.64.0
