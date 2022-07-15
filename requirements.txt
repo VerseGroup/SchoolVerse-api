@@ -17,7 +17,7 @@ crayons==0.4.0
 cryptography==37.0.2
 cssselect==1.1.0
 fake-useragent==0.1.11
-fastapi==0.75.2
+fastapi==0.79.0
 firebase-admin==5.2.0
 google-api-core==2.8.1
 google-api-python-client==2.48.0
