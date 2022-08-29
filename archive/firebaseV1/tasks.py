@@ -15,7 +15,7 @@ def write_tasks(tasks, user_id, db):
 # writes a task to firebase within a user collection task collection, after checking that it doens't already exist
 def write_task(task, schoology_id, user_id, user_dict, db):
     task['user_id'] = user_id
-    task['due_date'] = convert_date(task['due_date'])
+    task['due_date'] = convert_sc_date(task['due_date'])
 
     task_uuid = str(uuid.uuid4())
     db.collection(u'TASKS').document(f'{task_uuid}').set(task)
@@ -23,7 +23,7 @@ def write_task(task, schoology_id, user_id, user_dict, db):
     db.collection(u'USERS').document(f'{user_id}').update({"SCHOOLOGY_TASK_IDS": user_dict['SCHOOLOGY_TASK_IDS'] + [schoology_id]})
 
 # converts the schoology date into firebase timsetamp
-def convert_date(date):
+def convert_sc_date(date):
     date = date.split(' ')
 
     time = date[1]

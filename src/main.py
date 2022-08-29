@@ -14,7 +14,7 @@ from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
 from src.token import verify_token, verify_ios_token
 
 # firebase
-from src.webscraper.firebase.auth import start_firebase
+from src.webscraper.firebaseV1.auth import start_firebase
 from src.postgres.crud import Backend_Interface
 
 # requests

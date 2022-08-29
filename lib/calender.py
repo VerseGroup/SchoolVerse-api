@@ -1,10 +1,10 @@
 from datetime import date
 
 # scraper imports
-from src.webscraper.firebase.events import write_events
+from src.webscraper.firebaseV1.events import write_events
 from src.webscraper.scraper.veracross import get_events
-from src.webscraper.firebase.auth import start_firebase
-from src.webscraper.firebase.menu import write_menu
+from src.webscraper.firebaseV1.auth import start_firebase
+from src.webscraper.firebaseV1.menu import write_menu
 from src.webscraper.scraper.flik import scrape_flik
 
 # reset imports

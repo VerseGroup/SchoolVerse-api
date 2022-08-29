@@ -7,7 +7,7 @@ def write_sports(events, db):
         write_sport(event, db)
 
 def write_sport(event, db):
-    if check_event_exists(event, db) == False:
+    if check_sports_event_exists(event, db) == False:
         doc_name = f"{event['id']}"
 
         db.collection(u'SPORTS').document(doc_name).set(event)
@@ -23,7 +23,7 @@ def write_sport(event, db):
     else:
         print(f"SPORT {event['id']} already exists")
 
-def check_event_exists(event, db):
+def check_sports_event_exists(event, db):
     existing_events_dict = db.collection(u'SPORTS').document('EXISTING_SPORTS').get().to_dict()
     existing_events = existing_events_dict['SPORTS']
     if existing_events is not None:

@@ -9,20 +9,20 @@ import uuid
 
 # flik
 from src.webscraper.scraper.flik.scraper import scrape_flik
-from src.webscraper.firebase.menu import write_menu
+from src.webscraper.firebaseV1.menu import write_menu
 from datetime import date
 
 # schoology
-from src.webscraper.firebase.tasks import write_tasks
+from src.webscraper.firebaseV1.tasks import write_tasks
 from src.webscraper.scraper.schoology.scraper import scrape_schoology
-from src.webscraper.firebase.courses import write_courses
+from src.webscraper.firebaseV1.courses import write_courses
 from src.webscraper.scraper.schoology.ensure import ensure_schoology
-from src.webscraper.firebase.credentials import get_encrypted_credentials, write_creds
+from src.webscraper.firebaseV1.credentials import get_encrypted_credentials, write_creds
 
 # veracross
 from src.webscraper.scraper.veracross.run import scrape_veracross
-from src.webscraper.firebase.schedule import write_schedule
-from src.webscraper.firebase.events import write_events
+from src.webscraper.firebaseV1.schedule import write_schedule
+from src.webscraper.firebaseV1.events import write_events
 from src.webscraper.scraper.veracross.events import get_events
 
 # postgres

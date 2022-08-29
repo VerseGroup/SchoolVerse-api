@@ -15,10 +15,10 @@ def write_menu(menu, db):
         to_write['breakfast'] = to_write['breakfast']['food']
         to_write['lunch'] = to_write['lunch']['food']
         to_write['dinner'] = to_write['dinner']['food']
-        to_write['date'] = convert_date(date)
+        to_write['date'] = convert_flik_date(date)
         menu_ref.set(to_write)
 
-def convert_date(date):
+def convert_flik_date(date):
     date = date.split('-')
     year = date[0]
     month = date[1]

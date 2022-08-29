@@ -13,21 +13,14 @@ doubleparentdir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(doubleparentdir)
 
 # firebase imports
-from src.webscraper.firebase.credentials import get_encrypted_credentials, write_creds
-from src.webscraper.firebase.schedule import write_schedule
-from src.webscraper.firebase.tasks import write_tasks
-from src.webscraper.firebase.menu import write_menu
-from src.webscraper.firebase.courses import write_courses
-from src.webscraper.firebase.events import write_events
-from src.webscraper.firebase.sports import write_sports
+from src.firebaseV2.read import get_encrypted_credentials
+from src.firebaseV2.write import write_courses, write_creds, write_events, write_menu, write_sports, write_tasks, write_schedule
+from src.firebaseV2.auth import start_firebase
 
 # scraper imports
-from src.webscraper.scraper.schoology.scraper import scrape_schoology
-from src.webscraper.scraper.veracross.run import scrape_veracross
-from src.webscraper.scraper.flik.scraper import scrape_flik
-from src.webscraper.firebase.auth import start_firebase
-from src.webscraper.scraper.veracross.events import get_events
-from src.webscraper.scraper.veracross.sports import run_sports_scraper
+from src.scraperV2.vc import scrape_veracross, get_events, run_sports_scraper
+from src.scraperV2.sc import scrape_schoology
+from src.scraperV2.fk import scrape_flik
 
 # external imports
 from getpass import getpass

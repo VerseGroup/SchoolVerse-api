@@ -127,3 +127,15 @@ class User():
 
         return serialized_user
 
+class Temp_Event:
+    def __init__(self, id, name, date):
+        self.name = name
+        self.date = date
+        self.id = id
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date
+        }

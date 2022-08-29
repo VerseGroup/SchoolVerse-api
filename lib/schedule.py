@@ -10,9 +10,9 @@ sys.path.append(parent_dir)
 from src.webscraper.scraper.veracross.run import scrape_veracross
 
 # firebase
-from src.webscraper.firebase.credentials import get_encrypted_credentials
-from src.webscraper.firebase.schedule import write_schedule
-from src.webscraper.firebase.auth import start_firebase
+from src.webscraper.firebaseV1.credentials import get_encrypted_credentials
+from src.webscraper.firebaseV1.schedule import write_schedule
+from src.webscraper.firebaseV1.auth import start_firebase
 
 # postgres
 from src.postgres.crud import Backend_Interface

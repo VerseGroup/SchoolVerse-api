@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # local imports
-from src.webscraper.models import Task, Course
+from models import Task, Course
 from src.webscraper.scraper.schoology.courses import parse_courses
 from src.webscraper.scraper.schoology.auth import auth_schoology
 from src.webscraper.scraper.schoology.calender import parse_calender
