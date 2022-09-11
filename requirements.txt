@@ -17,7 +17,7 @@ crayons==0.4.0
 cryptography==37.0.2
 cssselect==1.1.0
 fake-useragent==0.1.11
-fastapi==0.75.2
+fastapi==0.83.0
 firebase-admin==5.2.0
 google-api-core==2.8.1
 google-api-python-client==2.48.0
@@ -36,7 +36,7 @@ httplib2==0.20.4
 idna==3.3
 importlib-metadata==4.11.4
 iniconfig==1.1.1
-lxml==4.8.0
+lxml==4.9.1
 markdownify==0.11.2
 msgpack==1.0.3
 outcome==1.1.0
