@@ -10,21 +10,25 @@ from vgem import EM
 # config
 from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
 
-# token
-from src.token import verify_token, verify_ios_token
-
 # firebase
-from src.webscraper.firebaseV1.auth import start_firebase
+from src.firebaseV2.auth import start_firebase
 from src.postgres.crud import Backend_Interface
 
 # requests
 from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
 
-# scraper
-from src.webscraper.scraper.run import flik, schoology, veracross
+# webscraper
+from src.scraperV2.vc.vc import scrape_veracross
+from src.scraperV2.sc import scrape_schoology
+from src.scraperV2.fk import scrape_flik
 
-# linking
-from src.webscraper.scraper.run import link
+# DELETE LATER !!!!! - TESTING #
+def verify_token(token):
+    return True
+
+def verify_ios_token(token):
+    return True
+#################################
 
 # startup
 app = FastAPI()
@@ -47,7 +51,7 @@ async def scrape_(request: ScrapeRequest):
     ss = Backend_Interface()
     try:
         if request.platform_code == 'sc':
-            return schoology(db, ss, request.user_id)
+            return False #schoology(db, ss, request.user_id)
         else:
             return {"message": "unsupported platform code"}
     except Exception as e:
@@ -56,7 +60,7 @@ async def scrape_(request: ScrapeRequest):
 
 @app.post("/menu", status_code=200)
 async def menu_() -> dict:
-    return flik(db)
+    return False #flik(db)
 
 ####### ROUTES [USER MANAGEMENT] #######
 
@@ -74,7 +78,7 @@ async def link_(request: LinkRequest):
 
     # linking user
     try:
-        return link(db, request.user_id, request.platform_code, request.username, request.password)
+        return False #link(db, request.user_id, request.platform_code, request.username, request.password)
     except Exception as e:
         e = str(e).replace('\'','-')
         return {"message": "error", "exception": str(e)}

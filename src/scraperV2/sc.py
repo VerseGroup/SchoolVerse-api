@@ -12,7 +12,7 @@ import markdownify as md
 import uuid, json, time
 
 # models
-from models import Event, Task, Course, Temp_Event
+from src.models import Event, Task, Course, Temp_Event
 
 # generate an authenticated schoology request session
 def auth_schoology(username, password) -> requests.Session:

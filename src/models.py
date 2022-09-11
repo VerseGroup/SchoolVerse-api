@@ -1,3 +1,6 @@
+import uuid
+from datetime import datetime
+
 class Task():
    
     def __init__(self, name, due_date, course_id=None, course_name=None, completed=False, platform_information=None, description=None):
@@ -139,3 +142,58 @@ class Temp_Event:
             'name': self.name,
             'date': self.date
         }
+
+# day, month two digits (ex. 01) year four digits (ex. 2020)
+class SportModel:
+    def __init__(self, id, start_date, start_time, end_date, end_time, description, location, link_style):
+        self.id = uuid.uuid4()
+
+        self.platform_information = {
+            'platform_code': 'vc',
+            'id': id,
+            'link_style': link_style
+        }
+
+        self.location = location
+        self.description = description
+        
+        self.start_date = convert_date(start_date, start_time)
+        self.end_date = convert_date(end_date, end_time)
+
+    def serialize(self):
+        return {
+            'id': str(self.id),
+            'platform_information': self.platform_information,
+            'location': self.location,
+            'description': self.description,
+            'start_date': self.start_date,
+            'end_date': self.end_date
+        }
+
+def convert_date(date, time):
+
+    if date is None:
+        return None
+    
+    date = date.split("/")
+    
+    month = date[0]
+    day = str(int(date[1]) + 1) # bug where dates are off by one
+    year = date[2]
+
+    if time is None:
+        return datetime(int(year), int(month), int(day))
+
+    times = time.split(" ")
+    
+    time = times[0].split(":")
+    hour = time[0]
+    minute = time[1]
+
+    am_pm = times[1]
+    if am_pm == "PM" and hour != "12":
+        hour = int(hour) + 12
+
+    date_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
+    
+    return date_object

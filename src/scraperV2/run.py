@@ -21,7 +21,7 @@ from src.firebaseV2.read import get_encrypted_credentials
 
 # veracross
 from src.firebaseV2.write import write_schedule, write_events
-from src.scraperV2.vc import scrape_veracross, get_events
+from scraperV2.vc.vc import scrape_veracross, get_events
 
 # postgres
 from src.postgres.crud import Backend_Interface

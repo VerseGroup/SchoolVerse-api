@@ -18,7 +18,7 @@ from src.firebaseV2.write import write_courses, write_creds, write_events, write
 from src.firebaseV2.auth import start_firebase
 
 # scraper imports
-from src.scraperV2.vc import scrape_veracross, get_events, run_sports_scraper
+from scraperV2.vc.vc import scrape_veracross, get_events, run_sports_scraper
 from src.scraperV2.sc import scrape_schoology
 from src.scraperV2.fk import scrape_flik
 
