@@ -1,3 +1,9 @@
+# imports
+from src.firebaseV2.utils import convert_date, convert_flik_date
+import json, uuid
+from datetime import datetime, date, time
+
+
 def write_courses(courses, user_id, db):
     user_dict = db.collection(u'USERS').document(f"{user_id}").get().to_dict()
 
@@ -36,8 +42,6 @@ def write_creds(username, password, user_id, platform_code, db):
     db.collection(u'USERS').document(f'{user_id}').update(formatted_data) 
     
     return {"message" : "success"}
-
-from datetime import datetime
 
 def write_events(events, db):
     for event in events:
@@ -95,8 +99,6 @@ def check_event_exists(event, db):
             return True
     return False
 
-from datetime import datetime
-
 # writes menu to firebase
 def write_menu(menu, db):
 
@@ -115,23 +117,17 @@ def write_menu(menu, db):
         to_write['date'] = convert_flik_date(date)
         menu_ref.set(to_write)
 
-import json
-
-def write_schedule(user_id, days, db):
+def write_schedule(user_id, schedule, db):
     
     schedule = {
         "user_id": str(user_id),
-        "days": days
+        "schedule": schedule
     }
 
     # wierd type issue fix
     schedule = json.loads(json.dumps(schedule))
 
     db.collection(u'SCHEDULES').document(f'{user_id}').set(schedule)
-
-# TODO: CLEAN THIS CODE 
-
-from datetime import datetime
 
 def write_sports(events, db):
     for event in events:
@@ -174,9 +170,6 @@ def check_task_exists(id, user_dict, db) -> bool:
     
     return False
 
-import uuid
-from datetime import datetime, date, time
-
 def write_tasks(tasks, user_id, db):
     user_ref = db.collection(u'USERS').document(f'{user_id}')
 
@@ -191,7 +184,7 @@ def write_tasks(tasks, user_id, db):
 # writes a task to firebase within a user collection task collection, after checking that it doens't already exist
 def write_task(task, schoology_id, user_id, user_dict, db):
     task['user_id'] = user_id
-    task['due_date'] = convert_sc_date(task['due_date'])
+    task['due_date'] = convert_date(task['due_date'])
 
     task_uuid = str(uuid.uuid4())
     db.collection(u'TASKS').document(f'{task_uuid}').set(task)

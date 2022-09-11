@@ -1,11 +1,10 @@
 from datetime import date
 
 # scraper imports
-from src.webscraper.firebaseV1.events import write_events
-from src.webscraper.scraper.veracross import get_events
-from src.webscraper.firebaseV1.auth import start_firebase
-from src.webscraper.firebaseV1.menu import write_menu
-from src.webscraper.scraper.flik import scrape_flik
+from src.firebaseV2.write import write_events, write_menu
+from src.firebaseV2.auth import start_firebase
+#from src.scraperV2.vc.vc import get_events # not finished yet
+from src.scraperV2.fk import scrape_flik
 
 # reset imports
 from lib.resets.reset_events import reset_events
@@ -14,7 +13,7 @@ from lib.resets.reset_flik import reset_flik_tables
 from getpass import getpass
 
 def scrape_events(db, username, password):
-    events = get_events(username, password)
+    events = 1 #get_events(username, password)
     write_events(events, db)
 
 def scrape_menus(db, today=True):

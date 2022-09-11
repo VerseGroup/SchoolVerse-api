@@ -7,12 +7,12 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parent_dir)
 
 # veracross
-from src.webscraper.scraper.veracross.run import scrape_veracross
+from src.scraperV2.vc.vc import scrape_veracross
 
 # firebase
-from src.webscraper.firebaseV1.credentials import get_encrypted_credentials
-from src.webscraper.firebaseV1.schedule import write_schedule
-from src.webscraper.firebaseV1.auth import start_firebase
+from src.firebaseV2.read import get_encrypted_credentials
+from src.firebaseV2.write import write_schedule
+from src.firebaseV2.auth import start_firebase
 
 # postgres
 from src.postgres.crud import Backend_Interface
