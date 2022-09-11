@@ -71,35 +71,15 @@ class Period():
             "room" : self.room
         }
 
-class Day():
-    def __init__(self, num, first, special, second, seventy, lunch1, lunch2, four, five):
-        self.num = num
-        self.first = first
-        self.special = special
-        self.second = second
-        self.seventy = seventy
-        self.lunch1 = lunch1
-        self.lunch2 = lunch2
-        self.four = four
-        self.five = five
-
-    def serialize(self):
-        return {
-            "Period 1": self.first,
-            "Period Special": self.special,
-            "Period 2": self.second,
-            "Period 70": self.seventy,
-            "Period Lunch 1": self.lunch1,
-            "Period Lunch 2": self.lunch2,
-            "Period 4": self.four,
-            "Period 5": self.five
-        }
-
 def parse_table(soup):
     days = soup.find_all("div", class_="day")
 
+    schedule = {}
+
     current_day = 1
     for day in days:
+
+        day = []
 
         blocks = soup.find_all("div", class_="block")
         for block in blocks:
@@ -111,6 +91,23 @@ def parse_table(soup):
             text=block.p.text
             text = text.split(",")
             
+            # removing unwanted list values
+            try:
+                text = text.remove("\n")
+            except:
+                pass
+
+            try:
+                text = [x.strip() for x in text]
+                text[:] = [x for x in text if x]
+            except:
+                pass
+
+            if text is None or len(text) == 0:
+                continue
+
+            print(text, end="\n\n")
+            
             # normal period
             if len(text) == 3:
                 name = text[0]
@@ -119,7 +116,13 @@ def parse_table(soup):
                 time = time.split(" ")
                 start_time = time[0]
                 end_time = time[2]
-                period_block = time[4] + time[5]
+                try:
+                    period_block = time[4] + " " + time[5]
+                except:
+                    try:
+                        period_block = time[4]
+                    except:
+                        period_block = ""
 
                 try:
                     teacher = text[2]
@@ -130,7 +133,7 @@ def parse_table(soup):
                     teacher = ""
                     room = text[2]
 
-                period = Period(start_time, end_time, name, block, teacher, room)
+                period = Period(start_time, end_time, name, period_block, teacher, room)
 
             # special period/lunch
             elif len(text) == 2:
@@ -142,19 +145,25 @@ def parse_table(soup):
                 end_time = time[2]
                 period_block = time[4] + time[5]
 
-                period = Period(start_time, end_time, name, block)
+                period = Period(start_time, end_time, name, period_block)
 
             # homeroom
             elif len(text) == 1:
                 text = text[0].split("-")
                 name = text[0]
-                start_time = text[1]
+                try:
+                    start_time = text[1]
+                except:
+                    start_time = ""
                 end_time = ""
 
                 period = Period(start_time, end_time, name)
-            
-            # next need to return periods, sort into days, sort into schedule, store in firebase
 
+            day.append(period.serialize())
+        
+        schedule[current_day] = day
+
+    return schedule
             
 # testing
 
@@ -164,4 +173,5 @@ if __name__ == "__main__":
     password = getpass.getpass("Enter your password: ")
 
     schedule = scrape_veracross(username, password)
+    print(schedule)
     
