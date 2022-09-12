@@ -43,61 +43,15 @@ def write_creds(username, password, user_id, platform_code, db):
     
     return {"message" : "success"}
 
+# right now it deletes all then writes all, but it should be changed to only write new ones
 def write_events(events, db):
+
+    event_docs = db.collection(u'EVENTS').list_documents()
+    for doc in event_docs:
+        db.collection(u'EVENTS').document(doc.id).delete()
+
     for event in events:
-        write_event(event, db)
-
-def write_event(event, db):
-    if check_event_exists(event, db) == False:
-        doc_name = f"{event['id']}"
-        
-        try:
-            start = convert_date(event['start_date'], event['start_time'])
-            end = convert_date(event['end_date'], event['end_time'])
-        except Exception as e:
-            start = f"something broke with error {str(e)}"
-            end = f"something broke with error {str(e)}"
-
-        event.pop('start_date')
-        event.pop('start_time')
-        event.pop('end_date')
-        event.pop('end_time')
-        
-        event['start'] = start
-        event['end'] = end
-
-        if "Day" in event['description'] and len(event['description']) == 5:
-            event.pop('location')
-            event.pop('end')
-            event.pop('description')
-            event['day'] = event['name']
-            event.pop('name')
-            event['date'] = event['start']
-            event.pop('start')
-
-            db.collection(u'DAYS').document(doc_name).set(event)
-
-        else:
-            db.collection(u'EVENTS').document(doc_name).set(event)
-        
-        existing_events = db.collection(u'EVENTS').document('EXISTING_EVENTS').get().to_dict()['EVENTS']
-
-        if existing_events is None:
-            existing_events = [event['platform_information']['event_id']]
-        else:
-            existing_events.append(event['platform_information']['event_id'])
-        
-        db.collection(u'EVENTS').document("EXISTING_EVENTS").set({"EVENTS": existing_events})
-    else:
-        print(f"Event {event['id']} already exists")
-
-def check_event_exists(event, db):
-    existing_events_dict = db.collection(u'EVENTS').document('EXISTING_EVENTS').get().to_dict()
-    existing_events = existing_events_dict['EVENTS']
-    if existing_events is not None:
-        if event['platform_information']['event_id'] in existing_events:
-            return True
-    return False
+        db.collection(u'EVENTS').document(f'{event["id"]}').set(event)
 
 # writes menu to firebase
 def write_menu(menu, db):
