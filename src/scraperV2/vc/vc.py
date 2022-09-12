@@ -8,9 +8,6 @@ from src.config import SELENIUM_TYPE
 from src.scraperV2.selenium_utils import generate_driver, get
 from src.scraperV2.vc.auth import auth_veracross
 
-# URLS
-VERACROSS_URL = "https://accounts.veracross.com/hackley/portals/login"
-
 # selenium imports
 from selenium.webdriver.common.by import By
 from selenium import webdriver
@@ -164,14 +161,3 @@ def parse_table(soup):
         schedule[current_day] = day
 
     return schedule
-            
-# testing
-
-if __name__ == "__main__":
-    import getpass
-    username = input("Enter your username: ")
-    password = getpass.getpass("Enter your password: ")
-
-    schedule = scrape_veracross(username, password)
-    print(schedule)
-    
