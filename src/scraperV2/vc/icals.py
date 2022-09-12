@@ -18,7 +18,7 @@ from selenium.webdriver.common.keys import Keys
 
 def get_icals(username, password):
 
-    TYPE = "firefox"
+    TYPE = SELENIUM_TYPE
 
     TARGET_LINK = "https://portals.veracross.com/hackley/student/calendar/subscribe/school"
 
@@ -37,12 +37,20 @@ def get_icals(username, password):
     soup = BeautifulSoup(html, 'html.parser')
 
     # scrape through the links in the soup and get the ical links
-    ical_links = []
+    ical_links = {}
     for link in soup.find_all('a'):
         if link.get('href') and 'webcal' in link.get('href'):
-            ical_links.append(link.get('href'))
+            ical_link = link.get('href')
+        
+            name = link.parent.parent
 
-    ical_links.pop(0)
+            # get the first element in name
+            name = name.find_all('div')[0].text.strip()
+
+            ical_links[name] = ical_link
+
+    # remove the first link because it is the school calendar
+    ical_links.pop('All School Events')
 
     for link in ical_links:
         link.replace("webcal", "http")

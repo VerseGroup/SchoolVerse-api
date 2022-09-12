@@ -14,7 +14,7 @@ sys.path.append(tripleparentdir)
 # external imports
 from getpass import getpass
 
-from scraperV2.vc.icals import get_icals
+from src.scraperV2.vc.icals import get_icals
 
 def test_veracross():
     USERNAME = input('USERNAME: ')
