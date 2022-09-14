@@ -86,4 +86,10 @@ To view documentation: run the server and visit /docs
     ~~~
     - Navigate to localhost at port 80 (http://localhost:80)
 
+- psycopg2-binary installation on M1
+Workarounds:
+https://github.com/brianmario/mysql2/issues/795#issuecomment-337006164
+https://github.com/psycopg/psycopg2/issues/1286#issuecomment-914286206
+
+
 
