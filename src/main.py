@@ -18,9 +18,7 @@ from src.postgres.crud import Backend_Interface
 from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
 
 # webscraper
-from src.scraperV2.vc.vc import scrape_veracross
-from src.scraperV2.sc import scrape_schoology
-from src.scraperV2.fk import scrape_flik
+from src.run import schoology, veracross, flik
 
 # DELETE LATER !!!!! - TESTING #
 def verify_token(token):
