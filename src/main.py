@@ -8,17 +8,17 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
+#from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
 
 # firebase
-from src.firebaseV2.auth import start_firebase
-from src.postgres.crud import Backend_Interface
+#from src.firebaseV2.auth import start_firebase
+#from src.postgres.crud import Backend_Interface
 
 # requests
-from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
+#from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
 
 # webscraper
-from src.run import schoology, veracross, flik
+#from src.run import schoology, veracross, flik
 
 # DELETE LATER !!!!! - TESTING #
 def verify_token(token):
@@ -30,10 +30,13 @@ def verify_ios_token(token):
 
 # startup
 app = FastAPI()
+
+'''
 db = start_firebase()
+'''
 
 ####### ROUTES [SCRAPER] #######
-
+'''
 @app.post("/scrape", status_code=200)
 async def scrape_(request: ScrapeRequest):
 
@@ -132,6 +135,7 @@ async def adduser(request: SignUpRequest):
         return {"message": "error", "exception" : str(e)}
 
 ####### ROUTES [GENERAL] #######
+'''
 
 @app.get("/ping", status_code=200)
 async def ping():

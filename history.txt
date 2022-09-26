@@ -1,0 +1,16 @@
+  996  brew install postgresql
+  997  nano .bash_profile
+  998  export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+  999  export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib -L${HOME}/.pyenv/versions/3.8.10/lib"
+ 1000  export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+ 1001  pip install -r requirements.txt
+ 1002  clear
+ 1003  clear
+ 1004  clear
+ 1005  clear
+ 1006  clear
+ 1007  source /Users/pevans/Documents/SchoolVerse-webscraper/env/bin/activate
+ 1008  history
+ 1009  history 2
+ 1010  history 1
+ 1011  history freeze > history.txt
