@@ -135,16 +135,19 @@ def write_task(task, schoology_id, user_id, user_dict, db):
 
     db.collection(u'users').document(f'{user_id}').update({"task_ids": user_dict['task_ids'] + [schoology_id]})
 
+# clubs
+
 def write_club(club, db):
-    try:
-        club = db.collection(u'clubs').document(f"{club['name']}").get().to_dict()
-        if club is not None:
-            return {"message" : "Club already exists"}
-    except:
-        return {"message" : "Error checking if club exists"}
+    club = club.serialize()
 
     try:
-        db.collection(u'clubs').document(f'{club["name"]}').set(club.serialize())
+        current_clubs = db.collection(u'clubs').list_documents()
+        for doc in current_clubs:
+            if doc.get().to_dict()['name'] == club['name']:
+                return {"message" : "club already exists"}
     except:
-        return {"message" : "Error writing club to database"}
+        return {"message" : "error"}
+        
+    db.collection(u'clubs').document(f'{club["name"]}').set(club)
 
+    return {"message" : "success"}

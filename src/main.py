@@ -18,7 +18,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest
+from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -42,6 +42,10 @@ db = start_firebase()
 ####### ROUTES [SCRAPER] #######
 @app.post("/getkey", status_code=200)
 def get_key(request: SignUpRequest):
+    # check user exists
+    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+        return {"message": "user does not exist"}
+
     # check if user exists
 
     if db.collection(u'users').document(f'{request.user_id}').get().exists:
@@ -62,6 +66,10 @@ def get_key(request: SignUpRequest):
 
 @app.post("/scrape", status_code=200)
 def scrape(request: ScrapeRequest):
+    # check user exists
+    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+        return {"message": "user does not exist"}
+
     private_key = get_private_key(request.user_id, db)
 
     if private_key['message'] != 'success':
@@ -82,6 +90,29 @@ def scrape(request: ScrapeRequest):
 
     return {"message": "success"}
 
+@app.post("/ensure", status_code=200)
+def ensure(request: EnsureRequest):
+    # check user exists
+    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+        return {"message": "user does not exist"}
+
+    private_key = get_private_key(request.user_id, db)
+
+    if private_key['message'] != 'success':
+        return private_key
+    else:
+        private_key = private_key['key']
+    
+    handler = EM(serialized_private_key=private_key)
+    username = handler.decrypt_rsa(request.e_username, True)
+    password = handler.decrypt_rsa(request.e_password, True)
+
+    result = ensure_schoology(username, password)
+    if result == True:
+        return {"message": "success"}
+    else:
+        return {"message": "failed"}
+
 ####### ROUTES [ClUBS] #######
 @app.post("/club/create", status_code=200)
 def create_club(request: CreateClubRequest):
@@ -95,36 +126,12 @@ def create_club(request: CreateClubRequest):
         updates=[],
         meetings=[]
     )
-    write_club(club, db)
+    return write_club(club, db)
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
-    current_members = db.collection(u'clubs').document(f'{request.club_name}').get().to_dict()['members']
-    db.collection(u'clubs').document(f'{request.club_name}').update({u'members': current_members.append(request.user_id)})
+    pass
 
-    current_clubs = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['clubs']
-    db.collection(u'users').document(f'{request.user_id}').update({u'clubs': current_clubs.append(request.club_name)})
-
-@app.get("/club/{club_name}", status_code=200)
-def get_club(club_name: str):
-    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
-    return club
-
-@app.get("/club/{club_name}/events", status_code=200)
-def get_club_events(club_name: str):
-    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
-    return club['events']
-
-@app.get("/club/{club_name}/updates", status_code=200)
-def get_club_updates(club_name: str):
-    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
-    return club['updates']
-
-@app.get("/club/{club_name}/meetings", status_code=200)
-def get_club_meetings(club_name: str):
-    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
-    return club['meetings']
-   
 ####### ROUTES [GENERAL] #######
 
 @app.get("/ping", status_code=200)

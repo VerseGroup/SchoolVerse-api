@@ -7,6 +7,13 @@ class ScrapeRequest(BaseModel):
     #platform_code: str
     #auth_token: str
 
+class EnsureRequest(BaseModel):
+    user_id: str
+    e_username: str
+    e_password: str
+    #platform_code: str
+    #auth_token: str
+
 class SignUpRequest(BaseModel):
     user_id: str
 
@@ -19,4 +26,5 @@ class CreateClubRequest(BaseModel):
 
 class JoinClubRequest(BaseModel):
     user_id: str
-    club_name: str
+    club_id: str
+
