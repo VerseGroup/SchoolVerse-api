@@ -5,7 +5,7 @@ from datetime import datetime, date, time
 
 
 def write_courses(courses, user_id, db):
-    user_dict = db.collection(u'USERS').document(f"{user_id}").get().to_dict()
+    user_dict = db.collection(u'users').document(f"{user_id}").get().to_dict()
 
     user_courses = user_dict['COURSES']
     if user_courses is None:
@@ -16,30 +16,20 @@ def write_courses(courses, user_id, db):
         user_courses.append(course)
 
     user_dict['COURSES'] = user_courses
-    db.collection(u'USERS').document(f"{user_id}").set(user_dict)
+    db.collection(u'users').document(f"{user_id}").set(user_dict)
 
 
-def write_creds(username, password, user_id, platform_code, db):
+def write_key(private_key, user_id, db):
 
     # getting the current cred array
-    user_ref = db.collection(u'USERS').document(f'{user_id}')
+    user_ref = db.collection(u'users').document(f'{user_id}')
     doc = user_ref.get()
     
-    # if it exists, update the array
-    if doc.exists:
-        doc_dict = doc.to_dict()
-        creds = doc_dict['CREDS']
-        creds[f'{platform_code}'] = [username, password]
-    
-    # if it doesnt exist, create the array
-    else:
-        creds = {f"{platform_code}" : [username, password]}
-
     # formatting the creds into the dictionary
-    formatted_data = {"CREDS" : creds}
+    formatted_data = {"private_key" : private_key}
 
     # writing the data to the database
-    db.collection(u'USERS').document(f'{user_id}').update(formatted_data) 
+    db.collection(u'users').document(f'{user_id}').update(formatted_data) 
     
     return {"message" : "success"}
 
@@ -113,10 +103,10 @@ def check_sports_event_exists(event, db):
     return False
 
 # iterates through connections to make sure it doesn't overwrite existing data
-def check_task_exists(id, user_dict, db) -> bool:
+def check_task_exists(id, user_dict) -> bool:
 
     if user_dict is not None:
-        existingids = user_dict['SCHOOLOGY_TASK_IDS']
+        existingids = user_dict['task_ids']
 
     for existingid in existingids:
         if existingid == id:
@@ -125,12 +115,12 @@ def check_task_exists(id, user_dict, db) -> bool:
     return False
 
 def write_tasks(tasks, user_id, db):
-    user_ref = db.collection(u'USERS').document(f'{user_id}')
+    user_ref = db.collection(u'users').document(f'{user_id}').collection(u'tasks')
 
     for task in tasks:
         user_dict = user_ref.get().to_dict()
         schoology_id = task['platform_information']['assignment_code']
-        if check_task_exists(schoology_id, user_dict, db):
+        if check_task_exists(schoology_id, user_dict):
             print(f"Task {schoology_id} already exists")
         else: 
             write_task(task, schoology_id, user_id, user_dict, db)
@@ -141,6 +131,6 @@ def write_task(task, schoology_id, user_id, user_dict, db):
     task['due_date'] = convert_date(task['due_date'])
 
     task_uuid = str(uuid.uuid4())
-    db.collection(u'TASKS').document(f'{task_uuid}').set(task)
+    db.collection(u'users').document(f'{user_id}').collection(u'tasks').document(f'{task_uuid}').set(task)
 
-    db.collection(u'USERS').document(f'{user_id}').update({"SCHOOLOGY_TASK_IDS": user_dict['SCHOOLOGY_TASK_IDS'] + [schoology_id]})
+    db.collection(u'users').document(f'{user_id}').update({"task_ids": user_dict['task_ids'] + [schoology_id]})

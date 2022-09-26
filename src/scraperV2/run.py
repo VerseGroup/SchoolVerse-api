@@ -23,9 +23,6 @@ from src.firebaseV2.read import get_encrypted_credentials
 from src.firebaseV2.write import write_schedule, write_events
 from scraperV2.vc.vc import scrape_veracross, get_events
 
-# postgres
-from src.postgres.crud import Backend_Interface
-
 def schoology(db, ss, user_id):
 
     # getting keys

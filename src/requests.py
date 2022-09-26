@@ -2,19 +2,17 @@ from pydantic import BaseModel
 
 class ScrapeRequest(BaseModel):
     user_id: str
-    platform_code: str
-    auth_token: str
+    e_username: str
+    e_password: str
+    #platform_code: str
+    #auth_token: str
 
 class LinkRequest(BaseModel):
     user_id: str
-    auth_token: str
+    #auth_token: str
     platform_code: str
     username: str
     password: str
 
 class SignUpRequest(BaseModel):
     user_id: str
-    auth_token: str 
-
-class SignInRequest(BaseModel):
-    oauth_token: str

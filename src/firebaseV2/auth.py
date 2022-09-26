@@ -5,7 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # secrets
-FILE_NAME = 'testing-edacb-firebase-adminsdk-v8h2i-f189331af9.json'
+FILE_NAME = 'testingsdk.json'
 SECRETS_PATH = f'secrets/{FILE_NAME}'
 
 class Firebase:

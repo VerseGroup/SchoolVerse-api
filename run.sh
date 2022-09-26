@@ -139,6 +139,7 @@ done
 echo ""
 echo "Running Server..."
 echo "Press Ctrl + C to exit"
+echo "Steven is very nice"
 echo ""
 
 RUN_SERVER

@@ -1,5 +1,6 @@
 # python imports
 import os
+from turtle import write
 import uuid
 
 # external imports 
@@ -8,17 +9,19 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-#from src.config import AUTH_TOKEN_REQUIRED, SUPPORTED_PLATFORMS
+#from src.config import AUTH_TOKEN_REQUIRED
 
 # firebase
-#from src.firebaseV2.auth import start_firebase
-#from src.postgres.crud import Backend_Interface
-
+from src.firebaseV2.auth import start_firebase
 # requests
-#from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
+from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
 
 # webscraper
-#from src.run import schoology, veracross, flik
+from src.scraperV2.sc import scrape_schoology, ensure_schoology
+
+# firebase
+from src.firebaseV2.write import write_key, write_creds, write_tasks
+from src.firebaseV2.read import get_private_key
 
 # DELETE LATER !!!!! - TESTING #
 def verify_token(token):
@@ -30,112 +33,49 @@ def verify_ios_token(token):
 
 # startup
 app = FastAPI()
-
-'''
 db = start_firebase()
-'''
 
 ####### ROUTES [SCRAPER] #######
-'''
-@app.post("/scrape", status_code=200)
-async def scrape_(request: ScrapeRequest):
+@app.post("/getkey", status_code=200)
+def get_key(request: SignUpRequest):
+    # check if user exists
 
-    # verify token
-    token = request.auth_token
-    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
-        return {"error": "Invalid token"}
+    if db.collection(u'users').document(f'{request.user_id}').get().exists:
+        pass
+    else:
+        return {"message": "user does not exist"}
 
-    # check platform code
-    if request.platform_code not in SUPPORTED_PLATFORMS:
-        return {"error": "unsupported platform code"}
+    handler = EM()
+    private_key = handler.serialize_private_key()
+    write_key(private_key, request.user_id, db)
+    db.collection(u'users').document(f'{request.user_id}').update({u'task_ids': []})
 
-    ss = Backend_Interface()
-    try:
-        if request.platform_code == 'sc':
-            return False #schoology(db, ss, request.user_id)
-        else:
-            return {"message": "unsupported platform code"}
-    except Exception as e:
-        e = str(e).replace('\'','-')
-        return {"message": "error", "exception": str(e)}
-
-@app.post("/menu", status_code=200)
-async def menu_() -> dict:
-    return False #flik(db)
-
-####### ROUTES [USER MANAGEMENT] #######
-
-@app.post("/link", status_code=200)
-async def link_(request: LinkRequest):
-
-    # verify token
-    token = request.auth_token
-    if AUTH_TOKEN_REQUIRED and not verify_token(db, request.user_id, token):
-        return {"error": "Invalid token"}
-
-    # check code
-    if request.platform_code not in SUPPORTED_PLATFORMS:
-        return {"message": "unsupported platform code"}
-
-    # linking user
-    try:
-        return False #link(db, request.user_id, request.platform_code, request.username, request.password)
-    except Exception as e:
-        e = str(e).replace('\'','-')
-        return {"message": "error", "exception": str(e)}
-
-@app.post("/adduser", status_code=200)
-async def adduser(request: SignUpRequest):
-
-    # checking ios token
-    token = request.auth_token
-    if AUTH_TOKEN_REQUIRED and not verify_ios_token(db, token):
-        return {"error": "Invalid token"}
-
-    # generating a new user token
-    if AUTH_TOKEN_REQUIRED:
-        new_token = str(uuid.uuid4())
-        try:
-            db.collection(u'USERS').document(request.user_id).set({'token': new_token})
-        except Exception as e:
-            e = str(e).replace('\'','-')
-            return {"message": "user does not exist in firebase", "exception": str(e)}
-
-    # new user template
-    USER = {
-        'user_id': request.user_id,
-        'CREDS' : {},
-        'SCHOOLOGY_TASK_IDS' : [],
-        'courses' : [],
+    public_key = handler.serialize_public_key()
+    return {
+        "message": "success",
+        "public_key": public_key,
     }
 
-    # adding user document to firebase
-    try:
-        db.collection(u'USERS').document(request.user_id).set(USER)
-    except Exception as e:
-        e = str(e).replace('\'','-')
-        return {"message": "error adding user doc to firebase", "exception": str(e)}
+@app.post("/scrape", status_code=200)
+def scrape(request: ScrapeRequest):
+    private_key = get_private_key(request.user_id, db)
 
-    # opening postgres
-    ss = Backend_Interface()
-
-    # generating user key
-    handler = EM()
-    key = handler.serialize_private_key()
+    if private_key['message'] != 'success':
+        return private_key
+    else:
+        private_key = private_key['key']
     
-    # creating the user in postgres
-    try:
-        response = ss.create_user(request.user_id, key)
-        if response is not None:
-            return {"message" : "error (assumed)", "exception" : response}
-        else:
-            return {"message": "no response, assumed success"}
-    except Exception as e:
-        e = str(e).replace('\'','-')
-        return {"message": "error", "exception" : str(e)}
+    handler = EM(serialized_private_key=private_key)
+    username = handler.decrypt_rsa(request.e_username, True)
+    password = handler.decrypt_rsa(request.e_password, True)
 
+    returns = scrape_schoology(username, password)
+    tasks = returns['tasks']
+    write_tasks(tasks, request.user_id, db)
+
+    return {"message": "success"}
+   
 ####### ROUTES [GENERAL] #######
-'''
 
 @app.get("/ping", status_code=200)
 async def ping():
