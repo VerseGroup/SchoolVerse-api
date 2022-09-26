@@ -15,3 +15,6 @@ MAX_TASKS=2
 # use auth token to verify user is from our client services
 AUTH_TOKEN_REQUIRED=False
 
+# max number of executions to limit firebase
+MAX_EXECUTIONS=5
+

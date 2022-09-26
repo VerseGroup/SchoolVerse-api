@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-#from src.config import AUTH_TOKEN_REQUIRED
+from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS
 
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
@@ -27,23 +27,44 @@ from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.firebaseV2.write import write_key, write_tasks, write_club
 from src.firebaseV2.read import get_private_key
 
-# DELETE LATER !!!!! - TESTING #
-def verify_token(token):
-    return True
-
-def verify_ios_token(token):
-    return True
 #################################
 
 # startup
 app = FastAPI()
 db = start_firebase()
+executions = 0
+
+# general functions #
+def check_user_exists(user_id):
+    users = db.collection(u'users').stream()
+    for user in users:
+        if user.id == user_id:
+            return True
+
+def check_club_exists(club_id):
+    clubs = db.collection(u'clubs').stream()
+    for club in clubs:
+        if club.id == club_id:
+            return True
+
+def do_executions():
+    global executions
+    executions += 1
+    if executions > MAX_EXECUTIONS:
+        if executions * 2 > MAX_EXECUTIONS:
+            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note':'Chill out bro it is what kanye would say...'}
+        return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
+    return {'passed': True}
 
 ####### ROUTES [SCRAPER] #######
 @app.post("/getkey", status_code=200)
 def get_key(request: SignUpRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
     # check user exists
-    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+    if not check_user_exists(request.user_id):
         return {"message": "user does not exist"}
 
     # check if user exists
@@ -66,8 +87,12 @@ def get_key(request: SignUpRequest):
 
 @app.post("/scrape", status_code=200)
 def scrape(request: ScrapeRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
     # check user exists
-    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+    if not check_user_exists(request.user_id):
         return {"message": "user does not exist"}
 
     private_key = get_private_key(request.user_id, db)
@@ -92,8 +117,12 @@ def scrape(request: ScrapeRequest):
 
 @app.post("/ensure", status_code=200)
 def ensure(request: EnsureRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
     # check user exists
-    if not db.collection(u'users').document(f'{request.user_id}').get().exists:
+    if not check_user_exists(request.user_id):
         return {"message": "user does not exist"}
 
     private_key = get_private_key(request.user_id, db)
@@ -116,10 +145,14 @@ def ensure(request: EnsureRequest):
 ####### ROUTES [ClUBS] #######
 @app.post("/club/create", status_code=200)
 def create_club(request: CreateClubRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
     club = Club(
         name=request.name,
         description=request.description,
-        members=request.members,
+        members=request.leaders,
         leaders = request.leaders,
         meeting_blocks=request.meeting_blocks,
         events=[],
@@ -130,7 +163,16 @@ def create_club(request: CreateClubRequest):
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
-    pass
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    if not check_user_exists(request.user_id):
+        return {"message": "user does not exist"}
+    if not check_club_exists(request.club_id):
+        return {"message": "club does not exist"}
+
+    return {"message": "success"}
 
 ####### ROUTES [GENERAL] #######
 

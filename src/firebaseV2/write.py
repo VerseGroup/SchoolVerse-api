@@ -140,14 +140,14 @@ def write_task(task, schoology_id, user_id, user_dict, db):
 def write_club(club, db):
     club = club.serialize()
 
-    try:
-        current_clubs = db.collection(u'clubs').list_documents()
-        for doc in current_clubs:
+    current_clubs = db.collection(u'clubs').list_documents()
+    for doc in current_clubs:
+        try: 
             if doc.get().to_dict()['name'] == club['name']:
                 return {"message" : "club already exists"}
-    except:
-        return {"message" : "error"}
+        except:
+            pass
         
-    db.collection(u'clubs').document(f'{club["name"]}').set(club)
+    db.collection(u'clubs').document(f'{club["id"]}').set(club)
 
     return {"message" : "success"}

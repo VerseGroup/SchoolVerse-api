@@ -21,7 +21,6 @@ class CreateClubRequest(BaseModel):
     name: str
     description: str
     leaders: list
-    members: list
     meeting_blocks: list
 
 class JoinClubRequest(BaseModel):
