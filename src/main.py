@@ -51,8 +51,8 @@ def do_executions():
     global executions
     executions += 1
     if executions > MAX_EXECUTIONS:
-        if executions * 2 > MAX_EXECUTIONS:
-            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note':'Chill out bro it is what kanye would say...'}
+        if executions / 2 > MAX_EXECUTIONS:
+            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note':' >:( kanye would tell you to chill out bro, server does not like that many requests...'}
         return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
     return {'passed': True}
 
