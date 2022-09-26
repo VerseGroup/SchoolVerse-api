@@ -7,12 +7,16 @@ class ScrapeRequest(BaseModel):
     #platform_code: str
     #auth_token: str
 
-class LinkRequest(BaseModel):
-    user_id: str
-    #auth_token: str
-    platform_code: str
-    username: str
-    password: str
-
 class SignUpRequest(BaseModel):
     user_id: str
+
+class CreateClubRequest(BaseModel):
+    name: str
+    description: str
+    leaders: list
+    members: list
+    meeting_blocks: list
+
+class JoinClubRequest(BaseModel):
+    user_id: str
+    club_name: str

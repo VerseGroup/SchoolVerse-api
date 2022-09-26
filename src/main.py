@@ -11,16 +11,20 @@ from vgem import EM
 # config
 #from src.config import AUTH_TOKEN_REQUIRED
 
+# clubs
+from src.clubs.models import Club, Event, Meeting, Update
+
 # firebase
 from src.firebaseV2.auth import start_firebase
+
 # requests
-from src.requests import ScrapeRequest, LinkRequest, SignUpRequest
+from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
 
 # firebase
-from src.firebaseV2.write import write_key, write_creds, write_tasks
+from src.firebaseV2.write import write_key, write_tasks, write_club
 from src.firebaseV2.read import get_private_key
 
 # DELETE LATER !!!!! - TESTING #
@@ -69,11 +73,37 @@ def scrape(request: ScrapeRequest):
     username = handler.decrypt_rsa(request.e_username, True)
     password = handler.decrypt_rsa(request.e_password, True)
 
-    returns = scrape_schoology(username, password)
-    tasks = returns['tasks']
-    write_tasks(tasks, request.user_id, db)
+    try:
+        returns = scrape_schoology(username, password)
+        tasks = returns['tasks']
+        write_tasks(tasks, request.user_id, db)
+    except Exception as e:
+        return {"message": "failed to scrape schoology", "exception": str(e)}
 
     return {"message": "success"}
+
+####### ROUTES [ClUBS] #######
+@app.post("/club/create", status_code=200)
+def create_club(request: CreateClubRequest):
+    club = Club(
+        name=request.name,
+        description=request.description,
+        members=request.members,
+        leaders = request.leaders,
+        meeting_blocks=request.meeting_blocks,
+        events=[],
+        updates=[],
+        meetings=[]
+    )
+    write_club(club, db)
+
+@app.post("/club/join", status_code=200)
+def join_club(request: JoinClubRequest):
+    current_members = db.collection(u'clubs').document(f'{request.club_name}').get().to_dict()['members']
+    db.collection(u'clubs').document(f'{request.club_name}').update({u'members': current_members.append(request.user_id)})
+
+    current_clubs = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['clubs']
+    db.collection(u'users').document(f'{request.user_id}').update({u'clubs': current_clubs.append(request.club_name)})
    
 ####### ROUTES [GENERAL] #######
 
