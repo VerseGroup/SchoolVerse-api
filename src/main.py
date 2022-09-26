@@ -104,6 +104,26 @@ def join_club(request: JoinClubRequest):
 
     current_clubs = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['clubs']
     db.collection(u'users').document(f'{request.user_id}').update({u'clubs': current_clubs.append(request.club_name)})
+
+@app.get("/club/{club_name}", status_code=200)
+def get_club(club_name: str):
+    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
+    return club
+
+@app.get("/club/{club_name}/events", status_code=200)
+def get_club_events(club_name: str):
+    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
+    return club['events']
+
+@app.get("/club/{club_name}/updates", status_code=200)
+def get_club_updates(club_name: str):
+    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
+    return club['updates']
+
+@app.get("/club/{club_name}/meetings", status_code=200)
+def get_club_meetings(club_name: str):
+    club = db.collection(u'clubs').document(f'{club_name}').get().to_dict()
+    return club['meetings']
    
 ####### ROUTES [GENERAL] #######
 
