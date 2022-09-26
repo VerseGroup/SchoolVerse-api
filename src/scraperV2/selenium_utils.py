@@ -26,7 +26,7 @@ def get_driver_path() -> dict:
         "chrome" : f'{driver_dir}/driver/chromedriver',
     }
 
-def generate_driver(type, download=True) -> webdriver:
+def generate_driver(type, headless= True, download=True) -> webdriver:
     
     # option to use existing driver or download a new one (local run - > use existing, external run -> download)
     if not download:
@@ -43,7 +43,8 @@ def generate_driver(type, download=True) -> webdriver:
     # configuring which driver to use
     if type == "chrome":
         options = Options()
-        options.headless = True
+        if headless:
+            options.headless = True
         driver = webdriver.Chrome(service=s, options=options)
     if type == "firefox":
         driver = webdriver.Firefox(service=s)
