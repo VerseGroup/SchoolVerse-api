@@ -2,7 +2,7 @@ FROM python:3.9
 
 WORKDIR /app
 
-RUN pip install --upgrade setuptools
+# RUN pip install --upgrade setuptools
 
 COPY ./requirements.txt /app/requirements.txt
 
