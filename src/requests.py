@@ -30,3 +30,9 @@ class JoinClubRequest(BaseModel):
 class LeaveClubRequest(BaseModel):
     user_id: str
     club_id: str
+
+class UpdateClubRequest(BaseModel):
+    field_to_update: str
+    new_value: str
+    user_id: str
+    club_id: str

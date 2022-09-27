@@ -18,7 +18,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest
+from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest, UpdateClubRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -142,9 +142,13 @@ def scrape(request: ScrapeRequest):
     try:
         returns = scrape_schoology(username, password)
         tasks = returns['tasks']
-        write_tasks(tasks, request.user_id, db)
     except Exception as e:
         return {"message": "failed to scrape schoology", "exception": str(e)}
+
+    try:
+        write_tasks(tasks, request.user_id, db)
+    except Exception as e:
+        return {"message": "failed to write tasks to firebase", "exception": str(e)}
 
     return {"message": "success"}
 
@@ -188,9 +192,6 @@ def create_club(request: CreateClubRequest):
         members=request.leaders,
         leaders = request.leaders,
         meeting_blocks=request.meeting_blocks,
-        events=[],
-        updates=[],
-        meetings=[]
     )
     return write_club(club, db)
 
@@ -252,6 +253,30 @@ def leave_club(request: LeaveClubRequest):
     db.collection(u'users').document(f'{request.user_id}').update(user)
 
     return {"message": "success"}
+
+@app.post("/club/update", status_code=200)
+def update_club(request: UpdateClubRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    if not check_club_exists(request.club_id):
+        return {"message": "club does not exist"}
+
+    if not check_user_exists(request.user_id):
+        return {"message": "user does not exist"}
+
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+
+    if request.user_id not in club['leaders']:
+        return {"message": "user is not a leader of the club"}
+
+    club[request.field_to_update] = request.new_value
+
+    db.collection(u'clubs').document(f'{request.club_id}').update(club)
+
+    return {"message": "success"}
+
 
 ####### ROUTES [GENERAL] #######
 

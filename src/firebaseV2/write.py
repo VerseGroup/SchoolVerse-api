@@ -1,4 +1,5 @@
 # imports
+from asyncio import current_task
 from src.firebaseV2.utils import convert_date, convert_flik_date
 import json, uuid
 from datetime import datetime, date, time
@@ -105,38 +106,30 @@ def check_sports_event_exists(event, db):
             return True
     return False
 
-# iterates through connections to make sure it doesn't overwrite existing data
-def check_task_exists(id, user_dict) -> bool:
+# check
+def check_task_exists(schoology_id, user_id, db):
 
-    if user_dict is not None:
-        existingids = user_dict['task_ids']
-
-    for existingid in existingids:
-        if existingid == id:
+    tasks = db.collection(u'users').document(f"{user_id}").collection(u'tasks').list_documents()
+    for doc in tasks:
+        if doc.get().to_dict()['platform_information']['assignment_code'] == schoology_id:
             return True
-    
     return False
 
+def write_task(task, user_id, db):
+    try:
+        task['due_date'] = convert_date(task['due_date'])
+    except:
+        task['due_date'] = datetime.now()
+
+    db.collection(u'users').document(f"{user_id}").collection(u'tasks').document(f"{uuid.uuid4()}").set(task)
+
+# write tasks 
 def write_tasks(tasks, user_id, db):
-    user_ref = db.collection(u'users').document(f'{user_id}').collection(u'tasks')
-
     for task in tasks:
-        user_dict = user_ref.get().to_dict()
-        schoology_id = task['platform_information']['assignment_code']
-        if check_task_exists(schoology_id, user_dict):
-            print(f"Task {schoology_id} already exists")
-        else: 
-            write_task(task, schoology_id, user_id, user_dict, db)
-
-# writes a task to firebase within a user collection task collection, after checking that it doens't already exist
-def write_task(task, schoology_id, user_id, user_dict, db):
-    task['user_id'] = user_id
-    task['due_date'] = convert_date(task['due_date'])
-
-    task_uuid = str(uuid.uuid4())
-    db.collection(u'users').document(f'{user_id}').collection(u'tasks').document(f'{task_uuid}').set(task)
-
-    db.collection(u'users').document(f'{user_id}').update({"task_ids": user_dict['task_ids'] + [schoology_id]})
+        if check_task_exists(task['platform_information']['assignment_code'], user_id, db) == False:
+            write_task(task, user_id, db)
+        else:
+            print(f"TASK already exists")
 
 # clubs
 

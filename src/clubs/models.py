@@ -10,32 +10,6 @@ class Club():
         self.members = members
         self.id = str(uuid.uuid4())
 
-        # refs
-        self.events = events
-        self.meetings = meetings
-        self.updates = updates
-
-    def add_members(self, member):
-        self.members.append(member)
-    
-    def add_leader(self, leader):
-        self.leaders.append(leader)
-
-    def add_event(self, event):
-        self.events.append(event)
-    
-    def add_meeting(self, meeting):
-        self.meetings.append(meeting)
-
-    def add_update(self, update):
-        self.updates.append(update)
-
-    def update_decription(self, description):
-        self.description = description
-
-    def update_meeting_blocks(self, meeting_blocks):
-        self.meeting_blocks = meeting_blocks
-
     def serialize(self):
         return {
             "name" : self.name,

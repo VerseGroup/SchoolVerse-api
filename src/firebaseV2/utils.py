@@ -1,32 +1,27 @@
 from datetime import datetime
 
-def convert_date(date, time):
+def convert_date(date):
 
-    if date is None:
-        return None
-    
-    date = date.split("/")
-    
-    month = date[0]
-    day = str(int(date[1]) + 1) # bug where dates are off by one
-    year = date[2]
+    date = date.split(' ')
+    time = date[1]
+    date = date[0]
 
-    if time is None:
-        return datetime(int(year), int(month), int(day))
+    date = date.split('-')
+    year = date[0]
+    month = date[1]
+    day = date[2]
 
-    times = time.split(" ")
-    
-    time = times[0].split(":")
+    time = time.split(':')
     hour = time[0]
     minute = time[1]
+    second = time[2]
 
-    am_pm = times[1]
-    if am_pm == "PM" and hour != "12":
-        hour = int(hour) + 12
-
-    date_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
+    if int(hour) + 5 > 24:
+        day = str(int(day) + 1)
     
-    return date_object
+    hour = str(int(hour) + 5)
+
+    return datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
 
 def convert_flik_date(date):
     date = date.split('-')
