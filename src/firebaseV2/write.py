@@ -107,9 +107,8 @@ def check_sports_event_exists(event, db):
     return False
 
 # check
-def check_task_exists(schoology_id, user_id, db):
+def check_task_exists(schoology_id, user_id, tasks, db):
 
-    tasks = db.collection(u'users').document(f"{user_id}").collection(u'tasks').list_documents()
     for doc in tasks:
         if doc.get().to_dict()['platform_information']['assignment_code'] == schoology_id:
             return True
@@ -123,8 +122,11 @@ def write_task(task, user_id, db):
 
 # write tasks 
 def write_tasks(tasks, user_id, db):
+
+    current_tasks = db.collection(u'users').document(f"{user_id}").collection(u'tasks').list_documents()
+
     for task in tasks:
-        if check_task_exists(task['platform_information']['assignment_code'], user_id, db) == False:
+        if check_task_exists(task['platform_information']['assignment_code'], user_id, current_tasks, db) == False:
             write_task(task, user_id, db)
         else:
             print(f"TASK already exists")
