@@ -16,5 +16,5 @@ MAX_TASKS=2
 AUTH_TOKEN_REQUIRED=False
 
 # max number of executions to limit firebase
-MAX_EXECUTIONS=5
+MAX_EXECUTIONS=50
 
