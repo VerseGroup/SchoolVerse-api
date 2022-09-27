@@ -1,4 +1,4 @@
-# external imports
+""" # external imports
 from bs4 import BeautifulSoup
 import json
 import uuid
@@ -143,4 +143,4 @@ def run_sports_scraper(username, password):
 
     print(sports)
 
-    return sports
+    return sports """

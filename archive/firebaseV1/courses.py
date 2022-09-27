@@ -1,4 +1,4 @@
-def write_courses(courses, user_id, db):
+""" def write_courses(courses, user_id, db):
     user_dict = db.collection(u'USERS').document(f"{user_id}").get().to_dict()
 
     user_courses = user_dict['COURSES']
@@ -13,4 +13,4 @@ def write_courses(courses, user_id, db):
     db.collection(u'USERS').document(f"{user_id}").set(user_dict)
 
 
-    
+     """

@@ -1,4 +1,4 @@
-# TODO: CLEAN THIS CODE 
+""" # TODO: CLEAN THIS CODE 
 
 from datetime import datetime
 
@@ -30,3 +30,4 @@ def check_sports_event_exists(event, db):
         if event['platform_information']['id'] in existing_events:
             return True
     return False
+ """

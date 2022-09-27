@@ -1,4 +1,4 @@
-# function to scrape veracross using selenium
+""" # function to scrape veracross using selenium
 
 # python imports
 import time
@@ -51,4 +51,4 @@ def auth_veracross(driver, username, password):
         driver.execute_script("arguments[0].removeAttribute('disabled')", recpatcha_submit)
         recpatcha_submit.click()
 
-    return driver
+    return driver """

@@ -1,4 +1,4 @@
-# a custom function to simplify syntax for getting with explicit waits
+""" # a custom function to simplify syntax for getting with explicit waits
 
 # selenium imports
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,4 +13,4 @@ def get(driver, by, string):
         driver.quit()
         raise ValueError('element could not be found')
 
-    return element
+    return element """

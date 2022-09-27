@@ -1,4 +1,4 @@
-# python imports
+""" # python imports
 
 # local imports
 from src.webscraper.scraper.veracross.auth import auth_veracross
@@ -28,3 +28,4 @@ def ensure_veracross(username, password):
         return False
     except:
         return True
+ """

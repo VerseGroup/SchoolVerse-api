@@ -1,4 +1,4 @@
-# python imports
+""" # python imports
 
 # local imports
 from src.webscraper.scraper.schoology.auth import auth_schoology
@@ -14,3 +14,4 @@ def ensure_schoology(username, password):
         return False
     else:
         return True
+ """

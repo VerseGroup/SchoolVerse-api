@@ -1,4 +1,4 @@
-# This file contains the function that scrapes schoology assignments/courses using a username/passeord
+""" # This file contains the function that scrapes schoology assignments/courses using a username/passeord
 
 # Todo #
 # - Add checks in case login failed 
@@ -61,3 +61,4 @@ def scrape_schoology(username, password, do_courses=True) -> dict:
         to_return["courses"] = courses
 
     return to_return
+ """

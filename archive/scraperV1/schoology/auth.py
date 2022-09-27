@@ -1,4 +1,4 @@
-# python/external imports
+""" # python/external imports
 import requests
 
 # internal imports
@@ -17,4 +17,4 @@ def auth_schoology(username, password) -> requests.Session:
     response = s.post(url=SCHOOLOGY_LOGIN_URL, data=login_params, headers=login_headers)
     print(f"Login Status: {response.status_code}") 
 
-    return s
+    return s """

@@ -1,4 +1,4 @@
-# encryption
+""" # encryption
 from vgem import EM
 
 # config
@@ -139,3 +139,4 @@ def link(db, user_id, platform_code, username, password):
             return {"message": "firebase scraper objectives document error", "exception": str(e)}
     
     return {"message": "success"}
+ """

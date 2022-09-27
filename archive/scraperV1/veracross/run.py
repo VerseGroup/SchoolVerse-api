@@ -1,4 +1,4 @@
-# function to scrape veracross using selenium
+""" # function to scrape veracross using selenium
 
 # python imports
 import time
@@ -99,3 +99,4 @@ def scrape_veracross(username, password, today=True) -> tuple:
 
 
 
+ """

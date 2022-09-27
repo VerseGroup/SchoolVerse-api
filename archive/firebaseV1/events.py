@@ -1,4 +1,4 @@
-from datetime import datetime
+""" from datetime import datetime
 
 def write_events(events, db):
     for event in events:
@@ -84,3 +84,4 @@ def convert_date(date, time):
     
     return date_object
 
+ """

@@ -1,4 +1,4 @@
-# generates a new selenium instance (various setup options)
+""" # generates a new selenium instance (various setup options)
 
 # python imports
 import os
@@ -44,4 +44,4 @@ def generate_driver(type, download=True) -> webdriver:
     if type == "firefox":
         driver = webdriver.Firefox(service=s)
     
-    return driver
+    return driver """

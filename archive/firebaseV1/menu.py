@@ -1,4 +1,4 @@
-from datetime import datetime
+""" from datetime import datetime
 
 # writes menu to firebase
 def write_menu(menu, db):
@@ -28,4 +28,4 @@ def convert_flik_date(date):
 
 
 
-
+ """

@@ -1,4 +1,4 @@
-# parses pulled veracross schedule html into a specialized dict/array
+""" # parses pulled veracross schedule html into a specialized dict/array
 
 # external imports
 from bs4 import BeautifulSoup
@@ -156,4 +156,4 @@ def get_day(html) -> str:
 
     print(f"\n \n \n DAY: {day} \n \n \n")
 
-    return day
+    return day """

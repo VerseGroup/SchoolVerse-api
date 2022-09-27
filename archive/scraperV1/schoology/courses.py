@@ -1,4 +1,4 @@
-# returns schoology course api output into course objects
+""" # returns schoology course api output into course objects
 
 # imports
 import uuid
@@ -36,4 +36,4 @@ def parse_courses(courses_json) -> list:
         # adding course object to array
         course_object_array.append(course_object)
 
-    return course_object_array
+    return course_object_array """

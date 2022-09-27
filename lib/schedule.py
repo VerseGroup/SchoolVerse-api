@@ -14,8 +14,6 @@ from src.firebaseV2.read import get_encrypted_credentials
 from src.firebaseV2.write import write_schedule
 from src.firebaseV2.auth import start_firebase
 
-# postgres
-from src.postgres.crud import Backend_Interface
 
 # This script cannot run on M1, and is designed to be left running #
 

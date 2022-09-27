@@ -1,4 +1,4 @@
-def write_creds(username, password, user_id, platform_code, db):
+""" def write_creds(username, password, user_id, platform_code, db):
 
     # getting the current cred array
     user_ref = db.collection(u'USERS').document(f'{user_id}')
@@ -48,4 +48,4 @@ def get_encrypted_credentials(id, platform_code, db) -> dict:
         return {
             "message" : "Invalid user ID",
             "code" : "1a"
-        }
+        } """

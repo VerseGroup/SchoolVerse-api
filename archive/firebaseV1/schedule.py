@@ -1,4 +1,4 @@
-import json
+""" import json
 
 def write_schedule(user_id, days, db):
     
@@ -12,3 +12,4 @@ def write_schedule(user_id, days, db):
 
     db.collection(u'SCHEDULES').document(f'{user_id}').set(schedule)
 
+ """

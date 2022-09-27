@@ -1,4 +1,4 @@
-# firebase imports
+""" # firebase imports
 import os
 import firebase_admin
 from firebase_admin import credentials
@@ -25,3 +25,4 @@ def start_firebase():
     firebase = Firebase()
     return firebase.get_db()
     
+ """

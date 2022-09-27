@@ -1,4 +1,4 @@
-# external imports
+""" # external imports
 from bs4 import BeautifulSoup
 import json
 import uuid
@@ -113,3 +113,4 @@ def get_events(username, password):
     events = parse_events(json_events)
 
     return events
+ """
