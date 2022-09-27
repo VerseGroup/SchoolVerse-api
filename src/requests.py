@@ -27,3 +27,6 @@ class JoinClubRequest(BaseModel):
     user_id: str
     club_id: str
 
+class LeaveClubRequest(BaseModel):
+    user_id: str
+    club_id: str

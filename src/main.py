@@ -18,7 +18,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest
+from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -174,6 +174,8 @@ def join_club(request: JoinClubRequest):
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     try:
+        if request.user_id in club['members']:
+            return {"message": "user already in club"}
         club['members'].append(request.user_id)
     except:
         club['members'] = [request.user_id]
@@ -181,9 +183,39 @@ def join_club(request: JoinClubRequest):
 
     user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
     try:
-        user['clubs'].append(request.club_id)
+        if request.club_id not in user['club_ids']:
+            user['club_ids'].append(request.club_id)
     except:
         user['clubs'] = [request.club_id]
+    db.collection(u'users').document(f'{request.user_id}').update(user)
+
+    return {"message": "success"}
+
+@app.post("/club/leave", status_code=200)
+def leave_club(request: LeaveClubRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    if not check_user_exists(request.user_id):
+        return {"message": "user does not exist"}
+    if not check_club_exists(request.club_id):
+        return {"message": "club does not exist"}
+
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    try:
+        if request.user_id in club['members']:
+            club['members'].remove(request.user_id)
+    except:
+        club['members'] = []
+    db.collection(u'clubs').document(f'{request.club_id}').update(club)
+
+    user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    try:
+        if request.club_id in user['club_ids']:
+            user['club_ids'].remove(request.club_id)
+    except:
+        user['clubs'] = []
     db.collection(u'users').document(f'{request.user_id}').update(user)
 
     return {"message": "success"}
