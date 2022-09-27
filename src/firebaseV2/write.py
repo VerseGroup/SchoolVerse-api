@@ -150,4 +150,4 @@ def write_club(club, db):
         
     db.collection(u'clubs').document(f'{club["id"]}').set(club)
 
-    return {"message" : "success"}
+    return {"message" : "success", "club" : club}

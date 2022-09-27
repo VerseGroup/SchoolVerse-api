@@ -172,6 +172,20 @@ def join_club(request: JoinClubRequest):
     if not check_club_exists(request.club_id):
         return {"message": "club does not exist"}
 
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    try:
+        club['members'].append(request.user_id)
+    except:
+        club['members'] = [request.user_id]
+    db.collection(u'clubs').document(f'{request.club_id}').update(club)
+
+    user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    try:
+        user['clubs'].append(request.club_id)
+    except:
+        user['clubs'] = [request.club_id]
+    db.collection(u'users').document(f'{request.user_id}').update(user)
+
     return {"message": "success"}
 
 ####### ROUTES [GENERAL] #######
