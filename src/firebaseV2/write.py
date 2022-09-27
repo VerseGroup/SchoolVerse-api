@@ -116,10 +116,8 @@ def check_task_exists(schoology_id, user_id, db):
     return False
 
 def write_task(task, user_id, db):
-    try:
-        task['due_date'] = convert_date(task['due_date'])
-    except:
-        task['due_date'] = datetime.now()
+
+    task['due_date'] = convert_date(task['due_date'])
 
     db.collection(u'users').document(f"{user_id}").collection(u'tasks').document(f"{uuid.uuid4()}").set(task)
 
