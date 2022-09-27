@@ -70,7 +70,6 @@ def update_schedules(db, ss):
 if __name__ == "__main__":
     try: 
         db = start_firebase()
-        ss = Backend_Interface()
         print("DBS STARTED \n")
     except Exception as e:
         db = None

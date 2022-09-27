@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 def convert_date(date, time):
 
@@ -32,6 +32,6 @@ def convert_flik_date(date):
     date = date.split('-')
     year = date[0]
     month = date[1]
-    day = int(date[2]) + 1 # fixing a glitch where the date is off by one 
+    day = int(date[2]) 
 
-    return datetime(int(year), int(month), int(day))
+    return datetime(int(year), int(month), int(day), 12, 0, 0)

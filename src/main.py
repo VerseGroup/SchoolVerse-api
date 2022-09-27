@@ -56,6 +56,39 @@ def do_executions():
         return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
     return {'passed': True}
 
+# flik
+from datetime import date, timezone, datetime
+from src.scraperV2.fk import scrape_flik
+from src.firebaseV2.write import write_menu
+
+def do_flik(db, useToday=True, day=None):
+    try:
+        if useToday:
+            today = datetime.now(timezone.utc)
+            today = today.strftime("%d/%m/%Y %H:%M:%S")
+            today = today.split(" ")
+            the_day = today[0].split('/')
+
+            day = the_day[0]
+            month = the_day[1]
+            year = the_day[2]
+
+            hour = today[1].split(':')[0]
+            if int(hour) + 5 > 24:
+                day = str(int(day) + 1)
+
+        menu = scrape_flik(day, month, year)
+        
+    except Exception as e:
+        return {'message': 'failed to scrape flik', 'exception': str(e)}
+
+    try:
+        write_menu(menu, db)
+    except Exception as e:
+        return {'message': 'failed to write to firebase', 'exception': str(e)}
+
+    return {"message": "success"}
+
 ####### ROUTES [SCRAPER] #######
 @app.post("/getkey", status_code=200)
 def get_key(request: SignUpRequest):
@@ -225,3 +258,11 @@ def leave_club(request: LeaveClubRequest):
 @app.get("/ping", status_code=200)
 async def ping():
     return {"message": "pong"} 
+
+@app.get("/flik", status_code=200)
+def flik():
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+    
+    return do_flik(db)

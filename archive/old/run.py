@@ -85,8 +85,6 @@ def create_user(ss, user_id):
 
 def link(db, user_id, platform_code, username, password):
 
-    ss = Backend_Interface()
-
     try:
         key = ss.get_user_keychain(user_id)
     except:
