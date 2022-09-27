@@ -91,5 +91,5 @@ Workarounds:
 https://github.com/brianmario/mysql2/issues/795#issuecomment-337006164
 https://github.com/psycopg/psycopg2/issues/1286#issuecomment-914286206
 
-
-
+- deployment
+Since, server now deploys on DO Container (built on heroku), m1 is not supported (use buildx when building docker images to ensure its' not build on m1 architecture)
