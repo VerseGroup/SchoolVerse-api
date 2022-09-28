@@ -288,13 +288,13 @@ def get_events():
 
     try:
         events = convert_all_school_events(ALL_SCHOOL_EVENTS_ICAL)
-    except:
-        return {"message": "failed to convert all school events"}
+    except Exception as e:
+        return {"message": "failed to convert all school events", "exception": str(e)}
 
     try:
         write_events(events, db)
-    except:
-        return {"message": "failed to write events to firebase"}
+    except Exception as e:
+        return {"message": "failed to write events to firebase", "exception": str(e)}
 
     return {"message": "success"}
 

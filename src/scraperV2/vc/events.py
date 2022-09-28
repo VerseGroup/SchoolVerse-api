@@ -1,5 +1,6 @@
 from icalendar import Calendar, Event
 import requests
+from datetime import datetime
 
 def convert_ical_to_json(ical_link):
     r = requests.get(ical_link)
@@ -44,21 +45,48 @@ def convert_all_school_events(ical_link):
     for component in cal.walk():
          if component.name == "VEVENT":
 
+            print(component)
+            print("\n")
+
             event = {}
             event["summary"] = str(component.get("summary"))
-            event[""] = str(component.get("UID"))
+            event["id"] = str(component.get("UID"))
             event['day'] = component.get("DTSTAMP").dt
 
             try:
                 event['start'] = component.get("DTSTART").dt
                 event['end'] = component.get("DTEND").dt
-            except:
-                event['start'] = ''
-                event['end'] = ''
 
+                # convert to datetime.datetime
+                if type(event['start']) == datetime.time:
+                    event['start'] = datetime.combine(event['day'], event['start'])
+                if type(event['end']) == datetime.time:
+                    event['end'] = datetime.combine(event['day'], event['end'])
+
+                if type(event['start']) == datetime.date:
+                    event['start'] = datetime.combine(event['start'], datetime.min.time())
+                if type(event['end']) == datetime.date:
+                    event['end'] = datetime.combine(event['end'], datetime.min.time())
+                
+            except:
+                event['start'] = None
+                event['end'] = None
+
+            # if event['day'] is type datetime.date convert to datetime.datetime
+            if type(event['day']) == datetime.date:
+                event['day'] = datetime.combine(event['day'], datetime.min.time())
+
+            if type(event['day']) != datetime:
+                raise Exception("day is not datetime.datetime")
+
+            if event['start'] is not None and type(event['start']) != datetime:
+                raise Exception(f"start is not datetime.datetime, it is {type(event['start'])}")
+
+            if event['end'] is not None and type(event['end']) != datetime:
+                raise Exception(f"end is not datetime.datetime, it is {type(event['end'])}")
+        
             event['location'] = str(component.get("location"))
             event['description'] = str(component.get("description"))
-
             
             events.append(event)
 
