@@ -303,16 +303,6 @@ def get_events():
 @app.get("/", status_code=200)
 def home():
     return {
-        "message": "pong",
-        "note1": "the pong thing is for DO to know that the server is up through health checks",
-        "note": "this is our api",
-        "please": "don't hack us",
-        "thanks": "kanye would not be proud if u hack",
-        "instead" : "maybe go buy some Jordan 1's or listen to Kanye",
-        "thanks again": "check our website instead?",
-        "website": "https://versegroup.tech",
-        "maybe go buy yeezy's if not": "https://www.yeezysupply.com/",
-        "too much?": "just listen to kanye instead",
         "kanye": "https://www.youtube.com/user/kanyewest",
     }
 

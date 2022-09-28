@@ -80,10 +80,10 @@ def convert_all_school_events(ical_link):
                 raise Exception("day is not datetime.datetime")
 
             if event['start'] is not None and type(event['start']) != datetime:
-                raise Exception(f"start is not datetime.datetime, it is {type(event['start'])}")
+                event['start'] = None
 
             if event['end'] is not None and type(event['end']) != datetime:
-                raise Exception(f"end is not datetime.datetime, it is {type(event['end'])}")
+                event['end'] = None
         
             event['location'] = str(component.get("location"))
             event['description'] = str(component.get("description"))

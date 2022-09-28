@@ -66,9 +66,11 @@ def write_menu(menu, db):
         menu_ref.set(to_write)
 
 # check
-def check_task_exists(schoology_id, user_id, tasks, db):
+def check_task_exists(schoology_id, db, user_id):
 
-    for doc in tasks:
+    existing_tasks = db.collection(u'users').document(f"{user_id}").collection(u'tasks').list_documents()
+
+    for doc in existing_tasks:
         if doc.get().to_dict()['platform_information']['assignment_code'] == schoology_id:
             return True
     return False
@@ -80,12 +82,11 @@ def write_task(task, user_id, db):
     db.collection(u'users').document(f"{user_id}").collection(u'tasks').document(f"{uuid.uuid4()}").set(task)
 
 # write tasks 
-def write_tasks(tasks, user_id, db):
+def write_tasks(new_tasks, user_id, db):
 
-    current_tasks = db.collection(u'users').document(f"{user_id}").collection(u'tasks').list_documents()
-
-    for task in tasks:
-        if check_task_exists(task['platform_information']['assignment_code'], user_id, current_tasks, db) == False:
+    for task in new_tasks:
+        schoology_id = task['platform_information']['assignment_code']
+        if not check_task_exists(schoology_id, db, user_id):
             write_task(task, user_id, db)
         else:
             print(f"TASK already exists")
