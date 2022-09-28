@@ -18,3 +18,6 @@ AUTH_TOKEN_REQUIRED=False
 # max number of executions to limit firebase
 MAX_EXECUTIONS=50
 
+# all school events ical from VC
+ALL_SCHOOL_EVENTS_ICAL = "http://api.veracross.com/hackley/subscribe/EC34541C-40AC-408F-AD72-FF36D99A220C.ics?uid=A17227D1-8674-45F8-94E7-2AA4A7323593"
+

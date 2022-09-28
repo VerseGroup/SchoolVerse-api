@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS
+from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL
 
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
@@ -22,9 +22,10 @@ from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinCl
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
+from src.scraperV2.vc.events import convert_all_school_events
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu
 from src.firebaseV2.read import get_private_key
 
 #################################
@@ -277,6 +278,25 @@ def update_club(request: UpdateClubRequest):
 
     return {"message": "success"}
 
+####### ROUTES [VERACROSS] #######
+
+@app.get("/events", status_code=200)
+def get_events():
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    try:
+        events = convert_all_school_events(ALL_SCHOOL_EVENTS_ICAL)
+    except:
+        return {"message": "failed to convert all school events"}
+
+    try:
+        write_events(events, db)
+    except:
+        return {"message": "failed to write events to firebase"}
+
+    return {"message": "success"}
 
 ####### ROUTES [GENERAL] #######
 
