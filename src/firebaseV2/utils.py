@@ -1,6 +1,7 @@
 from datetime import datetime
 import pytz
 
+# lists of months with 30, 31, and 29 days
 MONTHS_WITH_30 = [4, 6, 9, 11]
 MONTHS_WITH_31 = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_29 = [2]
@@ -24,8 +25,10 @@ def convert_date(date):
     if int(minute) == 59:
         second = 30      
 
+    # time zone change
     hour = str(int(hour) + 4)
 
+    # fixing time zone in datetime object
     if int(hour) > 24:
         day = str(int(day) + 1)
 

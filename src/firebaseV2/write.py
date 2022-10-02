@@ -66,6 +66,7 @@ def write_menu(menu, db):
         if datetime_object.weekday() == 5 or datetime_object.weekday() == 6:
             continue
         
+        # write the menu to the database
         menu_ref = db.collection(u'menus').document(date)
         to_write = menu[date]
         to_write['breakfast'] = to_write['breakfast']['food']

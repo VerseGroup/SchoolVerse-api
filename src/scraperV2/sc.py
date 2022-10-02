@@ -126,10 +126,12 @@ def scrape_schoology(username, password, do_courses=True) -> dict:
         except:
             return None
 
-    # dates to scrapre
+    # dates to scrape
     year = str(datetime.now().year)
     month = str(datetime.now().month)
     unixstart = time.time()
+
+    # two weeks in seconds
     unixend = unixstart + 1209600.0
 
     # formatting dates
