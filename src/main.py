@@ -1,6 +1,5 @@
 # python imports
 import os
-from turtle import write
 import uuid
 
 # external imports 
@@ -28,6 +27,10 @@ from src.scraperV2.vc.events import convert_all_school_events
 from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu
 from src.firebaseV2.read import get_private_key
 
+# flik
+from datetime import date, timezone, datetime
+from src.scraperV2.fk import scrape_flik
+from src.firebaseV2.write import write_menu
 #################################
 
 # startup
@@ -49,6 +52,8 @@ def check_club_exists(club_id):
             return True
 
 def do_executions():
+    # write as a function decorator later
+
     global executions
     executions += 1
     if executions > MAX_EXECUTIONS:
@@ -56,11 +61,6 @@ def do_executions():
             return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note':' >:( kanye would tell you to chill out bro, server does not like that many requests...'}
         return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
     return {'passed': True}
-
-# flik
-from datetime import date, timezone, datetime
-from src.scraperV2.fk import scrape_flik
-from src.firebaseV2.write import write_menu
 
 def do_flik(db, useToday=True, day=None):
     try:

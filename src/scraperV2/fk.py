@@ -7,11 +7,11 @@ import json, requests
 def get_flik_url(type, year, month, day) -> str:
     return f"https://hackleyschool.flikisdining.com/menu/api/weeks/school/hackley-school/menu-type/{type}/{year}/{month}/{day}/"
 
-def parse_header(header):
+def parse_header(header) -> str:
     header_value = header["text"].encode().decode('utf-8')
     return header_value
 
-def parse_food(food):
+def parse_food(food) -> dict:
     name = food["name"]
 
     try:
@@ -35,7 +35,7 @@ def parse_food(food):
     
     return food_item
 
-def parse_meal(meal):
+def parse_meal(meal) -> dict:
     
     meal = json.loads(meal)
 
@@ -72,7 +72,7 @@ def parse_meal(meal):
     
     return menu
 
-def parse_menu(breakfast, lunch, dinner):
+def parse_menu(breakfast, lunch, dinner) -> dict:
 
     menu = {}
 
@@ -89,7 +89,7 @@ def parse_menu(breakfast, lunch, dinner):
 
     return menu
 
-def get_flik_data(type, day, month, year):
+def get_flik_data(type, day, month, year) -> str:
 
     # request for data
     url = get_flik_url(type, year, month, day)
@@ -105,7 +105,7 @@ def get_flik_data(type, day, month, year):
 
     return response_text
 
-def scrape_flik(day, month, year):
+def scrape_flik(day, month, year) -> dict:
 
     breakfast = get_flik_data("breakfast", day, month, year)
     lunch = get_flik_data("lunch", day, month, year)

@@ -8,14 +8,15 @@ def get_private_key(id, db) -> dict:
         
         try:
             key = doc_dict['private_key']
-        except:
-            return {"message": "user does not have a private key"}
 
-        return {
+            return {
             "message": "success",
             "key": key,
-        }
+            }
 
+        except:
+            return {"message": "user does not have a private key"}
+            
     else:
         return {
             "message" : "Invalid user ID"
