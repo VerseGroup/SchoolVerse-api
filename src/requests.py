@@ -36,3 +36,11 @@ class UpdateClubRequest(BaseModel):
     new_value: str
     user_id: str
     club_id: str
+
+class JoinSportRequest(BaseModel):
+    user_id: str
+    sport_id: str
+
+class LeaveSportRequest(BaseModel):
+    user_id: str
+    sport_id: str

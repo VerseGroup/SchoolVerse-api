@@ -17,7 +17,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest, UpdateClubRequest
+from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest, UpdateClubRequest, JoinSportRequest, LeaveSportRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -49,6 +49,12 @@ def check_club_exists(club_id):
     clubs = db.collection(u'clubs').stream()
     for club in clubs:
         if club.id == club_id:
+            return True
+
+def check_sport_exists(sport_id):
+    sports = db.collection(u'sports').stream()
+    for sport in sports:
+        if sport.id == sport_id:
             return True
 
 def do_executions():
@@ -278,6 +284,49 @@ def update_club(request: UpdateClubRequest):
 
     return {"message": "success"}
 
+####### ROUTES [SPORTS] #######
+@app.post("/sport/join", status_code=200)
+def join_sport(request: JoinSportRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    if not check_user_exists(request.user_id):
+        return {"message": "user does not exist"}
+
+    if not check_sport_exists(request.sport_id):
+        return {"message": "sport does not exist"}
+
+    user_sports = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
+    
+    if request.sport_id in user_sports:
+        return {"message": "user already subscribed to sport"}
+    else:
+        user_sports.append(request.sport_id)
+        db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
+        return {"message": "success"}
+
+@app.post("/sport/leave", status_code=200)
+def leave_sport(request: LeaveSportRequest):
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    if not check_user_exists(request.user_id):
+        return {"message": "user does not exist"}
+
+    if not check_sport_exists(request.sport_id):
+        return {"message": "sport does not exist"}
+
+    user_sports = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
+    
+    if request.sport_id not in user_sports:
+        return {"message": "user not subscribed to sport"}
+    else:
+        user_sports.remove(request.sport_id)
+        db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
+        return {"message": "success"} 
+
 ####### ROUTES [VERACROSS] #######
 
 @app.get("/events", status_code=200)
@@ -310,6 +359,8 @@ def home():
 async def ping():
     return {"message": "pong"} 
 
+'''
+Flik should be a scheduled script, not an endpoint
 @app.get("/flik", status_code=200)
 def flik():
     response = do_executions()
@@ -317,3 +368,4 @@ def flik():
         return response
     
     return do_flik(db)
+'''
