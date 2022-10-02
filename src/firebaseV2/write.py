@@ -88,6 +88,8 @@ def write_task(task, user_id, db):
 
     task['due_date'] = convert_date(task['due_date'])
 
+    task['name'] = task['name'].replace('&amp;', '&')
+
     db.collection(u'users').document(f"{user_id}").collection(u'tasks').document(f"{uuid.uuid4()}").set(task)
 
 # write tasks 
