@@ -49,20 +49,30 @@ def write_menu(menu, db):
 
     menu_reference = db.collection(u'menus')
     menu_docs = menu_reference.list_documents()
+
+
+    
     for doc in menu_docs:
         menu_reference.document(doc.id).delete()
 
-    for key in menu:
-        date = key
+    for date in menu:
+        # convert date to a datetime object
+        try: 
+            datetime_object = convert_flik_date(date)
+        except:
+            continue
+
+        # check if date is sat or sunday and skip if it is
+        if datetime_object.weekday() == 5 or datetime_object.weekday() == 6:
+            continue
+        
         menu_ref = db.collection(u'menus').document(date)
-        to_write = menu[key]
+        to_write = menu[date]
         to_write['breakfast'] = to_write['breakfast']['food']
         to_write['lunch'] = to_write['lunch']['food']
         to_write['dinner'] = to_write['dinner']['food']
-        try:
-            to_write['date'] = convert_flik_date(date)
-        except:
-            to_write['date'] = None
+        to_write['date'] = datetime_object
+        
         menu_ref.set(to_write)
 
 # check
