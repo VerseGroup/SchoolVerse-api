@@ -24,7 +24,7 @@ from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses
 from src.firebaseV2.read import get_private_key
 
 # flik
@@ -182,6 +182,8 @@ def ensure(request: EnsureRequest):
 
     result = ensure_schoology(username, password)
     if result == True:
+        returns = scrape_schoology(username, password)
+        write_courses(returns['courses'], request.user_id, db)
         return {"message": "success"}
     else:
         return {"message": "failed"}

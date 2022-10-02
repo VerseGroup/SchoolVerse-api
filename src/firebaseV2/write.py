@@ -8,7 +8,7 @@ from datetime import datetime, date, time
 def write_courses(courses, user_id, db):
     user_dict = db.collection(u'users').document(f"{user_id}").get().to_dict()
 
-    user_courses = user_dict['COURSES']
+    user_courses = user_dict['courses']
     if user_courses is None:
         user_courses = []
 
@@ -16,9 +16,8 @@ def write_courses(courses, user_id, db):
         course = course.serialize()
         user_courses.append(course)
 
-    user_dict['COURSES'] = user_courses
+    user_dict['courses'] = user_courses
     db.collection(u'users').document(f"{user_id}").set(user_dict)
-
 
 def write_key(private_key, user_id, db):
 
