@@ -297,8 +297,13 @@ def join_sport(request: JoinSportRequest):
     if not check_sport_exists(request.sport_id):
         return {"message": "sport does not exist"}
 
-    user_sports = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
-    
+    user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
+
+    try:
+        user_sports = user_dict['subscribed_sports']
+    except:
+        user_sports = []
+
     if request.sport_id in user_sports:
         return {"message": "user already subscribed to sport"}
     else:
@@ -318,7 +323,12 @@ def leave_sport(request: LeaveSportRequest):
     if not check_sport_exists(request.sport_id):
         return {"message": "sport does not exist"}
 
-    user_sports = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
+    user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    
+    try:
+        user_sports = user_dict['subscribed_sports']
+    except:
+        return {"message": "user not subscribed to sport"}
     
     if request.sport_id not in user_sports:
         return {"message": "user not subscribed to sport"}
