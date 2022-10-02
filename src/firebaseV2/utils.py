@@ -22,9 +22,7 @@ def convert_date(date):
     second = time[2]
 
     if int(minute) == 59:
-        minute = 0
-        second = 0
-        hour = str(int(hour) + 1)
+        second = 30      
 
     hour = str(int(hour) + 4)
 
@@ -47,6 +45,9 @@ def convert_date(date):
                 month = str(int(month) + 1)
 
         hour = str(int(hour) - 24)
+
+        if int(hour) == 3:
+            minute = 59
 
     return datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
 
