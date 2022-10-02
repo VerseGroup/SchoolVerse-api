@@ -50,8 +50,6 @@ def write_menu(menu, db):
     menu_reference = db.collection(u'menus')
     menu_docs = menu_reference.list_documents()
 
-
-    
     for doc in menu_docs:
         menu_reference.document(doc.id).delete()
 
@@ -118,3 +116,20 @@ def write_club(club, db):
     db.collection(u'clubs').document(f'{club["id"]}').set(club)
 
     return {"message" : "success", "club" : club}
+
+# sports
+
+def write_sports(sports, db):
+
+    sports_ref = db.collection(u'sports')
+    sport_docs = sports_ref.list_documents()
+
+    for doc in sport_docs:
+        sports_ref.document(doc.id).delete()
+
+    for sport in sports:
+        sports_ref.document(f'{sport["id"]}').set(sport)
+
+
+
+
