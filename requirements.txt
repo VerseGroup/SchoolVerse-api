@@ -73,7 +73,7 @@ sniffio==1.2.0
 sortedcontainers==2.4.0
 soupsieve==2.3.2.post1
 starkbank-ecdsa==2.1.0
-starlette==0.17.1
+starlette==0.21.0
 toml==0.10.2
 tomli==2.0.1
 tqdm==4.64.0
