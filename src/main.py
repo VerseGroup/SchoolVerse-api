@@ -31,6 +31,14 @@ from src.firebaseV2.read import get_private_key
 from datetime import date, timezone, datetime
 from src.scraperV2.fk import scrape_flik
 from src.firebaseV2.write import write_menu
+
+# load secrets from .env
+from dotenv import load_dotenv
+load_dotenv()
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+FROM_EMAIL = os.getenv("FROM_EMAIL")
+TO_EMAIL = os.getenv("TO_EMAIL")
+
 #################################
 
 # startup
@@ -64,7 +72,7 @@ def do_executions():
     executions += 1
     if executions > MAX_EXECUTIONS:
         if executions / 2 > MAX_EXECUTIONS:
-            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note':' >:( kanye would tell you to chill out bro, server does not like that many requests...'}
+            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note': 'relax'}
         return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
     return {'passed': True}
 
@@ -360,13 +368,6 @@ def get_events():
     return {"message": "success"}
 
 ####### ROUTES [GENERAL] #######
-
-@app.get("/", status_code=200)
-def home():
-    return {
-        "kanye": "https://www.youtube.com/user/kanyewest",
-    }
-
 @app.get("/ping", status_code=200)
 async def ping():
     return {"message": "pong"} 

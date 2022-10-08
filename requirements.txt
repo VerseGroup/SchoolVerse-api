@@ -37,7 +37,7 @@ icalendar==4.1.0
 idna==3.3
 importlib-metadata==4.11.4
 iniconfig==1.1.1
-lxml==4.9.1
+lxml==4.8.0
 markdownify==0.11.2
 msgpack==1.0.3
 outcome==1.1.0
@@ -61,15 +61,18 @@ PySocks==1.7.1
 pytest==7.1.2
 python-dateutil==2.8.2
 python-dotenv==0.20.0
+python-http-client==3.3.7
 pytz==2022.2.1
 requests==2.27.1
 requests-html==0.10.0
 rsa==4.8
 selenium==4.2.0
+sendgrid==6.9.7
 six==1.16.0
 sniffio==1.2.0
 sortedcontainers==2.4.0
 soupsieve==2.3.2.post1
+starkbank-ecdsa==2.1.0
 starlette==0.17.1
 toml==0.10.2
 tomli==2.0.1
