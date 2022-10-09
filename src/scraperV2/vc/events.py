@@ -147,3 +147,4 @@ def scrape_sport() -> list:
 if __name__ == "__main__":
     #print(scrape_sport())
     #print(convert_all_school_events("https://api.veracross.com/hackley/subscribe/96063164-4BFD-4841-8679-0898F3C40A20.ics?uid=2B8CA74A-62FE-4859-A02A-C628CC7FDB52"))
+    pass
