@@ -46,13 +46,15 @@ def convert_all_school_events(ical_link):
     for component in cal.walk():
          if component.name == "VEVENT":
 
-            print(component)
-            print("\n")
-
             event = {}
             event["summary"] = str(component.get("summary"))
             event["id"] = str(component.get("UID"))
-            event['day'] = component.get("DTSTAMP").dt
+
+            event['start'] = component.get("DTSTART").dt
+            stamp = str(event['start'])
+            stamp = stamp.split('-')
+            stamp = datetime(int(stamp[0]), int(stamp[1]), int(stamp[2].split(" ")[0]))
+            event['day'] = stamp
 
             try:
                 event['start'] = component.get("DTSTART").dt
@@ -143,4 +145,5 @@ def scrape_sport() -> list:
 
 # testing
 if __name__ == "__main__":
-    print(scrape_sport())
+    #print(scrape_sport())
+    #print(convert_all_school_events("https://api.veracross.com/hackley/subscribe/96063164-4BFD-4841-8679-0898F3C40A20.ics?uid=2B8CA74A-62FE-4859-A02A-C628CC7FDB52"))
