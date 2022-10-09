@@ -6,7 +6,6 @@ PERIODS = [
     "Period 5",
     "First Lunch",
     "Second Lunch",
-    "Homeroom",
     "Special",
 ]
 
@@ -74,7 +73,7 @@ def get_times(day):
         
 # load schedules.json as dictionary
 import json
-with open('old_schedules.json') as f:
+with open('no_frees.json') as f:
     schedules = json.load(f)
 
 for email in schedules:
@@ -84,7 +83,7 @@ for email in schedules:
             if "HOMEROOM" in period['course']['name']:
                 period['start_time'] = "8:05 AM"
                 period['end_time'] = "8:15 AM"
-                period = "Homeroom"
+                period['period'] = "Homeroom"
 
 for email in schedules:
     grade = schedules[email]['grade']
