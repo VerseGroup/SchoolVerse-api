@@ -2,6 +2,10 @@ from icalendar import Calendar, Event
 import requests
 from datetime import datetime
 
+MONTHS_WITH_31 = [1, 3, 5, 7, 8, 10, 12]
+MONTHS_WITH_30 = [4, 6, 9, 11]
+MONTHS_WITH_29 = [2]
+
 def convert_ical_to_json(ical_link):
     r = requests.get(ical_link)
     cal = Calendar.from_ical(r.text)
@@ -53,7 +57,27 @@ def convert_all_school_events(ical_link):
             event['start'] = component.get("DTSTART").dt
             stamp = str(event['start'])
             stamp = stamp.split('-')
-            stamp = datetime(int(stamp[0]), int(stamp[1]), int(stamp[2].split(" ")[0]))
+
+            # +1 cause days are 1 off - i believe because of EST/UTC ~ fix later
+            day = int(stamp[2].split(" ")[0]) + 1
+            month = int(stamp[1])
+            year = int(stamp[0])
+
+            if day >= 31 and month in MONTHS_WITH_31:
+                day = 1
+                month += 1
+            elif day >= 30 and month in MONTHS_WITH_30:
+                day = 1
+                month += 1
+            elif day >= 29 and month in MONTHS_WITH_29:
+                day = 1
+                month += 1
+
+            if month > 12:
+                month = 1
+                year += 1
+
+            stamp = datetime(year, month, day)
             event['day'] = stamp
 
             try:
