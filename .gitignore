@@ -24,3 +24,4 @@ env/
 # schedules
 raw_schedules/
 schedules.json
+src/schedules.json

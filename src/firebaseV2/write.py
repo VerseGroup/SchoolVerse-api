@@ -132,5 +132,14 @@ def write_sports(sports, db):
         sports_ref.document(f'{sport["id"]}').set(sport)
 
 
+# schedule
+
+def write_schedule(schedule, user_id, db):
+
+    user_ref = db.collection(u'users').document(f'{user_id}')
+    schedule_ref = user_ref.collection(u'schedule').document(f'{user_id}')
+
+    schedule_ref.set(schedule)
+    
 
 

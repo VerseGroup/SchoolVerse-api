@@ -1,6 +1,7 @@
 # python imports
 import os
 import uuid
+import json
 
 # external imports 
 from fastapi import FastAPI
@@ -24,7 +25,7 @@ from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule
 from src.firebaseV2.read import get_private_key
 
 # flik
@@ -45,6 +46,10 @@ TO_EMAIL = os.getenv("TO_EMAIL")
 app = FastAPI()
 db = start_firebase()
 executions = 0
+
+# schedules
+with open('src/schedules.json', 'r') as f:
+    schedules = json.load(f)
 
 # general functions #
 def check_user_exists(user_id):
@@ -194,14 +199,19 @@ def ensure(request: EnsureRequest):
         write_courses(returns['courses'], request.user_id, db)
 
         try:
-            schedule = get_schedule(username)
+            email = str(username) + "@students.hackleyschool.org"
+            schedule = schedules[email]
+        except Exception as e:
+            return {"message": "failed to get schedule", "exception": str(e)}
+
+        try:
             write_schedule(schedule, request.user_id, db)
         except Exception as e:
-            return {"message": "failed to scrape schedule", "exception": str(e)}
+            return {"message": "failed to write schedule to firebase", "exception": str(e)}
 
         return {"message": "success"}
     else:
-        return {"message": "failed"}
+        return {"message": "failed to ensure schoology"}
 
 ####### ROUTES [ClUBS] #######
 @app.post("/club/create", status_code=200)
