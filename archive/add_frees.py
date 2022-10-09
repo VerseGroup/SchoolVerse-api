@@ -72,11 +72,19 @@ def get_times(day):
         },
     }
         
-
 # load schedules.json as dictionary
 import json
-with open('schedules.json') as f:
+with open('old_schedules.json') as f:
     schedules = json.load(f)
+
+for email in schedules:
+    for day in schedules[email]['days']:
+        for period in day['periods']:
+            print(period)
+            if "HOMEROOM" in period['course']['name']:
+                period['start_time'] = "8:05 AM"
+                period['end_time'] = "8:15 AM"
+                period = "Homeroom"
 
 for email in schedules:
     grade = schedules[email]['grade']
@@ -141,6 +149,5 @@ for email in schedules:
 
         periods.append(frees)   
 
-
-with open('frees_schedules.json', 'w') as f:
+with open('schedules.json', 'w') as f:
     json.dump(schedules, f, indent=4)
