@@ -35,13 +35,17 @@ def write_key(private_key, user_id, db):
 
 # right now it deletes all then writes all, but it should be changed to only write new ones
 def write_events(events, db):
-    event_docs = db.collection(u'events').delete()
+    event_docs = db.collection(u'events').list_documents()
+    for doc in event_docs:
+        doc.delete()
 
     for event in events:
         db.collection(u'events').document(f'{event["id"]}').set(event)
 
 def write_days(days, db):
-    days_docs = db.collection(u'days').delete()
+    days_docs = db.collection(u'days').list_documents()
+    for doc in days_docs:
+        doc.delete()
 
     for day in days:
         db.collection(u'days').document(f'{day["id"]}').set(day)
