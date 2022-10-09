@@ -42,6 +42,7 @@ def convert_all_school_events(ical_link):
     cal = Calendar.from_ical(r.text)
 
     events = []
+    days = []
     for component in cal.walk():
          if component.name == "VEVENT":
 
@@ -87,10 +88,18 @@ def convert_all_school_events(ical_link):
         
             event['location'] = str(component.get("location"))
             event['description'] = str(component.get("description"))
-            
-            events.append(event)
 
-    return events
+            if "Day -" in event["summary"]:
+                day = event["summary"].split("-")[1]
+                days.append({
+                    "day" : f"Day {day}",
+                    "date" : event["day"],
+                    "id" : event["id"]
+                })
+            else:
+                events.append(event)
+
+    return days, events
 
 def scrape_sport() -> list:
 

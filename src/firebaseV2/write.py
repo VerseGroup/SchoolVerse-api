@@ -43,6 +43,14 @@ def write_events(events, db):
     for event in events:
         db.collection(u'events').document(f'{event["id"]}').set(event)
 
+def write_days(days, db):
+    days_docs = db.collection(u'days').list_documents()
+    for doc in days_docs:
+        db.collection(u'days').document(doc.id).delete()
+
+    for day in days:
+        db.collection(u'days').document(f'{day["id"]}').set(day)
+
 # writes menu to firebase
 def write_menu(menu, db):
 

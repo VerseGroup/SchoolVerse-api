@@ -25,7 +25,7 @@ from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days
 from src.firebaseV2.read import get_private_key
 
 # flik
@@ -373,12 +373,13 @@ def get_events():
         return response
 
     try:
-        events = convert_all_school_events(ALL_SCHOOL_EVENTS_ICAL)
+        days, events = convert_all_school_events(ALL_SCHOOL_EVENTS_ICAL)
     except Exception as e:
         return {"message": "failed to convert all school events", "exception": str(e)}
 
     try:
         write_events(events, db)
+        write_days(days, db)
     except Exception as e:
         return {"message": "failed to write events to firebase", "exception": str(e)}
 
