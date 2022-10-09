@@ -146,7 +146,8 @@ for email in schedules:
                         "end_time": get_times(the_day)[period]['end_time'],
                     })
 
-        periods.append(frees)   
+        periods = periods + frees
+        day['periods'] = periods
 
 with open('schedules.json', 'w') as f:
     json.dump(schedules, f, indent=4)
