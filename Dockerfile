@@ -18,8 +18,6 @@ RUN chmod +x /app/scripts/*.sh
 
 COPY ./logs /app/logs
 
-COPY ./driver /app/driver
-
 COPY ./secrets /app/secrets
 
 COPY ./tests /app/tests
