@@ -39,4 +39,3 @@ def send_approval_email(key, from_email, to_email, club_name, leaders, club_desc
         }
     except Exception as e:
         return {"error": str(e)}
-

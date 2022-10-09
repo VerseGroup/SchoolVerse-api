@@ -192,6 +192,13 @@ def ensure(request: EnsureRequest):
     if result == True:
         returns = scrape_schoology(username, password)
         write_courses(returns['courses'], request.user_id, db)
+
+        try:
+            schedule = get_schedule(username)
+            write_schedule(schedule, request.user_id, db)
+        except Exception as e:
+            return {"message": "failed to scrape schedule", "exception": str(e)}
+
         return {"message": "success"}
     else:
         return {"message": "failed"}

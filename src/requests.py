@@ -44,3 +44,6 @@ class JoinSportRequest(BaseModel):
 class LeaveSportRequest(BaseModel):
     user_id: str
     sport_id: str
+
+class ScheduleRequest(BaseModel):
+    email: str
