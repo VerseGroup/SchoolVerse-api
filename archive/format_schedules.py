@@ -1,7 +1,7 @@
 import json
 
 # open the schedules.json file as a dictionary
-with open('schedules.json') as f:
+with open('old_schedules.json') as f:
     schedules = json.load(f)
 
 keys = {
@@ -66,15 +66,18 @@ for email in schedules:
                 'period' : period
             })
 
+    new_days = []
+    for day in days:
+        new_days.append(days[day])
     
     new_schedule = {
         'email' : email,
         'name' : schedule['name'],
         'grade' : schedule['grade'],
-        'days' : days,
+        'days' : new_days,
     }
 
     new_schedules[email] = new_schedule
 
-with open('formatted_schedules.json', 'w') as f:
+with open('schedules.json', 'w') as f:
     json.dump(new_schedules, f, indent=4)
