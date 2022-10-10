@@ -52,7 +52,7 @@ pyasn1-modules==0.2.8
 pycparser==2.21
 pydantic==1.9.1
 pyee==8.2.2
-pyOpenSSL==22.0.0
+pyOpenSSL==22.1.0
 pyparsing==3.0.9
 pyperclip==1.8.2
 pyppeteer==1.0.2
