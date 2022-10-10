@@ -50,7 +50,7 @@ py==1.11.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
-pydantic==1.9.1
+pydantic==1.10.2
 pyee==8.2.2
 pyOpenSSL==22.0.0
 pyparsing==3.0.9
