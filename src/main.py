@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL
+from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS
 
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
@@ -45,7 +45,6 @@ TO_EMAIL = os.getenv("TO_EMAIL")
 # startup
 app = FastAPI()
 db = start_firebase()
-executions = 0
 
 # schedules
 with open('src/schedules.json', 'r') as f:
@@ -70,16 +69,32 @@ def check_sport_exists(sport_id):
         if sport.id == sport_id:
             return True
 
+# execution functions #
+
+executions = 0
+USERS_EXECUTIONS = {}
+
 def do_executions():
     # write as a function decorator later
 
     global executions
     executions += 1
     if executions > MAX_EXECUTIONS:
-        if executions / 2 > MAX_EXECUTIONS:
-            return {'passed': False, 'message': f"Too many executions: {executions}/{MAX_EXECUTIONS}", 'note': 'relax'}
-        return {'passed': False, 'error': f'Too many executions: {executions}/{MAX_EXECUTIONS}'}
+        return {'message': "error", 'error': f'Too many general executions: {executions}/{MAX_EXECUTIONS}', 'passed': False}
     return {'passed': True}
+
+def do_user_executions(user_id):
+
+    global USERS_EXECUTIONS
+    if user_id not in USERS_EXECUTIONS:
+        USERS_EXECUTIONS[user_id] = 1
+    else:
+        USERS_EXECUTIONS[user_id] += 1
+    
+    if USERS_EXECUTIONS[user_id] > MAX_USER_EXECUTIONS:
+        return {'message': "error", 'error': f'Chill out bro. Too many user executions for user with id {user_id}: {USERS_EXECUTIONS[user_id]}/{MAX_USER_EXECUTIONS}', 'passed': False}
+    return {'passed': True}
+
 
 def do_flik(db, useToday=True, day=None):
     try:
@@ -112,7 +127,7 @@ def do_flik(db, useToday=True, day=None):
 ####### ROUTES [SCRAPER] #######
 @app.post("/getkey", status_code=200)
 def get_key(request: SignUpRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -140,7 +155,7 @@ def get_key(request: SignUpRequest):
 
 @app.post("/scrape", status_code=200)
 def scrape(request: ScrapeRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -174,7 +189,7 @@ def scrape(request: ScrapeRequest):
 
 @app.post("/ensure", status_code=200)
 def ensure(request: EnsureRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -231,7 +246,7 @@ def create_club(request: CreateClubRequest):
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -261,7 +276,7 @@ def join_club(request: JoinClubRequest):
 
 @app.post("/club/leave", status_code=200)
 def leave_club(request: LeaveClubRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -290,7 +305,7 @@ def leave_club(request: LeaveClubRequest):
 
 @app.post("/club/update", status_code=200)
 def update_club(request: UpdateClubRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -314,7 +329,7 @@ def update_club(request: UpdateClubRequest):
 ####### ROUTES [SPORTS] #######
 @app.post("/sport/join", status_code=200)
 def join_sport(request: JoinSportRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -340,7 +355,7 @@ def join_sport(request: JoinSportRequest):
 
 @app.post("/sport/leave", status_code=200)
 def leave_sport(request: LeaveSportRequest):
-    response = do_executions()
+    response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
 
@@ -385,13 +400,7 @@ def get_events():
 
     return {"message": "success"}
 
-####### ROUTES [GENERAL] #######
-@app.get("/ping", status_code=200)
-async def ping():
-    return {"message": "pong"} 
-
-'''
-Flik should be a scheduled script, not an endpoint
+####### ROUTES [FLIK] #######
 @app.get("/flik", status_code=200)
 def flik():
     response = do_executions()
@@ -399,4 +408,16 @@ def flik():
         return response
     
     return do_flik(db)
+
+####### ROUTES [GENERAL] #######
+@app.get("/ping", status_code=200)
+async def ping():
+    return {"message": "pong"} 
+
+'''
+TODO
+User's should have cached information if not scraped 
+-> cache schedule
+-> cache tasks
+etc. 
 '''
