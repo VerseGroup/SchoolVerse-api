@@ -22,10 +22,10 @@ from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinCl
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
-from src.scraperV2.vc.events import convert_all_school_events
+from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports
 from src.firebaseV2.read import get_private_key
 
 # flik
@@ -411,6 +411,23 @@ def get_events():
 
     return {"message": "success"}
 
+@app.get("/sports", status_code=200)
+def get_sports():
+    response = do_executions()
+    if response['passed'] == False:
+        return response
+
+    try:
+        sports = scrape_sport()
+    except Exception as e:
+        return {"message": "failed to convert sports", "exception": str(e)}
+
+    try:
+        write_sports(sports, db)
+    except Exception as e:
+        return {"message": "failed to write sports to firebase", "exception": str(e)}
+
+    return {"message": "success"}
 ####### ROUTES [FLIK] #######
 @app.get("/flik", status_code=200)
 def flik():
