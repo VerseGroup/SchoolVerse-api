@@ -29,7 +29,7 @@ from src.firebaseV2.write import write_key, write_tasks, write_club, write_event
 from src.firebaseV2.read import get_private_key
 
 # flik
-from datetime import date, timezone, datetime
+from datetime import date, timezone, datetime, timedelta
 from src.scraperV2.fk import scrape_flik
 from src.firebaseV2.write import write_menu
 
@@ -85,16 +85,27 @@ def do_executions():
 
 def do_user_executions(user_id):
 
+    time_now = datetime.now(timezone.utc)
+    time_one_day_ago = time_now - timedelta(days=1)
+    time_tomorrow = time_now + timedelta(days=1)
+
     global USERS_EXECUTIONS
     if user_id not in USERS_EXECUTIONS:
-        USERS_EXECUTIONS[user_id] = 1
+        USERS_EXECUTIONS[user_id] = {
+            "reset": time_now,
+            "executions" : 1
+        }
     else:
-        USERS_EXECUTIONS[user_id] += 1
+        reset = USERS_EXECUTIONS[user_id]["reset"]
+        if reset < time_one_day_ago:
+            USERS_EXECUTIONS[user_id]["reset"] = time_now
+            USERS_EXECUTIONS[user_id]["executions"] = 1
+        else:
+            USERS_EXECUTIONS[user_id]["executions"] += 1
     
-    if USERS_EXECUTIONS[user_id] > MAX_USER_EXECUTIONS:
-        return {'message': "error", 'error': f'Chill out bro. Too many user executions for user with id {user_id}: {USERS_EXECUTIONS[user_id]}/{MAX_USER_EXECUTIONS}', 'passed': False}
+    if USERS_EXECUTIONS[user_id]['executions'] > MAX_USER_EXECUTIONS:
+        return {'message': "error", 'error': f'Too many user executions today ({time_now.strftime("%m/%d/%Y")}) for user with id [{user_id}]: {USERS_EXECUTIONS[user_id]["executions"]}/{MAX_USER_EXECUTIONS} daily executions. Reset occurs on {time_tomorrow.strftime("%m/%d/%Y")}', 'passed': False}
     return {'passed': True}
-
 
 def do_flik(db, useToday=True, day=None):
     try:

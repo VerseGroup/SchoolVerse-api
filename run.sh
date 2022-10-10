@@ -137,9 +137,8 @@ while getopts ":htdvf:" option; do
 done
 
 echo ""
-echo "Running Server..."
+echo "Running server with run script..."
 echo "Press Ctrl + C to exit"
-echo "Steven is very nice and handsome"
 echo ""
 
 RUN_SERVER
