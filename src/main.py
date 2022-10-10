@@ -80,7 +80,7 @@ def do_executions():
     global executions
     executions += 1
     if executions > MAX_EXECUTIONS:
-        return {'message': "error", 'error': f'Too many general executions: {executions}/{MAX_EXECUTIONS}', 'passed': False}
+        return {'message': "error", 'exception': f'Too many general executions: {executions}/{MAX_EXECUTIONS}', 'passed': False}
     return {'passed': True}
 
 def do_user_executions(user_id):
@@ -104,7 +104,7 @@ def do_user_executions(user_id):
             USERS_EXECUTIONS[user_id]["executions"] += 1
     
     if USERS_EXECUTIONS[user_id]['executions'] > MAX_USER_EXECUTIONS:
-        return {'message': "error", 'error': f'Too many user executions today ({time_now.strftime("%m/%d/%Y")}) for user with id [{user_id}]: {USERS_EXECUTIONS[user_id]["executions"]}/{MAX_USER_EXECUTIONS} daily executions. Reset occurs on {time_tomorrow.strftime("%m/%d/%Y")}', 'passed': False}
+        return {'message': "error", 'exception': f'Too many user executions today ({time_now.strftime("%m/%d/%Y")}) for user with id [{user_id}]: {USERS_EXECUTIONS[user_id]["executions"]}/{MAX_USER_EXECUTIONS} daily executions. Reset occurs on {time_tomorrow.strftime("%m/%d/%Y")}', 'passed': False}
     return {'passed': True}
 
 def do_flik(db, useToday=True, day=None):
@@ -425,8 +425,11 @@ def flik():
 async def ping():
     return {"message": "pong"} 
 
+@app.get("/getexecutions", status_code=200)
+async def get_executions():
+    return USERS_EXECUTIONS
+
 '''
-TODO
 User's should have cached information if not scraped 
 -> cache schedule
 -> cache tasks
