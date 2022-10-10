@@ -58,8 +58,8 @@ def get_times(day):
             "end_time": first_lunch_end,
         },
         "Second Lunch": {
-            "start_time": "12:15 PM",
-            "end_time": "12:20 PM",
+            "start_time": "12:30 PM",
+            "end_time": "1:00 PM",
         },
         "Homeroom": {
             "start_time": "8:05 AM",
@@ -73,7 +73,7 @@ def get_times(day):
         
 # load schedules.json as dictionary
 import json
-with open('no_frees.json') as f:
+with open('raw_schedules/no_frees.json') as f:
     schedules = json.load(f)
 
 for email in schedules:
@@ -115,7 +115,7 @@ for email in schedules:
                 elif period == "First Lunch" and grade < 11:
                     frees.append({
                         "course": {
-                            "name": "First Lunch",
+                            "name": "Lunch",
                             "teacher": "N/A",
                             "upper_or_lower": "US",
                         },
@@ -126,7 +126,7 @@ for email in schedules:
                 elif period == "Second Lunch" and grade > 10:
                     frees.append({
                         "course": {
-                            "name": "Second Lunch",
+                            "name": "Lunch",
                             "teacher": "N/A",
                             "upper_or_lower": "US",
                         },
@@ -149,5 +149,5 @@ for email in schedules:
         periods = periods + frees
         day['periods'] = periods
 
-with open('schedules.json', 'w') as f:
+with open('src/schedules.json', 'w') as f:
     json.dump(schedules, f, indent=4)
