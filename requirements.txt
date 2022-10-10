@@ -38,7 +38,7 @@ idna==3.4
 importlib-metadata==4.11.4
 iniconfig==1.1.1
 lxml==4.9.1
-markdownify==0.11.2
+markdownify==0.11.6
 msgpack==1.0.4
 outcome==1.2.0
 packaging==21.3
