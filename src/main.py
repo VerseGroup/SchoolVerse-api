@@ -442,6 +442,10 @@ def flik():
 async def ping():
     return {"message": "pong"} 
 
+@app.get("/version", status_code=200)
+async def version():
+    return {"ios_version": "0.1.0"}
+
 @app.get("/getexecutions", status_code=200)
 async def get_executions():
     return USERS_EXECUTIONS
