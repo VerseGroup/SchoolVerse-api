@@ -350,7 +350,7 @@ def join_sport(request: JoinSportRequest):
     if not check_sport_exists(request.sport_id):
         return {"message": "sport does not exist"}
 
-    user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()['subscribed_sports']
+    user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
 
     try:
         user_sports = user_dict['subscribed_sports']
