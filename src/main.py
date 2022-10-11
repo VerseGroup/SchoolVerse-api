@@ -345,10 +345,10 @@ def join_sport(request: JoinSportRequest):
         return response
 
     if not check_user_exists(request.user_id):
-        return {"message": "user does not exist"}
+        return {"message": "failed", "exception": "user does not exist"}
 
     if not check_sport_exists(request.sport_id):
-        return {"message": "sport does not exist"}
+        return {"message:": "failed", "exception": "sport does not exist"}
 
     user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
 
@@ -358,7 +358,7 @@ def join_sport(request: JoinSportRequest):
         user_sports = []
 
     if request.sport_id in user_sports:
-        return {"message": "user already subscribed to sport"}
+        return {"message": "failed", "exception" : "user already subscribed to sport"}
     else:
         user_sports.append(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
@@ -371,20 +371,20 @@ def leave_sport(request: LeaveSportRequest):
         return response
 
     if not check_user_exists(request.user_id):
-        return {"message": "user does not exist"}
+        return {"message" : "failed", "exception": "user does not exist"}
 
     if not check_sport_exists(request.sport_id):
-        return {"message": "sport does not exist"}
+        return {"message": "failed", "exception" : "sport does not exist"}
 
     user_dict = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
     
     try:
         user_sports = user_dict['subscribed_sports']
     except:
-        return {"message": "user not subscribed to sport"}
+        return {"message": "failed", "exception" : "user not subscribed to sport"}
     
     if request.sport_id not in user_sports:
-        return {"message": "user not subscribed to sport"}
+        return {"message": "failed", "exception" : "user not subscribed to sport"}
     else:
         user_sports.remove(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
