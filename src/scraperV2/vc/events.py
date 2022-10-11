@@ -35,6 +35,21 @@ def convert_ical_to_json(ical_link):
                 event["location"] = ''
             if event["description"] == None:
                 event["description"] = ''
+
+            # convert to datetime.datetime
+            if type(event['start']) == datetime.time:
+                event['start'] = datetime.combine(event['day'], event['start'])
+            if type(event['end']) == datetime.time:
+                event['end'] = datetime.combine(event['day'], event['end'])
+            if type(event['start']) == datetime.date:
+                event['start'] = datetime.combine(event['start'], datetime.min.time())
+            if type(event['end']) == datetime.date:
+                event['end'] = datetime.combine(event['end'], datetime.min.time())
+
+            if type(event['start']) != datetime:
+                event['start'] = None
+            if type(event['end']) != datetime:
+                event['end'] = None
             
             events.append(event)
 
