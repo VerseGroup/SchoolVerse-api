@@ -13,6 +13,7 @@ from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_IC
 
 # steve jobs
 from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
+stevejobsid = "rdMoRC7kTQWvFip19meUdQ8T2dw1"
 
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
@@ -176,11 +177,11 @@ def scrape(request: ScrapeRequest):
         return response
 
     ### FOR APPLE CHECK ###
-    if request.user_id == "stevejobs":
-
-        tasks = STEVEJOBS_TASKS
-        write_tasks(tasks, request.user_id, db)    
-        return {"message": "success"}
+    if request.user_id == stevejobsid:
+        try:
+            return {"message": "success"}
+        except Exception as e:
+            return {"message": "failed", "exception": str(e)}
 
     ### FOR APPLE CHECK ###
 
@@ -218,12 +219,12 @@ def ensure(request: EnsureRequest):
     if response['passed'] == False:
         return response
 
-    if request.user_id == 'stevejobs':
+    if request.user_id == stevejobsid:
         courses = STEVEJOBS_COURSES
         schedule = STEVEJOBS_SCHEDULE
         try:
-            write_courses(courses, "stevejobs", db)
-            write_schedule(schedule, "stevejobs", db)
+            write_courses(courses, request.user_id, db)
+            write_schedule(schedule, request.user_id, db)
             return {
                 "message": "success"
             }
@@ -488,6 +489,7 @@ User's should have cached information if not scraped
 etc. 
 '''
 
+'''
 @app.get("/test", status_code=200)
 async def test():
     try:
@@ -508,3 +510,4 @@ async def test():
         }
     except Exception as e:
         return {"message": "failed", "exception": str(e)}
+'''

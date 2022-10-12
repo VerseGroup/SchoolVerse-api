@@ -13,7 +13,10 @@ def write_courses(courses, user_id, db):
         user_courses = []
 
     for course in courses:
-        course = course.serialize()
+        try:
+            course = course.serialize()
+        except:
+            pass
         user_courses.append(course)
 
     user_dict['courses'] = user_courses
@@ -91,9 +94,8 @@ def check_task_exists(schoology_id, db, user_id):
     return False
 
 def write_task(task, user_id, db):
-
+    
     task['due_date'] = convert_date(task['due_date'])
-
     task['name'] = task['name'].replace('&amp;', '&')
 
     db.collection(u'users').document(f"{user_id}").collection(u'tasks').document(f"{uuid.uuid4()}").set(task)
