@@ -16,7 +16,7 @@ MAX_TASKS=2
 AUTH_TOKEN_REQUIRED=False
 
 # max number of executions to limit firebase
-MAX_EXECUTIONS=15
+MAX_EXECUTIONS=6 # flik and events scrapes 
 MAX_USER_EXECUTIONS=15
 
 # all school events ical from VC

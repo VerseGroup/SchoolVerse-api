@@ -11,6 +11,9 @@ from vgem import EM
 # config
 from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS
 
+# steve jobs
+from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
+
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
 
@@ -39,6 +42,8 @@ load_dotenv()
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
 TO_EMAIL = os.getenv("TO_EMAIL")
+TEST_USER = os.getenv("TEST_USER")
+TEST_PASS = os.getenv("TEST_PASS")
 
 #################################
 
@@ -170,6 +175,15 @@ def scrape(request: ScrapeRequest):
     if response['passed'] == False:
         return response
 
+    ### FOR APPLE CHECK ###
+    if request.user_id == "stevejobs":
+
+        tasks = STEVEJOBS_TASKS
+        write_tasks(tasks, request.user_id, db)    
+        return {"message": "success"}
+
+    ### FOR APPLE CHECK ###
+
     # check user exists
     if not check_user_exists(request.user_id):
         return {"message": "user does not exist"}
@@ -203,6 +217,21 @@ def ensure(request: EnsureRequest):
     response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
+
+    if request.user_id == 'stevejobs':
+        courses = STEVEJOBS_COURSES
+        schedule = STEVEJOBS_SCHEDULE
+        try:
+            write_courses(courses, "stevejobs", db)
+            write_schedule(schedule, "stevejobs", db)
+            return {
+                "message": "success"
+            }
+        except Exception as e:
+            return {
+                "message": "failed to write stevejobs courses and schedule",
+                "exception": str(e)
+            }
 
     # check user exists
     if not check_user_exists(request.user_id):
@@ -338,6 +367,7 @@ def update_club(request: UpdateClubRequest):
     return {"message": "success"}
 
 ####### ROUTES [SPORTS] #######
+'''
 @app.post("/sport/join", status_code=200)
 def join_sport(request: JoinSportRequest):
     response = do_user_executions(request.user_id)
@@ -389,6 +419,7 @@ def leave_sport(request: LeaveSportRequest):
         user_sports.remove(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
         return {"message": "success"} 
+'''
 
 ####### ROUTES [VERACROSS] #######
 
@@ -456,3 +487,24 @@ User's should have cached information if not scraped
 -> cache tasks
 etc. 
 '''
+
+@app.get("/test", status_code=200)
+async def test():
+    try:
+        tasks = []
+        steven_ref = db.collection(u'users').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2')
+        for doc in steven_ref.collection(u'tasks').stream():
+            tasks.append(doc.to_dict())
+
+        steven_doc = steven_ref.get().to_dict()
+        courses = steven_doc['courses']
+
+        schedule = steven_ref.collection(u'schedule').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2').get().to_dict()
+
+        return {
+            "tasks": tasks,
+            "courses": courses,
+            "schedule": schedule
+        }
+    except Exception as e:
+        return {"message": "failed", "exception": str(e)}
