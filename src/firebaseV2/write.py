@@ -94,8 +94,20 @@ def write_menu(menu, db):
         to_write['lunch'] = to_write['lunch']['food']
         to_write['dinner'] = to_write['dinner']['food']
         to_write['date'] = datetime_object
-        
-        menu_ref.set(to_write)
+
+        for meal in to_write:
+            if meal == 'date':
+                continue
+
+            foods = []
+            for food in to_write[meal]:
+                name = food['name']
+                if name not in foods:
+                    foods.append(name)
+                else:
+                    del to_write[date][meal][food]
+            
+    menu_ref.set(to_write)
 
 # check
 def check_task_exists(schoology_id, db, user_id):

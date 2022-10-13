@@ -137,10 +137,11 @@ def do_flik(db, useToday=True, day=None):
     except Exception as e:
         return {'message': 'failed to scrape flik', 'exception': str(e)}
 
-    try:
-        write_menu(menu, db)
-    except Exception as e:
-        return {'message': 'failed to write to firebase', 'exception': str(e)}
+    # try:
+    #     write_menu(menu, db)
+    # except Exception as e:
+    #     return {'message': 'failed to write to firebase', 'exception': str(e)}
+    write_menu(menu, db)
 
     return {"message": "success"}
 
