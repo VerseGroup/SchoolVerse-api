@@ -133,15 +133,16 @@ def do_flik(db, useToday=True, day=None):
                 day = str(int(day) + 1)
 
         menu = scrape_flik(day, month, year)
+        menu2 = scrape_flik(str(int(day)+7), month, year)
+        menu = {**menu, **menu2} # combines menu and menu2 (which is one week ahead)
         
     except Exception as e:
         return {'message': 'failed to scrape flik', 'exception': str(e)}
 
-    # try:
-    #     write_menu(menu, db)
-    # except Exception as e:
-    #     return {'message': 'failed to write to firebase', 'exception': str(e)}
-    write_menu(menu, db)
+    try:
+        write_menu(menu, db)
+    except Exception as e:
+        return {'message': 'failed to write to firebase', 'exception': str(e)}
 
     return {"message": "success"}
 

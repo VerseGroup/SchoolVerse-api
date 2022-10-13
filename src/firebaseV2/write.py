@@ -107,7 +107,7 @@ def write_menu(menu, db):
                 else:
                     del to_write[date][meal][food]
             
-    menu_ref.set(to_write)
+        menu_ref.set(to_write)
 
 # check
 def check_task_exists(schoology_id, db, user_id):
@@ -164,6 +164,11 @@ def write_sports(sports, db):
         sports_ref.document(doc.id).delete()
 
     for sport in sports:
+        
+        # skipping MS and Middle School
+        if "Middle School" in sport['id'] or "MS." in sport['id']:
+            continue
+
         sports_ref.document(f'{sport["id"]}').set(sport)
 
 
