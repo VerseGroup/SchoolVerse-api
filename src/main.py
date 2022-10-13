@@ -29,7 +29,7 @@ from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports
+from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
 from src.firebaseV2.read import get_private_key
 
 # flik
@@ -208,11 +208,13 @@ def scrape(request: ScrapeRequest):
     try:
         returns = scrape_schoology(username, password)
         tasks = returns['tasks']
+        events = returns['events']
     except Exception as e:
         return {"message": "failed to scrape schoology", "exception": str(e)}
 
     try:
         write_tasks(tasks, request.user_id, db)
+        #write_sc_events(events, request.user_id, db)
     except Exception as e:
         return {"message": "failed to write tasks to firebase", "exception": str(e)}
 

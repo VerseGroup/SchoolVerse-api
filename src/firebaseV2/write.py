@@ -188,4 +188,23 @@ def write_schedule(schedule, user_id, db):
     schedule_ref.set(schedule)
     
 
+# # write sc events
+# def write_sc_events(events, user_id, db):
+#     for event in events:
+#         schoology_id = event['platform_information']['assignment_code']
+#         if not check_task_exists(schoology_id, db, user_id):
+#             write_sc_event(event, user_id, db)
+#         else:
+#             print(f"Event already exists")
 
+# # write sc event
+# def write_sc_event(event, user_id, db):
+#     event['due_date'] = convert_date(event['due_date'])
+#     event['name'] = event['name'].replace('&amp;', '&')
+
+#     name = event['name']
+#     if "Day " in name or "No School" in name:
+#         return
+
+#     db.collection(u'users').document(f"{user_id}").collection(u'sc_events').document(f"{uuid.uuid4()}").set(event)
+ 
