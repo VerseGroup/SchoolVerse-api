@@ -47,6 +47,9 @@ def write_events(events, db):
         if "MS:" in event['summary'] or "LS:" in event['summary'] or "T:" in event['summary'] or "ADM:" in event['summary']:
             continue
 
+        if "MS" in event['summary'] or "LS" in event['summary']:
+            continue
+
         start = event['day']
 
         # skipping events that are not in the future
