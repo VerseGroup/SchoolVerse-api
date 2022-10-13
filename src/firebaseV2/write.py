@@ -2,8 +2,7 @@
 from asyncio import current_task
 from src.firebaseV2.utils import convert_date, convert_flik_date
 import json, uuid
-from datetime import datetime, date, time
-
+from datetime import datetime, date, time, timedelta
 
 def write_courses(courses, user_id, db):
     user_dict = db.collection(u'users').document(f"{user_id}").get().to_dict()
@@ -43,6 +42,21 @@ def write_events(events, db):
         doc.delete()
 
     for event in events:
+
+        # skipping MS, LS, ADM, and T for now
+        if "MS:" in event['summary'] or "LS:" in event['summary'] or "T:" in event['summary'] or "ADM:" in event['summary']:
+            continue
+
+        start = event['day']
+
+        # skipping events that are not in the future
+        if start < datetime.now(start.tzinfo):
+            continue
+
+        # skipping events that are over a two weeks away
+        if start > (datetime.now(start.tzinfo) + timedelta(days=14)):
+            continue
+
         db.collection(u'events').document(f'{event["id"]}').set(event)
 
 def write_days(days, db):
