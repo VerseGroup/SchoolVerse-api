@@ -169,6 +169,9 @@ def write_sports(sports, db):
         if "Middle School" in sport['id'] or "MS." in sport['id']:
             continue
 
+        for event in sport['events']:
+            event['name'] = sport['name']
+
         sports_ref.document(f'{sport["id"]}').set(sport)
 
 
