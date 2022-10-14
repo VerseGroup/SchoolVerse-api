@@ -224,6 +224,7 @@ def scrape(request: ScrapeRequest):
 def ensure(request: EnsureRequest):
     response = do_user_executions(request.user_id)
     if response['passed'] == False:
+        response["message"] = "Too many executions"
         return response
 
     if request.user_id == stevejobsid:
