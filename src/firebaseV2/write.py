@@ -7,8 +7,7 @@ from datetime import datetime, date, time, timedelta
 def write_courses(courses, user_id, db):
     user_dict = db.collection(u'users').document(f"{user_id}").get().to_dict()
 
-    if user_courses is None:
-        user_courses = []
+    user_courses = []
 
     for course in courses:
         try:
