@@ -46,6 +46,9 @@ TO_EMAIL = os.getenv("TO_EMAIL")
 TEST_USER = os.getenv("TEST_USER")
 TEST_PASS = os.getenv("TEST_PASS")
 
+# this is a general API key for all users; make API key user specific later
+API_KEY = os.getenv("API_KEY")
+
 #################################
 
 # startup
@@ -74,6 +77,11 @@ def check_sport_exists(sport_id):
     for sport in sports:
         if sport.id == sport_id:
             return True
+
+def check_api_key(api_key):
+    if api_key == API_KEY:
+        return True
+    return False
 
 # execution functions #
 
@@ -153,6 +161,9 @@ def get_key(request: SignUpRequest):
     if response['passed'] == False:
         return response
 
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid api key"}
+
     # check user exists
     if not check_user_exists(request.user_id):
         return {"message": "user does not exist"}
@@ -180,6 +191,9 @@ def scrape(request: ScrapeRequest):
     response = do_user_executions(request.user_id)
     if response['passed'] == False:
         return response
+
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid api key"}
 
     ### FOR APPLE CHECK ###
     if request.user_id == stevejobsid:
@@ -226,6 +240,9 @@ def ensure(request: EnsureRequest):
     if response['passed'] == False:
         response["message"] = "Too many executions"
         return response
+
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid api key"}
 
     if request.user_id == stevejobsid:
         courses = STEVEJOBS_COURSES
@@ -451,7 +468,7 @@ def get_events():
     except Exception as e:
         return {"message": "failed to write events to firebase", "exception": str(e)}
 
-    return {"message": "success"}
+    return {"message": "success", "days": days}
 
 @app.get("/sports", status_code=200)
 def get_sports():
