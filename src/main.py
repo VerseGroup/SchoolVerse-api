@@ -22,7 +22,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest
+from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
@@ -518,24 +518,17 @@ async def version():
 async def get_executions():
     return USERS_EXECUTIONS
 
-@app.get("/approved/{user_id}", status_code=200)
-async def get_approved(user_id: str):
-    # return html
-    return f'''
-    <html>
-        <head>
-            <title>Approved</title>
-        </head>
-        <body>
-            <h1>Approved</h1>
-            <p>Thank you for approving the app to access your data. You can now close this page.</p>
-        </body>
+@app.get("/approve", status_code=200)
+async def get_approved(request: ApproveRequest):
+    user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    
+    try:
+        approved = user_doc['approved']
+    except:
+        approved = False
 
-    </html>
-
-'''
-
-
+    return {"message": "success","approved": approved}
+    
 '''
 User's should have cached information if not scraped 
 -> cache schedule
