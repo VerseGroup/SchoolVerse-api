@@ -13,7 +13,7 @@ from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_IC
 
 # steve jobs
 from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
-stevejobsid = "rdMoRC7kTQWvFip19meUdQ8T2dw1"
+stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
