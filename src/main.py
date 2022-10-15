@@ -22,8 +22,7 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, CreateClubRequest, JoinClubRequest, EnsureRequest, LeaveClubRequest, UpdateClubRequest, JoinSportRequest, LeaveSportRequest
-
+from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
@@ -180,10 +179,17 @@ def get_key(request: SignUpRequest):
     write_key(private_key, request.user_id, db)
     db.collection(u'users').document(f'{request.user_id}').update({u'task_ids': []})
 
+    user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    try:
+        approved = user_doc['approved']
+    except:
+        approved = False
+
     public_key = handler.serialize_public_key()
     return {
         "message": "success",
         "public_key": public_key,
+        "approved": approved
     }
 
 @app.post("/scrape", status_code=200)
@@ -509,6 +515,24 @@ async def version():
 async def get_executions():
     return USERS_EXECUTIONS
 
+@app.get("/approved/{user_id}", status_code=200)
+async def get_approved(user_id: str):
+    # return html
+    return f'''
+    <html>
+        <head>
+            <title>Approved</title>
+        </head>
+        <body>
+            <h1>Approved</h1>
+            <p>Thank you for approving the app to access your data. You can now close this page.</p>
+        </body>
+
+    </html>
+
+'''
+
+
 '''
 User's should have cached information if not scraped 
 -> cache schedule
@@ -538,3 +562,4 @@ async def test():
     except Exception as e:
         return {"message": "failed", "exception": str(e)}
 '''
+
