@@ -195,7 +195,7 @@ def get_key(request: SignUpRequest):
         "approved": approved
     }
 
-@app.post("/scrape", status_code=200)
+@app.post("/getdata", status_code=200)
 def scrape(request: ScrapeRequest):
     response = do_user_executions(request.user_id)
     if response['passed'] == False:
