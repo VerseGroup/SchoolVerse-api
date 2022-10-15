@@ -1,4 +1,4 @@
-# SchoolVerse Scraping Server
+# SchoolVerse API
 This is a custom REST API that gets school information from the web, handles encryption with the local keychain, and interacts with firebase. 
 
 ## Tech Stack
