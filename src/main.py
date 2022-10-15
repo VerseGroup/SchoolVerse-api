@@ -518,13 +518,21 @@ async def version():
 async def get_executions():
     return USERS_EXECUTIONS
 
-@app.get("/approve", status_code=200)
+@app.post("/approve", status_code=200)
 async def get_approved(request: ApproveRequest):
-    user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid api key"}
+    
+    try:
+        user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    except:
+        return {"message": "error", "exception": "user does not exist"}
     
     try:
         approved = user_doc['approved']
     except:
+        db.collection(u'users').document(f'{request.user_id}').update({'approved': False})
         approved = False
 
     return {"message": "success","approved": approved}
