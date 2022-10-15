@@ -468,7 +468,7 @@ def get_events():
     except Exception as e:
         return {"message": "failed to write events to firebase", "exception": str(e)}
 
-    return {"message": "success", "days": days}
+    return {"message": "success"}
 
 @app.get("/sports", status_code=200)
 def get_sports():
