@@ -1,5 +1,5 @@
 # SchoolVerse Scraping Server
-This is a custom REST API that scrapes information from the web, handles encryption with the local keychain, and interacts with firebase. 
+This is a custom REST API that gets school information from the web, handles encryption with the local keychain, and interacts with firebase. 
 
 ## Tech Stack
 Languages: Python, Shell
