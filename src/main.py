@@ -185,6 +185,9 @@ def get_key(request: SignUpRequest):
     except:
         approved = False
 
+    if approved == False:
+        db.collection(u'users').document(f'{request.user_id}').update({u'approved': False})
+
     public_key = handler.serialize_public_key()
     return {
         "message": "success",
