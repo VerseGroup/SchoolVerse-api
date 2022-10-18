@@ -174,6 +174,24 @@ def write_sports(sports, db):
         for event in sport['events']:
             event['name'] = sport['name']
 
+            if len(event['name'].split(": ")) == 2:
+                event['name'] = event['name'].split(": ")[1]
+
+            if len(event['description'].split(": ")) == 2:
+                event['description'] = event['description'].split(": ")[1]
+
+            if len(event['summary'].split(": ")) == 2:
+
+                if 'POSTPONED' in event['summary']:
+                    event['summary'] = str("POSTPONED: " + str(event['summary'].split(": ")[1]))
+                elif 'CANCELLED' in event['summary']:
+                    event['summary'] = str("CANCELLED: " + str(event['summary'].split(": ")[1]))
+                else:
+                    event['summary'] = event['summary'].split(": ")[1]
+
+        if len(sport['id'].split(": ")) == 2:
+                sport['id'] = sport['id'].split(": ")[1]
+
         sports_ref.document(f'{sport["id"]}').set(sport)
 
 
