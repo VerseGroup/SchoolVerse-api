@@ -131,16 +131,30 @@ class User():
         return serialized_user
 
 class Temp_Event:
-    def __init__(self, id, name, date):
+    def __init__(self, id, name, due_date, course_name, course_id):
         self.name = name
-        self.date = date
+        self.due_date = due_date
         self.id = id
+        self.course_name = course_name
+        self.course_id = course_id
+        self.completed = False
+
+        self.platform_information = {
+            'platform_code' : 'sc',
+            'assignment_code' : id
+        }
+
+        self.task = Task(name, due_date, platform_information=self.platform_information)
 
     def serialize(self):
         return {
-            'id': self.id,
             'name': self.name,
-            'date': self.date
+            'due_date': self.due_date,
+            'course_name': self.course_name,
+            'course_id': self.course_id,
+            'platform_information': self.platform_information,
+            'completed': self.completed,
+            'description': ''
         }
 
 # day, month two digits (ex. 01) year four digits (ex. 2020)

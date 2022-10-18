@@ -31,7 +31,7 @@ def auth_schoology(username, password) -> requests.Session:
     return s
 
 def parse_event(event) -> Temp_Event:
-    return Temp_Event(id=event['id'], name=event['title'], date=event['start']).serialize()
+    return Temp_Event(id=event['id'], name=event['title'], due_date=event['start'], course_name=event['content_title'], course_id=event['content_id']).serialize()
 
 def parse_task(task) -> Task:
     platform_information={
@@ -143,6 +143,7 @@ def scrape_schoology(username, password, do_courses=True) -> dict:
 
     # pulling calender information
     schoology_calender_url = f"https://hackley.schoology.com/calendar/{year}-{month}?ajax=1&start={unixstart}&end={unixend}"
+    print(schoology_calender_url)
     response = s.get(url=schoology_calender_url)
     jsonresponse = json.loads(response.text)
 
@@ -158,4 +159,3 @@ def scrape_schoology(username, password, do_courses=True) -> dict:
         to_return["courses"] = courses
 
     return to_return
-

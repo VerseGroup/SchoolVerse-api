@@ -2,6 +2,7 @@
 import os
 import uuid
 import json
+import re
 
 # external imports 
 from fastapi import FastAPI
@@ -232,12 +233,19 @@ def scrape(request: ScrapeRequest):
         returns = scrape_schoology(username, password)
         tasks = returns['tasks']
         events = returns['events']
+
+        clean_events = []
+
+        for event in events:
+            if not event['course_name'] == 'Upper School':
+                clean_events.append(event)
+
     except Exception as e:
         return {"message": "failed to scrape schoology", "exception": str(e)}
 
     try:
         write_tasks(tasks, request.user_id, db)
-        #write_sc_events(events, request.user_id, db)
+        write_tasks(clean_events, request.user_id, db)
     except Exception as e:
         return {"message": "failed to write tasks to firebase", "exception": str(e)}
 
