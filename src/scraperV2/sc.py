@@ -143,7 +143,6 @@ def scrape_schoology(username, password, do_courses=True) -> dict:
 
     # pulling calender information
     schoology_calender_url = f"https://hackley.schoology.com/calendar/{year}-{month}?ajax=1&start={unixstart}&end={unixend}"
-    print(schoology_calender_url)
     response = s.get(url=schoology_calender_url)
     jsonresponse = json.loads(response.text)
 
