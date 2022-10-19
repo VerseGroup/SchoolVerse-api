@@ -91,6 +91,7 @@ def check_api_key(api_key):
 
 executions = 0
 USERS_EXECUTIONS = {}
+USER_OPENS = {}
 
 def do_executions():
     # write as a function decorator later
@@ -537,6 +538,11 @@ async def get_executions():
 @app.post("/approve", status_code=200)
 async def get_approved(request: ApproveRequest):
 
+    if request.user_id not in USER_OPENS:
+        USER_OPENS[request.user_id] = 1
+    else:
+        USER_OPENS[request.user_id] += 1
+
     if check_api_key(request.api_key) == False:
         return {'message': "error", 'exception': "invalid api key"}
     
@@ -582,11 +588,12 @@ async def admin(password: str):
                 
         html = '''<html>
         <head>
-        <title>Admin</title>
+        <title>SV Admin</title>
         <style>
         body {
             font-family: Helvetica, sans-serif;
             background-color: white;
+            text-align: center;
         }
         h1 {
             text-align: center;
@@ -616,6 +623,8 @@ async def admin(password: str):
         </style>
         </head>
         <body>
+        <h1>SchoolVerse Admin Panel</h1>
+        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <h1>Unapproved Users</h1>
         <table>
         <tr>
@@ -647,8 +656,9 @@ async def admin(password: str):
             <th>Email</th> 
             <th>Grade</th>
             <th>Approved</th>
-            <th>Executions</th>
-            <th>Execution Reset</th>
+            <th>Scrapes</th>
+            <th>Scrapes Reset</th>
+            <th>Launches (current deployment) </th>
             <th>Disapprove</th>
         </tr>
         '''
@@ -665,6 +675,11 @@ async def admin(password: str):
             except:
                 executions = 0
                 reset = "N/A"
+
+            try:
+                opens = USER_OPENS[user_dict['user_id']]
+            except:
+                opens = 0
             html += f'''
             <tr>
                 <td> {name} </td>
@@ -673,6 +688,7 @@ async def admin(password: str):
                 <td> {approved} </td>
                 <td> {executions} </td>
                 <td> {reset} </td>
+                <td> {opens} </td>
                 <td> <a href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
