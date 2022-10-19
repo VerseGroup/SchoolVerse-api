@@ -638,9 +638,12 @@ async def admin(password: str):
         }
         </style>
         </head>
+        '''
+        html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
+        <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
         <h2>Unapproved Users</h2>
         <table>
         <tr>
@@ -719,7 +722,7 @@ async def admin_approve(password: str, user_id: str, approve: str):
     response = check_admin_panel()
     if response['passed'] == False:
         return response
-        
+
     if password == ADMIN_PASSWORD:
         try:
             db.collection(u'users').document(f'{user_id}').update({'approved': True if approve == "true" else False})
