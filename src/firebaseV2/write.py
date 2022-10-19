@@ -200,6 +200,21 @@ def write_sports(sports, db):
         if len(sport['id'].split(": ")) == 2:
                 sport['id'] = sport['id'].split(": ")[1]
 
+    for sport in sports:
+        good_events = []
+        for event in sport['events']:
+            try:
+                if event['start'] is not None and event['name'] is not None:
+                    good_events.append(event)
+
+                if event['name'] is None:
+                    event['name'] = sport['name']
+                    good_events.append(event)
+                    
+            except:
+                continue
+        sport['events'] = good_events
+
         sports_ref.document(f'{sport["id"]}').set(sport)
 
 # schedule
