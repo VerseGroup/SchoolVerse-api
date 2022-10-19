@@ -642,10 +642,10 @@ async def admin(password: str):
         html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
-        <p> MODE: \'{MODE}\' </p>
+        <p> Server Mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
-        <p> Current max scrapes: {MAX_USER_EXECUTIONS} </p>
+        <p> Current max user scrapes: {MAX_USER_EXECUTIONS} </p>
         <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
         <h2>Unapproved Users</h2>
         <table>
