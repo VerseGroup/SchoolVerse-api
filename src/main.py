@@ -45,6 +45,8 @@ FROM_EMAIL = os.getenv("FROM_EMAIL")
 TO_EMAIL = os.getenv("TO_EMAIL")
 TEST_USER = os.getenv("TEST_USER")
 TEST_PASS = os.getenv("TEST_PASS")
+NUMBER1 = os.getenv("NUMBER1")
+NUMBER2 = os.getenv("NUMBER2")
 
 # this is a general API key for all users; make API key user specific later
 API_KEY = os.getenv("API_KEY")
@@ -153,6 +155,10 @@ def do_flik(db, useToday=True, day=None):
         return {'message': 'failed to write to firebase', 'exception': str(e)}
 
     return {"message": "success"}
+
+# user approval #
+from src.twilio_client import sendMessage
+auth_message_sent = [] # don't want to resend if they spam
 
 ####### ROUTES [SCRAPER] #######
 @app.post("/getkey", status_code=200)
@@ -542,6 +548,16 @@ async def get_approved(request: ApproveRequest):
     except:
         db.collection(u'users').document(f'{request.user_id}').update({'approved': False})
         approved = False
+        
+    if approved == False:
+        print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['user_id'] + ")")
+        try:
+            if user_doc['user_id'] not in auth_message_sent:
+                sendMessage("User " + user_doc['display_name'] + " (" + user_doc['user_id'] + ") is requesting access", NUMBER1)
+                sendMessage("User " + user_doc['display_name'] + " (" + user_doc['user_id'] + ") is requesting access", NUMBER2)
+                auth_message_sent.append(user_doc['user_id'])
+        except Exception as e:
+            print("failed to send message with error: " + str(e))
 
     return {"message": "success","approved": approved}
     

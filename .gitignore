@@ -25,3 +25,6 @@ env/
 raw_schedules/
 schedules.json
 src/schedules.json
+
+# numbers
+src/phone_numbers.py

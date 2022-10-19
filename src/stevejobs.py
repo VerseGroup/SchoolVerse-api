@@ -783,7 +783,7 @@ STEVEJOBS_COURSES = [
                     "course_code": 6267840460
                 },
                 "section": "ADV-12-4a",
-                "name": "CAN YOU SEE THIS"
+                "name": "ADV-12-4a"
             },
             {
                 "name": "YOOOOOO",
@@ -795,7 +795,7 @@ STEVEJOBS_COURSES = [
                 "id": "046ac756-1abf-4018-8297-0af182d39e03"
             },
             {
-                "name": "Does this update live?",
+                "name": "History",
                 "section": "107a.-1",
                 "platform_information": {
                     "course_code": 6071694742,
@@ -808,12 +808,12 @@ STEVEJOBS_COURSES = [
                     "course_code": 6071696208,
                     "code": "sc"
                 },
-                "name": "STEVEN",
+                "name": "Chemistry",
                 "id": "68a089d3-3bd1-4c0f-99d6-47364d631682",
                 "section": "460-1"
             },
             {
-                "name": "YOOOOO",
+                "name": "Physics",
                 "section": "314-1",
                 "platform_information": {
                     "code": "sc",
@@ -822,7 +822,7 @@ STEVEJOBS_COURSES = [
                 "id": "c8e7d870-8f30-43c2-bcdf-b1aa5abbf7ae"
             },
             {
-                "name": "DOES this update live?",
+                "name": "Math",
                 "id": "5e16f323-b9b9-4bcf-a28e-0d8b0284b58b",
                 "platform_information": {
                     "course_code": 2158933985,
@@ -836,7 +836,7 @@ STEVEJOBS_COURSES = [
                     "course_code": 6071694560
                 },
                 "id": "6ba8cca6-c12d-4c42-8a31-07e20b65333f",
-                "name": "Jordan 4 or Jordan 1?",
+                "name": "testing",
                 "section": "717a-1"
             },
             {
@@ -845,7 +845,7 @@ STEVEJOBS_COURSES = [
                     "course_code": 5249192083
                 },
                 "id": "616dd8b6-7d60-4c0e-a474-7c09fd34210b",
-                "name": "bandana on the Left side",
+                "name": "testing",
                 "section": "PD184-1"
             }
 ]
