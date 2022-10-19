@@ -570,6 +570,7 @@ async def admin(password: str):
     if password == ADMIN_PASSWORD:
 
         unapproved_users = {}
+        all_users = db.collection(u'users').stream()
 
         user_ref = db.collection(u'users')
         docs = user_ref.stream()
@@ -610,7 +611,8 @@ async def admin(password: str):
         }
         </style>
         </head>
-        <body><h1>Unapproved Users</h1>
+        <body>
+        <h1>Unapproved Users</h1>
         <table>
         <tr>
             <th>Name</th>
@@ -631,6 +633,39 @@ async def admin(password: str):
                 <td> {email} </td>
                 <td> {grade} </td>
                 <td> {link_button} </td>
+            </tr>
+            '''
+        html += '''
+        </table> <h1>All Users</h1>
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th> 
+            <th>Grade</th>
+            <th>Approved</th>
+            <th>Executions</th>
+            <th>Execution Reset</th>
+        </tr>
+        '''
+        for user in all_users:
+            user_dict = user.to_dict()
+            name = user_dict['display_name']
+            grade = user_dict['grade_level']
+            email = user_dict['email']
+            approved = user_dict['approved']
+            try: 
+                executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
+                reset = USERS_EXECUTIONS[user_dict['user_id']]['reset'].strftime("%m/%d/%Y, %H:%M:%S")
+            except:
+                executions = 0
+                reset = "N/A"
+            html += f'''
+            <tr>
+                <td> {name} </td>
+                <td> {email} </td>
+                <td> {grade} </td>
+                <td> {approved} </td>
+                <td> {executions} </td>
             </tr>
             '''
         html += "</table></body></html>"
