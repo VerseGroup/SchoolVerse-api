@@ -92,6 +92,15 @@ def check_api_key(api_key):
 executions = 0
 USERS_EXECUTIONS = {}
 USER_OPENS = {}
+admin_panel_opens = 0
+MAX_ADMIN_PANEL_OPENS = 50
+
+def check_admin_panel():
+    global admin_panel_opens
+    admin_panel_opens += 1
+    if admin_panel_opens > MAX_ADMIN_PANEL_OPENS:
+        return {'message': "error", 'exception': f'Too many admin panel opens: {admin_panel_opens}/{MAX_ADMIN_PANEL_OPENS}', 'passed': False}
+    return {'passed': True}
 
 def do_executions():
     # write as a function decorator later
@@ -573,6 +582,11 @@ async def get_approved(request: ApproveRequest):
 
 @app.get("/admin/{password}", status_code=200)
 async def admin(password: str):
+
+    response = check_admin_panel()
+    if response['passed'] == False:
+        return response
+
     if password == ADMIN_PASSWORD:
 
         unapproved_users = {}
@@ -596,8 +610,10 @@ async def admin(password: str):
             text-align: center;
         }
         h1 {
-            text-align: center;
             font-size: 50px;
+        }
+        h2 {
+            font-size: 30px;
         }
         th, td {
             padding: 15px;
@@ -625,7 +641,7 @@ async def admin(password: str):
         <body>
         <h1>SchoolVerse Admin Panel</h1>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
-        <h1>Unapproved Users</h1>
+        <h2>Unapproved Users</h2>
         <table>
         <tr>
             <th>Name</th>
@@ -649,7 +665,7 @@ async def admin(password: str):
             </tr>
             '''
         html += '''
-        </table> <h1>All Users</h1>
+        </table> <h2>All Users</h2>
         <table>
         <tr>
             <th>Name</th>
@@ -699,6 +715,11 @@ async def admin(password: str):
 
 @app.get("/admin/{password}/approve/{user_id}/{approve}", status_code=200)
 async def admin_approve(password: str, user_id: str, approve: str):
+
+    response = check_admin_panel()
+    if response['passed'] == False:
+        return response
+        
     if password == ADMIN_PASSWORD:
         try:
             db.collection(u'users').document(f'{user_id}').update({'approved': True if approve == "true" else False})
