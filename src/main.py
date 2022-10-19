@@ -553,8 +553,9 @@ async def get_approved(request: ApproveRequest):
         print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['user_id'] + ")")
         try:
             if user_doc['user_id'] not in auth_message_sent:
-                sendMessage("User " + user_doc['display_name'] + " (" + user_doc['user_id'] + ") is requesting access", NUMBER1)
-                sendMessage("User " + user_doc['display_name'] + " (" + user_doc['user_id'] + ") is requesting access", NUMBER2)
+                body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['user_id'] + ") is requesting access"
+                sendMessage(body, NUMBER1)
+                sendMessage(body, NUMBER2)
                 auth_message_sent.append(user_doc['user_id'])
         except Exception as e:
             print("failed to send message with error: " + str(e))
