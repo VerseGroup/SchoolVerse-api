@@ -577,7 +577,7 @@ async def admin(password: str):
         for user in docs:
             user_dict = user.to_dict()
             if user_dict['approved'] == False:
-                approve_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}"
+                approve_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/true"
                 unapproved_users[user_dict['user_id']] = [user_dict['display_name'], approve_link, user_dict['grade_level'], user_dict['email']]
                 
         html = '''<html>
@@ -586,7 +586,7 @@ async def admin(password: str):
         <style>
         body {
             font-family: Helvetica, sans-serif;
-            background-color: #f2f2f2;
+            background-color: white;
         }
         h1 {
             text-align: center;
@@ -599,11 +599,15 @@ async def admin(password: str):
         th, td {
             border-bottom: 1px solid #ddd;
         }
-        tr:hover {background-color: grey;}
-        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
         th {
             background-color: green;
             color: white;
+        }
+        tr:hover {
+            background-color: darkgrey;
         }
         table {
             margin-left: auto;
@@ -645,6 +649,7 @@ async def admin(password: str):
             <th>Approved</th>
             <th>Executions</th>
             <th>Execution Reset</th>
+            <th>Disapprove</th>
         </tr>
         '''
         for user in all_users:
@@ -653,6 +658,7 @@ async def admin(password: str):
             grade = user_dict['grade_level']
             email = user_dict['email']
             approved = user_dict['approved']
+            remove_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/false"
             try: 
                 executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
                 reset = USERS_EXECUTIONS[user_dict['user_id']]['reset'].strftime("%m/%d/%Y, %H:%M:%S")
@@ -666,6 +672,8 @@ async def admin(password: str):
                 <td> {grade} </td>
                 <td> {approved} </td>
                 <td> {executions} </td>
+                <td> {reset} </td>
+                <td> <a href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
         html += "</table></body></html>"
@@ -673,11 +681,11 @@ async def admin(password: str):
     else:
         return {"detail": "not found"}
 
-@app.get("/admin/{password}/approve/{user_id}", status_code=200)
-async def admin_approve(password: str, user_id: str):
+@app.get("/admin/{password}/approve/{user_id}/{approve}", status_code=200)
+async def admin_approve(password: str, user_id: str, approve: str):
     if password == ADMIN_PASSWORD:
         try:
-            db.collection(u'users').document(f'{user_id}').update({'approved': True})
+            db.collection(u'users').document(f'{user_id}').update({'approved': True if approve == "true" else False})
             data = f'''
             <html>
             <head>
@@ -685,7 +693,7 @@ async def admin_approve(password: str, user_id: str):
             </head>
             <body>
             <h1>Success</h1>
-            <p>User has been approved</p>
+            <p>User has been {"approved" if approve == "true" else "disapproved"}</p>
             <p><a href="https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
             </body>
             </html>
