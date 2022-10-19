@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS
+from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS, MODE
 
 # steve jobs
 from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
@@ -642,8 +642,11 @@ async def admin(password: str):
         html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
+        <p> MODE: \'{MODE}\' </p>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
+        <p> Current max scrapes: {MAX_USER_EXECUTIONS} </p>
+        <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
         <h2>Unapproved Users</h2>
         <table>
         <tr>
