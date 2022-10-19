@@ -172,6 +172,14 @@ def write_sports(sports, db):
             continue
 
         for event in sport['events']:
+
+            if event['start'] is None:
+                try:
+                    sport['events'].remove(event)
+                except Exception as e:
+                    raise Exception(f"could not remove event {str(e)}")
+                continue
+
             event['name'] = sport['name']
 
             if len(event['name'].split(": ")) == 2:
@@ -193,7 +201,6 @@ def write_sports(sports, db):
                 sport['id'] = sport['id'].split(": ")[1]
 
         sports_ref.document(f'{sport["id"]}').set(sport)
-
 
 # schedule
 

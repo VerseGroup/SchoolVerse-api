@@ -28,6 +28,8 @@ def get_driver_path() -> dict:
 
 def generate_driver(type, headless= True, download=True) -> webdriver:
     
+    s = None
+
     # option to use existing driver or download a new one (local run - > use existing, external run -> download)
     if not download:
         driverpath = get_driver_path()[type]
@@ -45,9 +47,15 @@ def generate_driver(type, headless= True, download=True) -> webdriver:
         options = Options()
         if headless:
             options.headless = True
-        driver = webdriver.Chrome(service=s, options=options)
+        if s is not None:
+            driver = webdriver.Chrome(service=s, options=options)
+        else:
+            driver = webdriver.Chrome(executable_path=driverpath, options=options)
     if type == "firefox":
-        driver = webdriver.Firefox(service=s)
+        if s is not None:
+            driver = webdriver.Firefox(service=s)
+        else:
+            driver = webdriver.Firefox(executable_path=driverpath)
     
     return driver
 

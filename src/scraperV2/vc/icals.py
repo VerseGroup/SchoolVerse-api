@@ -18,11 +18,11 @@ from selenium.webdriver.common.keys import Keys
 
 def get_icals(username, password):
 
-    TYPE = SELENIUM_TYPE
+    TYPE = "firefox"
 
     TARGET_LINK = "https://portals.veracross.com/hackley/student/calendar/subscribe/school"
 
-    driver = generate_driver(TYPE)
+    driver = generate_driver(TYPE, headless=False, download=False)
     print(f"Selenium Running {TYPE} browser\n")
 
     try:
