@@ -5,7 +5,7 @@ import json
 import re
 
 # external imports 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from vgem import EM
 
@@ -47,6 +47,8 @@ TEST_USER = os.getenv("TEST_USER")
 TEST_PASS = os.getenv("TEST_PASS")
 NUMBER1 = os.getenv("NUMBER1")
 NUMBER2 = os.getenv("NUMBER2")
+NUMBER3 = os.getenv("NUMBER3")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
 # this is a general API key for all users; make API key user specific later
 API_KEY = os.getenv("API_KEY")
@@ -556,11 +558,108 @@ async def get_approved(request: ApproveRequest):
                 body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['user_id'] + ") is requesting access"
                 sendMessage(body, NUMBER1)
                 sendMessage(body, NUMBER2)
+                sendMessage(body, NUMBER3)
                 auth_message_sent.append(user_doc['user_id'])
         except Exception as e:
             print("failed to send message with error: " + str(e))
 
     return {"message": "success","approved": approved}
+
+@app.get("/admin/{password}", status_code=200)
+async def admin(password: str):
+    if password == ADMIN_PASSWORD:
+
+        unapproved_users = {}
+
+        user_ref = db.collection(u'users')
+        docs = user_ref.stream()
+        for user in docs:
+            user_dict = user.to_dict()
+            if user_dict['approved'] == False:
+                approve_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}"
+                unapproved_users[user_dict['user_id']] = [user_dict['display_name'], approve_link, user_dict['grade_level'], user_dict['email']]
+                
+        html = '''<html>
+        <head>
+        <title>Admin</title>
+        <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            font-size: 50px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {background-color: grey;}
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        th {
+            background-color: green;
+            color: white;
+        }
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        </style>
+        </head>
+        <body><h1>Unapproved Users</h1>
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th> 
+            <th>Grade</th>
+            <th>Approve?</th>
+        </tr>
+        '''
+        for user_id in unapproved_users:
+            name = unapproved_users[user_id][0]
+            grade = unapproved_users[user_id][2]
+            email = unapproved_users[user_id][3]
+            link = unapproved_users[user_id][1]
+            link_button = f"<a href='{link}'>Approve</a>"
+            html += f'''
+            <tr>
+                <td> {name} </td>
+                <td> {email} </td>
+                <td> {grade} </td>
+                <td> {link_button} </td>
+            </tr>
+            '''
+        html += "</table></body></html>"
+        return Response(content=html, status_code=200)
+    else:
+        return {"detail": "not found"}
+
+@app.get("/admin/{password}/approve/{user_id}", status_code=200)
+async def admin_approve(password: str, user_id: str):
+    if password == ADMIN_PASSWORD:
+        try:
+            db.collection(u'users').document(f'{user_id}').update({'approved': True})
+            data = f'''
+            <html>
+            <head>
+            <title>Admin</title>
+            </head>
+            <body>
+            <h1>Success</h1>
+            <p>User has been approved</p>
+            <p><a href="https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
+            </body>
+            </html>
+            '''
+            return Response(content=data, status_code=200)
+        except:
+            return {"message": "failed", "exception": "user does not exist"}
+    else:
+        return {"message": "failed"}
     
 '''
 User's should have cached information if not scraped 
