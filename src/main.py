@@ -643,10 +643,11 @@ async def admin(password: str):
         <body>
         <h1>SchoolVerse Admin Panel</h1>
         <p> Server Mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
-        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
         <p> Current max user scrapes: {MAX_USER_EXECUTIONS} </p>
         <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
+        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
+        <p> Limit total users : 25 </p>
         <h2>Unapproved Users</h2>
         <table>
         <tr>
@@ -684,7 +685,9 @@ async def admin(password: str):
             <th>Disapprove</th>
         </tr>
         '''
+        user_count = 0
         for user in all_users:
+            user_count += 1
             user_dict = user.to_dict()
             name = user_dict['display_name']
             grade = user_dict['grade_level']
@@ -714,7 +717,7 @@ async def admin(password: str):
                 <td> <a href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
-        html += "</table></body></html>"
+        html += f"</table><p>Current total users: {user_count}</p></body></html>"
         return Response(content=html, status_code=200)
     else:
         return {"detail": "not found"}
