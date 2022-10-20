@@ -697,6 +697,7 @@ async def admin(password: str):
             try: 
                 executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
                 reset = USERS_EXECUTIONS[user_dict['user_id']]['reset'].strftime("%m/%d/%Y, %H:%M:%S")
+                reset = datetime.strptime(reset, "%m/%d/%Y, %H:%M:%S") - timedelta(hours=4) + timedelta(days=1)
             except:
                 executions = 0
                 reset = "N/A"
