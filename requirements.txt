@@ -1,4 +1,4 @@
-anyio==3.6.1
+anyio==3.6.2
 appdirs==1.4.4
 asgiref==3.5.2
 async-generator==1.10
