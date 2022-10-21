@@ -93,7 +93,7 @@ executions = 0
 USERS_EXECUTIONS = {}
 USER_OPENS = {}
 admin_panel_opens = 0
-MAX_ADMIN_PANEL_OPENS = 50
+MAX_ADMIN_PANEL_OPENS = 100
 
 def check_admin_panel():
     global admin_panel_opens
@@ -570,7 +570,7 @@ async def get_approved(request: ApproveRequest):
         print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['user_id'] + ")")
         try:
             if user_doc['user_id'] not in auth_message_sent:
-                body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['user_id'] + ") is requesting access"
+                body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['email'] + ") is requesting access"
                 sendMessage(body, NUMBER1)
                 sendMessage(body, NUMBER2)
                 sendMessage(body, NUMBER3)
