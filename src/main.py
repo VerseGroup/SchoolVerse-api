@@ -572,7 +572,7 @@ async def get_approved(request: ApproveRequest):
             return {"message": "error", "exception": "failed to assign approved status"}
         
     if approved == False:
-        print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
+        print("FAILED: approved for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
         try:
             if user_doc['user_id'] not in auth_message_sent:
                 body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['email'] + ") is requesting access"
@@ -583,6 +583,7 @@ async def get_approved(request: ApproveRequest):
         except Exception as e:
             print("failed to send message with error: " + str(e))
 
+    print("approved for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
     return {"message": "success","approved": approved}
 
 @app.get("/admin/{password}", status_code=200)
@@ -610,12 +611,26 @@ async def admin(password: str):
         <title>SV Admin</title>
         <style>
         body {
-            font-family: Helvetica, sans-serif;
-            background-color: white;
+            font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             text-align: center;
+            margin: 0;
+            height: 100vh;
+            background: #8E29E5;
+            background: linear-gradient(200deg, #8E29E5 0%, #76186B 100%);
+            background-color: #76186B;
+            text-align: center;
+        }
+        p, a, h1, h2, h3, h4, h5, h6, small {
+            color: white;
         }
         h1 {
             font-size: 50px;
+        }
+        p, a, small, tr, th, td {
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
         }
         h2 {
             font-size: 30px;
@@ -625,13 +640,21 @@ async def admin(password: str):
             text-align: left;
         }
         th, td {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid white;
         }
+        /*
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        tr:nth-child(odd) {
+            background-color: grey;
+        }
+        */
+        tr {
+            background-color: #f2f2f2;
+        }
         th {
-            background-color: green;
+            background-color: #008B8B;
             color: white;
         }
         tr:hover {
@@ -641,6 +664,17 @@ async def admin(password: str):
             margin-left: auto;
             margin-right: auto;
         }
+        .server-status-box {
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid white;
+            border-radius: 10px;
+            width: 50%;
+        }
+        .table-link {
+            color: black;
+        }
         </style>
         </head>
         '''
@@ -648,11 +682,14 @@ async def admin(password: str):
         <body>
         <h1>SchoolVerse Admin Panel</h1>
         <h3> Server status: </h3>
+        <div class="server-status-box">
         <p> Server mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
-        <p> Server most recent deployment (data): {server_last_pushed} </p>
+        <p> Server most recent deployment (last reset date): {server_last_pushed} </p>
         <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
         <p> Current max user scrapes: {MAX_USER_EXECUTIONS} </p>
         <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
+        <p> Limit total users : 25 </p>
+        </div>
         <h3> Notes: </h3>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <br>
@@ -660,7 +697,6 @@ async def admin(password: str):
         <br>
         <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
         <br>
-        <p> Limit total users : 25 </p>
         <h2>Unapproved Users</h2>
         <table>
         <tr>
@@ -670,12 +706,14 @@ async def admin(password: str):
             <th>Approve?</th>
         </tr>
         '''
+        unapproved_user_count = 0
         for user_id in unapproved_users:
+            unapproved_user_count += 1
             name = unapproved_users[user_id][0]
             grade = unapproved_users[user_id][2]
             email = unapproved_users[user_id][3]
             link = unapproved_users[user_id][1]
-            link_button = f"<a href='{link}'>Approve</a>"
+            link_button = f"<a class='table-link' href='{link}'>Approve</a>"
             html += f'''
             <tr>
                 <td> {name} </td>
@@ -684,8 +722,8 @@ async def admin(password: str):
                 <td> {link_button} </td>
             </tr>
             '''
-        html += '''
-        </table> <h2>All Users</h2>
+        html += f'''
+        </table> <p> Total unapproved users: {unapproved_user_count} </p> <h2>All Users</h2>
         <table>
         <tr>
             <th>Name</th>
@@ -728,10 +766,10 @@ async def admin(password: str):
                 <td> {executions} </td>
                 <td> {reset} </td>
                 <td> {opens} </td>
-                <td> <a href='{remove_link}'>Disapprove?</a> </td>
+                <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
-        html += f"</table><p>Current total users: {user_count}</p></body></html>"
+        html += f"</table><p>Current total users: {user_count}</p><small>©VerseGroup, LLC 2022. </small><br><small><a href='https://versegroup.tech/privacy>Privacy Policy?</a></small></body></html>"
         return Response(content=html, status_code=200)
     else:
         return {"detail": "not found"}
