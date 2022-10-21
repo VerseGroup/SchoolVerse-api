@@ -703,13 +703,16 @@ async def admin(password: str):
         <body>
         <h1>SchoolVerse Admin Panel</h1>
         <h3> Notes: </h3>
-        <small> Welcome, VerseGroup admin. If you are not a VerseGroup admin, please to not use this service. </small>
+        <small> Welcome, VerseGroup admin. </small>
         <br>
-        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
+        <small> If you are not a VerseGroup admin, please to not use this service. </small>
+        <br>
+        <small> Don't spam refresh this page (reads) and don't share this link with anyone. </small>
+        <br>
+        <small> <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs? </a> </small>
+        <br>
         <br>
         <small> Your last admin page refresh: <div class="status-text"> {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </div> </small>
-        <br>
-        <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
         <br>
         <h3> Server Status: </h3>
         <div class="server-status-box">
@@ -752,7 +755,7 @@ async def admin(password: str):
             </tr>
             '''
         html += f'''
-        </table> <p> Total unapproved users: {unapproved_user_count} </p> <h2>All Users</h2>
+        </table> <p> Total unapproved users: <div class="status-text"> {unapproved_user_count} </div> </p> <h2>All Users</h2>
         <table>
         <tr>
             <th>Name</th>
@@ -798,7 +801,7 @@ async def admin(password: str):
                 <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
-        html += f"</table><p>Current total users: {user_count}</p> <small> Copyright VerseGroup, LLC 2022 </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> </body></html>"
+        html += f"</table><p>Current total users: <div class='status-text'> {user_count} </div> <br> <br> <br> </p> <small> Copyright 2022 VerseGroup, LLC </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> <br> <br> </body></html>"
         return Response(content=html, status_code=200)
     else:
         return {"detail": "not found"}
