@@ -586,6 +586,7 @@ async def get_approved(request: ApproveRequest):
     print("approved for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
     return {"message": "success","approved": approved}
 
+# NOT GOOD CODE - this is temporary for preparing for presentation day - soon to be a django admin page on a separate server
 @app.get("/admin/{password}", status_code=200)
 async def admin(password: str):
 
@@ -615,9 +616,11 @@ async def admin(password: str):
             text-align: center;
             margin: 0;
             height: 100vh;
-            background: #8E29E5;
-            background: linear-gradient(200deg, #8E29E5 0%, #76186B 100%);
-            background-color: #76186B;
+            background: -webkit-gradient(linear, left top, right top, color-stop(0%, #black), color-stop(100%,#76186B)); /* Chrome, Safari4+ */
+            background: -webkit-linear-gradient(left, #black 0%, #76186B  100%); /* Chrome10+, Safari5.1+ */
+            background: -moz-linear-gradient(left, #76186B 0%, black 100%);    /* FF3.6+ */
+            background: linear-gradient(to left, black 0%, 50%,#76186B  100%);      /* W3C */
+            background-color: black;
             text-align: center;
         }
         p, a, h1, h2, h3, h4, h5, h6, small {
@@ -640,7 +643,7 @@ async def admin(password: str):
             text-align: left;
         }
         th, td {
-            border-bottom: 1px solid white;
+            margin-bottom: 1px;
         }
         /*
         tr:nth-child(even) {
@@ -651,18 +654,23 @@ async def admin(password: str):
         }
         */
         tr {
-            background-color: #f2f2f2;
+            color: green;
+            border-bottom: 1px dashed green;
         }
         th {
-            background-color: #008B8B;
-            color: white;
+            color: green;
         }
+        /* 
         tr:hover {
-            background-color: darkgrey;
+            background-color: white;
         }
+        */s
         table {
             margin-left: auto;
             margin-right: auto;
+            background-color: black;
+            border: 1px solid white;
+            border-radius: 10px;
         }
         .server-status-box {
             padding: 20px;
@@ -671,9 +679,17 @@ async def admin(password: str):
             border: 1px solid white;
             border-radius: 10px;
             width: 50%;
+            background-color: black;
+        }
+        .status-text {
+            color: green;
         }
         .table-link {
-            color: black;
+            color: green;
+            text-decoration: None;
+        }
+        .table-link:hover {
+            color: white;
         }
         </style>
         </head>
@@ -681,19 +697,25 @@ async def admin(password: str):
         html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
-        <h3> Server status: </h3>
+        <h3> Server Status: </h3>
         <div class="server-status-box">
-        <p> Server mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
-        <p> Server most recent deployment (last reset date): {server_last_pushed} </p>
-        <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
-        <p> Current max user scrapes: {MAX_USER_EXECUTIONS} </p>
-        <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
-        <p> Limit total users : 25 </p>
+        <p> Server mode: <div class="status-text"> \'{'Production' if MODE == 'prod' else 'Development'}\'  </div> </p>
+        <p> Server most recent deployment (last reset date): <div class="status-text"> {server_last_pushed}  </div> </p>
+        <p> Admin panel uses: <div class="status-text"> {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </div> </p>
+        <p> Current max user scrapes: <div class="status-text"> {MAX_USER_EXECUTIONS} </div> </p>
+        <p> Current school-wide scraper uses: <div class="status-text"> {MAX_EXECUTIONS} </div> </p>
+        <p> Limit total users : <div class="status-text"> 25 </div> </p>
+        </div>
+        <h3> Scripts: </h3>
+        <div class="server-status-box">
+        <p> <a class="status-text" href="/sports"> Sports </a> </p>
+        <p> <a class="status-text" href="/events"> Events </a> </p>
+        <p> <a class="status-text" href="/flik"> Menus </a> </p>
         </div>
         <h3> Notes: </h3>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
         <br>
-        <small> Your last admin page refresh: {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </small>
+        <small> Your last admin page refresh: <div class="status-text"> {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </div> </small>
         <br>
         <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
         <br>
@@ -769,7 +791,7 @@ async def admin(password: str):
                 <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
-        html += f"</table><p>Current total users: {user_count}</p><small>©VerseGroup, LLC 2022. </small><br><small><a href='https://versegroup.tech/privacy>Privacy Policy?</a></small></body></html>"
+        html += f"</table><p>Current total users: {user_count}</p> <small> Copyright VerseGroup, LLC 2022 </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> </body></html>"
         return Response(content=html, status_code=200)
     else:
         return {"detail": "not found"}
