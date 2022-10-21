@@ -563,11 +563,14 @@ async def get_approved(request: ApproveRequest):
     try:
         approved = user_doc['approved']
     except:
-        db.collection(u'users').document(f'{request.user_id}').update({'approved': False})
         approved = False
+        try:
+            db.collection(u'users').document(f'{request.user_id}').update({'approved': False})
+        except:
+            return {"message": "error", "exception": "failed to assign approved status"}
         
     if approved == False:
-        print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['user_id'] + ")")
+        print("approved failed for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
         try:
             if user_doc['user_id'] not in auth_message_sent:
                 body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['email'] + ") is requesting access"
