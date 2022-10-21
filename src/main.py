@@ -89,6 +89,8 @@ def check_api_key(api_key):
 
 # execution functions #
 
+server_last_pushed = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=-4))).strftime("%m/%d/%Y %H:%M:%S")
+
 executions = 0
 USERS_EXECUTIONS = {}
 USER_OPENS = {}
@@ -645,11 +647,19 @@ async def admin(password: str):
         html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
-        <p> Server Mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
+        <h3> Server status: </h3>
+        <p> Server mode: \'{'Production' if MODE == 'prod' else 'Development'}\' </p>
+        <p> Server most recent deployment (data): {server_last_pushed} </p>
         <p> Admin panel uses: {admin_panel_opens} / {MAX_ADMIN_PANEL_OPENS} </p>
         <p> Current max user scrapes: {MAX_USER_EXECUTIONS} </p>
         <p> Current school-wide scraper uses: {MAX_EXECUTIONS} </p>
+        <h3> Notes: </h3>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
+        <br>
+        <small> Your last admin page refresh: {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </small>
+        <br>
+        <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
+        <br>
         <p> Limit total users : 25 </p>
         <h2>Unapproved Users</h2>
         <table>
