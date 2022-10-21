@@ -702,6 +702,15 @@ async def admin(password: str):
         html += f'''
         <body>
         <h1>SchoolVerse Admin Panel</h1>
+        <h3> Notes: </h3>
+        <small> Welcome, VerseGroup admin. If you are not a VerseGroup admin, please to not use this service. </small>
+        <br>
+        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
+        <br>
+        <small> Your last admin page refresh: <div class="status-text"> {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </div> </small>
+        <br>
+        <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
+        <br>
         <h3> Server Status: </h3>
         <div class="server-status-box">
         <p> Server mode: <div class="status-text"> \'{'Production' if MODE == 'prod' else 'Development'}\'  </div> </p>
@@ -717,13 +726,6 @@ async def admin(password: str):
         <p> <a class="table-link" href="/events"> Events </a> </p>
         <p> <a class="table-link" href="/flik"> Menus </a> </p>
         </div>
-        <h3> Notes: </h3>
-        <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
-        <br>
-        <small> Your last admin page refresh: <div class="status-text"> {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </div> </small>
-        <br>
-        <small> Docs: <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs </a> </small>
-        <br>
         <h2>Unapproved Users</h2>
         <table>
         <tr>
