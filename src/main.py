@@ -654,17 +654,16 @@ async def admin(password: str):
         }
         */
         tr {
-            color: green;
-            border-bottom: 1px dashed green;
+            color: white;
         }
         th {
-            color: green;
+            color: white;
         }
         /* 
         tr:hover {
             background-color: white;
         }
-        */s
+        */
         table {
             margin-left: auto;
             margin-right: auto;
@@ -685,11 +684,17 @@ async def admin(password: str):
             color: green;
         }
         .table-link {
-            color: green;
+            color: white;
             text-decoration: None;
         }
         .table-link:hover {
-            color: white;
+            color: green;
+        }
+        .table-link:active {
+            color: red;
+        }
+        .status-red {
+            color: red;
         }
         </style>
         </head>
@@ -708,9 +713,9 @@ async def admin(password: str):
         </div>
         <h3> Scripts: </h3>
         <div class="server-status-box">
-        <p> <a class="status-text" href="/sports"> Sports </a> </p>
-        <p> <a class="status-text" href="/events"> Events </a> </p>
-        <p> <a class="status-text" href="/flik"> Menus </a> </p>
+        <p> <a class="table-link" href="/sports"> Sports </a> </p>
+        <p> <a class="table-link" href="/events"> Events </a> </p>
+        <p> <a class="table-link" href="/flik"> Menus </a> </p>
         </div>
         <h3> Notes: </h3>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone </small>
@@ -784,10 +789,10 @@ async def admin(password: str):
                 <td> {name} </td>
                 <td> {email} </td>
                 <td> {grade} </td>
-                <td> {approved} </td>
-                <td> {executions} </td>
-                <td> {reset} </td>
-                <td> {opens} </td>
+                <td class="{"" if approved == True else "status-red"}"> {approved} </td>
+                <td class="{"" if executions == 0 else "status-text"}"> {executions} </td>
+                <td class="{"" if reset == "N/A" else "status-text"}"> {reset} </td>
+                <td class="{"" if opens == 0 else "status-text"}"> {opens} </td>
                 <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
             </tr>
             '''
