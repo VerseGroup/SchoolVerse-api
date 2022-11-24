@@ -1,12 +1,19 @@
 # mongo imports
 import os
 from pymongo import MongoClient
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # secrets
 
 
 def start_mongo():
-    client = MongoClient(host = "mongodb://maltech.org:27027/", username = "schoolverseadmin", password = "D8qBzt&KzLq&kt93", connect=True)
+    MONGO_URL = os.getenv("PRODUCTION_MONGO_URL")
+    MONGO_USERNAME = os.getenv("MONGO_USER")
+    MONGO_PASSWORD = os.getenv("MONGO_PASS")
+
+    client = MongoClient(host = MONGO_URL, username = MONGO_USER, password = MONGO_PASS, connect=True)
     return client["schoolverse"]
 
 

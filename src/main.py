@@ -19,7 +19,7 @@ stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 # clubs
 from src.clubs.models import Club, Event, Meeting, Update
 
-# firebase
+# mongo
 from src.mongo.auth import start_mongo
 
 # requests
@@ -28,14 +28,14 @@ from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveReq
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 
-# firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
-from src.firebaseV2.read import get_private_key
+# mongo!
+from src.mongo.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
+from src.mongo.read import get_private_key
 
 # flik
 from datetime import date, timezone, datetime, timedelta
 from src.scraperV2.fk import scrape_flik
-from src.firebaseV2.write import write_menu
+from src.mongo.write import write_menu
 
 # load secrets from .env
 from dotenv import load_dotenv
@@ -172,7 +172,7 @@ def do_flik(db, useToday=True, day=None):
     try:
         write_menu(menu, db)
     except Exception as e:
-        return {'message': 'failed to write to firebase', 'exception': str(e)}
+        return {'message': 'failed to write to mongo', 'exception': str(e)}
 
     return {"message": "success"}
 
@@ -278,7 +278,7 @@ def scrape(request: ScrapeRequest):
         write_tasks(tasks, request.user_id, db)
         write_tasks(clean_events, request.user_id, db)
     except Exception as e:
-        return {"message": "failed to write tasks to firebase", "exception": str(e)}
+        return {"message": "failed to write tasks to mongo", "exception": str(e)}
 
     return {"message": "success"}
 
@@ -336,7 +336,7 @@ def ensure(request: EnsureRequest):
         try:
             write_schedule(schedule, request.user_id, db)
         except Exception as e:
-            return {"message": "failed to write schedule to firebase", "exception": str(e)}
+            return {"message": "failed to write schedule to mongo", "exception": str(e)}
 
         return {"message": "success"}
     else:
@@ -514,7 +514,7 @@ def get_events():
         write_events(events, db)
         write_days(days, db)
     except Exception as e:
-        return {"message": "failed to write events to firebase", "exception": str(e)}
+        return {"message": "failed to write events to mongo", "exception": str(e)}
 
     return {"message": "success"}
 
@@ -532,7 +532,7 @@ def get_sports():
     try:
         write_sports(sports, db)
     except Exception as e:
-        return {"message": "failed to write sports to firebase", "exception": str(e)}
+        return {"message": "failed to write sports to mongo", "exception": str(e)}
 
     return {"message": "success"}
 ####### ROUTES [FLIK] #######
