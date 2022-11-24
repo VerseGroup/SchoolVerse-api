@@ -20,7 +20,7 @@ stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 from src.clubs.models import Club, Event, Meeting, Update
 
 # firebase
-from src.firebaseV2.auth import start_firebase
+from src.mongo.auth import start_mongo
 
 # requests
 from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest
@@ -57,30 +57,36 @@ API_KEY = os.getenv("API_KEY")
 
 # startup
 app = FastAPI()
-db = start_firebase()
+db = start_mongo()
 
 # schedules
 with open('src/schedules.json', 'r') as f:
     schedules = json.load(f)
 
 # general functions #
-def check_user_exists(user_id):
-    users = db.collection(u'users').stream()
-    for user in users:
-        if user.id == user_id:
-            return True
+def check_user_exists(user_id, db):
+    user = db['users'].find_one({'_id' : user_id})
+
+    if user:
+        return True
+    return False
 
 def check_club_exists(club_id):
-    clubs = db.collection(u'clubs').stream()
-    for club in clubs:
-        if club.id == club_id:
-            return True
+    club = db['clubs'].find_one({'_id' : club_id})
+
+    if club:
+        return True
+    return False
+    
+
+    
 
 def check_sport_exists(sport_id):
-    sports = db.collection(u'sports').stream()
-    for sport in sports:
-        if sport.id == sport_id:
-            return True
+    sports = db['sports'].find_one({'_id' : sport_id})
+
+    if sports:
+        return True
+    return False
 
 def check_api_key(api_key):
     if api_key == API_KEY:
@@ -190,7 +196,7 @@ def get_key(request: SignUpRequest):
 
     # check if user exists
 
-    if db.collection(u'users').document(f'{request.user_id}').get().exists:
+    if db['users'].find_one({'_id' : request.user_id}):
         pass
     else:
         return {"message": "user does not exist"}
@@ -198,16 +204,21 @@ def get_key(request: SignUpRequest):
     handler = EM()
     private_key = handler.serialize_private_key()
     write_key(private_key, request.user_id, db)
-    db.collection(u'users').document(f'{request.user_id}').update({u'task_ids': []})
 
-    user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+    db['users'].update_one({'_id' : request.user_id}, {'$set': {'task_ids': []}})
+
+    
+
+    user_doc = db['users'].find_one({'_id' : request.user_id})
+
     try:
         approved = user_doc['approved']
     except:
         approved = False
 
     if approved == False:
-        db.collection(u'users').document(f'{request.user_id}').update({u'approved': False})
+        db['users'].update_one({'_id' : request.user_id}, {'$set': {'approved': False}})
+
 
     public_key = handler.serialize_public_key()
     return {
@@ -558,7 +569,7 @@ async def get_approved(request: ApproveRequest):
         return {'message': "error", 'exception': "invalid api key"}
     
     try:
-        user_doc = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
+        user_doc = db['users'].find_one({'_id': request.user_id})
     except:
         return {"message": "error", "exception": "user does not exist"}
     
@@ -597,10 +608,8 @@ async def admin(password: str):
     if password == ADMIN_PASSWORD:
 
         unapproved_users = {}
-        all_users = db.collection(u'users').stream()
+        docs = db['users'].find({})
 
-        user_ref = db.collection(u'users')
-        docs = user_ref.stream()
         for user in docs:
             user_dict = user.to_dict()
             if user_dict['approved'] == False:
@@ -769,7 +778,7 @@ async def admin(password: str):
         </tr>
         '''
         user_count = 0
-        for user in all_users:
+        for user in docs:
             user_count += 1
             user_dict = user.to_dict()
             name = user_dict['display_name']
