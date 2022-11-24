@@ -4,7 +4,7 @@
 SELENIUM_TYPE = "chrome"
 
 # mode of server (dev is less secure but more flexible)
-MODE = "prod"
+MODE = "dev"
 
 # supported platforms to scrape
 SUPPORTED_PLATFORMS=["sc", "vc"]

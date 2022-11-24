@@ -616,10 +616,6 @@ async def admin(password: str):
             text-align: center;
             margin: 0;
             height: 100vh;
-            background: -webkit-gradient(linear, left top, right top, color-stop(0%, #black), color-stop(100%,#76186B)); /* Chrome, Safari4+ */
-            background: -webkit-linear-gradient(left, #black 0%, #76186B  100%); /* Chrome10+, Safari5.1+ */
-            background: -moz-linear-gradient(left, #76186B 0%, black 100%);    /* FF3.6+ */
-            background: linear-gradient(to left, black 0%, 50%,#76186B  100%);      /* W3C */
             background-color: black;
             text-align: center;
         }
@@ -762,10 +758,12 @@ async def admin(password: str):
             <th>Email</th> 
             <th>Grade</th>
             <th>Approved</th>
+            <th>Linked</th>
             <th>Scrapes</th>
             <th>Scrapes Reset</th>
-            <th>Launches (current deployment) </th>
+            <th>Launches </th>
             <th>Disapprove</th>
+            <th>Reset Scrapes</th>
         </tr>
         '''
         user_count = 0
@@ -776,6 +774,20 @@ async def admin(password: str):
             grade = user_dict['grade_level']
             email = user_dict['email']
             approved = user_dict['approved']
+            try:
+                private_key = user_dict['private_key']
+            except:
+                private_key = None
+            if private_key == '':
+                private_key = None
+
+            if private_key is not None:
+                linked = True
+            else:
+                linked = False
+
+            del private_key # security purposes
+            
             remove_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/false"
             try: 
                 executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
@@ -795,10 +807,12 @@ async def admin(password: str):
                 <td> {email} </td>
                 <td> {grade} </td>
                 <td class="{"" if approved == True else "status-red"}"> {approved} </td>
+                <td class="{"" if linked == True else "status-red"}"> {linked} </td>
                 <td class="{"" if executions == 0 else "status-text"}"> {executions} </td>
                 <td class="{"" if reset == "N/A" else "status-text"}"> {reset} </td>
                 <td class="{"" if opens == 0 else "status-text"}"> {opens} </td>
                 <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
+                <td> <a class="table-link" href=''>Reset Scrapes?</a> </td>
             </tr>
             '''
         html += f"</table><p>Current total users: <div class='status-text'> {user_count} </div> <br> <br> <br> </p> <small> Copyright 2022 VerseGroup, LLC </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> <br> <br> </body></html>"
