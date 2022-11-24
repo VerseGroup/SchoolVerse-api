@@ -7,7 +7,7 @@ from datetime import datetime, date, time, timedelta
 #data base 
 
 def write_courses(courses, user_id, db):
-    user_dict = db.collection(u'users').document(f"{user_id}").get().to_dict()
+    user_dict = db['users'].find_one({'_id' : user_id})
 
     user_courses = []
 
@@ -29,9 +29,6 @@ def write_courses(courses, user_id, db):
 def write_key(private_key, user_id, db):
 
     # getting the current cred array
-    user_ref = db.collection(u'users').document(f'{user_id}')
-    doc = user_ref.get()
-
 
     # writing the data to the database
     db['users'].update_one({'_id' : user_id}, {'$set' : {'private_key' : private_key}})
