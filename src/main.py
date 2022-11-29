@@ -540,7 +540,7 @@ async def ping():
 
 @app.get("/version", status_code=200)
 async def version():
-    return {"ios_version": "1.0.2"}
+    return {"ios_version": "1.0.3"}
 
 @app.get("/getexecutions", status_code=200)
 async def get_executions():
@@ -789,6 +789,7 @@ async def admin(password: str):
             del private_key # security purposes
             
             remove_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/false"
+            reset_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/reset/{user_dict['user_id']}"
             try: 
                 executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
                 reset = USERS_EXECUTIONS[user_dict['user_id']]['reset'].strftime("%m/%d/%Y, %H:%M:%S")
@@ -812,7 +813,7 @@ async def admin(password: str):
                 <td class="{"" if reset == "N/A" else "status-text"}"> {reset} </td>
                 <td class="{"" if opens == 0 else "status-text"}"> {opens} </td>
                 <td> <a class="table-link" href='{remove_link}'>Disapprove?</a> </td>
-                <td> <a class="table-link" href=''>Reset Scrapes?</a> </td>
+                <td> <a class="table-link" href='{reset_link}'>Reset Scrapes?</a> </td>
             </tr>
             '''
         html += f"</table><p>Current total users: <div class='status-text'> {user_count} </div> <br> <br> <br> </p> <small> Copyright 2022 VerseGroup, LLC </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> <br> <br> </body></html>"
@@ -878,3 +879,30 @@ async def test():
         return {"message": "failed", "exception": str(e)}
 '''
 
+@app.get("/admin/{password}/reset/{user_id}", status_code=200)
+async def admin_reset(password: str, user_id: str):
+    
+        response = check_admin_panel()
+        if response['passed'] == False:
+            return response
+    
+        if password == ADMIN_PASSWORD:
+            try:
+                del USERS_EXECUTIONS[user_id]
+                data = '''
+                <html>
+                <head>
+                <title>Admin</title>
+                </head>
+                <body>
+                <h1>Success</h1>
+                <p>User's scrapes have been reset</p>
+                <p><a href="https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
+                </body>
+                </html>
+                '''
+                return Response(content=data, status_code=200)
+            except:
+                return {"message": "failed", "exception": "user does not exist"}
+        else:
+            return {"message": "failed"}
