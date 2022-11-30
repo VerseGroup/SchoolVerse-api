@@ -889,7 +889,7 @@ async def admin_reset(password: str, user_id: str):
         if password == ADMIN_PASSWORD:
             try:
                 del USERS_EXECUTIONS[user_id]
-                data = '''
+                data = f'''
                 <html>
                 <head>
                 <title>Admin</title>
