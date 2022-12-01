@@ -909,3 +909,53 @@ async def admin_reset(password: str, user_id: str):
                 return {"message": "failed", "exception": "user does not exist"}
         else:
             return {"message": "failed"}
+
+def create_user(user_id, email, name, grade):
+    try:
+        db.collection(u'users').document(f'{user_id}').set({
+            u'user_id': user_id,
+            u'email': email,
+            u'name': name,
+            u'grade': grade,
+            u'approved': False,
+            u'courses': [],
+
+        })
+        return (True, '')
+    except Exception as e:
+        return (False, str(e))
+
+class CreateUserRequest(BaseModel):
+    user_id: str
+    email: str
+    display_name: str
+    grade_level: int
+    api_key: str
+    
+@app.post("/create_user", status_code=200)
+async def create_user(request: CreateUserRequest):
+
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid api key"}
+
+    response = create_user(request.user_id, request.email, request.display_name, request.grade_level)
+    if response[0]:
+        return {"message": "success"}
+    else:
+        return {"message": "failed", "exception": f"{response[1]}"}
+
+class DeleteUserRequest(BaseModel):
+    user_id: str
+    api_key: str
+
+@app.post("/delete_user", status_code=200)
+async def delete_user(request: DeleteUserRequest):
+    
+        if check_api_key(request.api_key) == False:
+            return {'message': "error", 'exception': "invalid api key"}
+        
+        try:
+            db.collection(u'users').document(f'{request.user_id}').delete()
+            return {"message": "success"}
+        except Exception as e:
+            return {"message": "failed", "exception": f"{e}"}
