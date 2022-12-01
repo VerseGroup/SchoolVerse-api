@@ -32,6 +32,8 @@ from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
 from src.firebaseV2.read import get_private_key
 
+from src.delete import delete_old_tasks
+
 # flik
 from datetime import date, timezone, datetime, timedelta
 from src.scraperV2.fk import scrape_flik
@@ -266,6 +268,7 @@ def scrape(request: ScrapeRequest):
     try:
         write_tasks(tasks, request.user_id, db)
         write_tasks(clean_events, request.user_id, db)
+        delete_old_tasks(request.user_id, db) # could another cache table to only delete once a day
     except Exception as e:
         return {"message": "failed to write tasks to firebase", "exception": str(e)}
 
