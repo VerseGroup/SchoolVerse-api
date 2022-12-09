@@ -42,7 +42,7 @@ lxml==4.9.1
 markdownify==0.11.6
 msgpack==1.0.4
 outcome==1.2.0
-packaging==21.3
+packaging==22.0
 parse==1.19.0
 pluggy==1.0.0
 proto-plus==1.22.1
