@@ -5,11 +5,13 @@ import os
 # load env variables
 load_dotenv()
 
+MODE = os.getenv("MODE")
+
+if MODE is None:
+    MODE = "dev"
+
 # selenium driver type to use (chrome or firefox)
 SELENIUM_TYPE = "chrome"
-
-# mode of server (dev is less secure but more flexible)
-MODE = "dev" #dev or prod
 
 # supported platforms to scrape
 SUPPORTED_PLATFORMS=["sc", "vc"]
