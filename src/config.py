@@ -1,10 +1,15 @@
 # APP CONFIG #
+from dotenv import load_dotenv
+import os
+
+# load env variables
+load_dotenv()
 
 # selenium driver type to use (chrome or firefox)
 SELENIUM_TYPE = "chrome"
 
 # mode of server (dev is less secure but more flexible)
-MODE = "prod" #dev or prod
+MODE = "dev" #dev or prod
 
 # supported platforms to scrape
 SUPPORTED_PLATFORMS=["sc", "vc"]

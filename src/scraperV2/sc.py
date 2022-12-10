@@ -43,7 +43,9 @@ def parse_task(task) -> Task:
     # converting html description to markdown so it can be displayed in the app
     description = md.markdownify(description)
 
-    return Task(name=task['titleText'], due_date=task['start'], course_id=task['realm_id'], course_name=task['content_title'], platform_information=platform_information, description=description).serialize()
+    course_name = task['content_title'].split(":")[0]
+
+    return Task(name=task['titleText'], due_date=task['start'], course_id=task['realm_id'], course_name=course_name, platform_information=platform_information, description=description).serialize()
 
 def parse_calender(calender_json) -> dict:
 
@@ -82,6 +84,12 @@ def parse_courses(courses_json) -> list:
         
         # pulling information
         name = course["courseTitle"]
+
+        try:
+            name = course.split(":")[0]
+        except:
+            pass
+
         section = course["sectionTitle"]
         course_code = course["nid"]
         id = str(uuid.uuid4())
