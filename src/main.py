@@ -50,6 +50,7 @@ TEST_PASS = os.getenv("TEST_PASS")
 NUMBER1 = os.getenv("NUMBER1")
 NUMBER2 = os.getenv("NUMBER2")
 NUMBER3 = os.getenv("NUMBER3")
+NUMBER4 = os.getenv("NUMBER4")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
 # this is a general API key for all users; make API key user specific later
@@ -578,10 +579,16 @@ async def get_approved(request: ApproveRequest):
         print("FAILED: approved for user " + user_doc['display_name'] + " (" + user_doc['email'] + ")")
         try:
             if user_doc['user_id'] not in auth_message_sent:
-                body = "User \'" + user_doc['display_name'] + "\' (" + user_doc['email'] + ") is requesting access"
+                name = user_doc['display_name']
+                grade = user_doc['grade_level']
+                email = user_doc['email']
+
+                body = f"User {name} ({grade}th grade) -- {email} -- is requesting approval."
+
                 sendMessage(body, NUMBER1)
                 sendMessage(body, NUMBER2)
                 sendMessage(body, NUMBER3)
+                sendMessage(body, NUMBER4)
                 auth_message_sent.append(user_doc['user_id'])
         except Exception as e:
             print("failed to send message with error: " + str(e))
@@ -601,15 +608,20 @@ async def admin(password: str):
 
         unapproved_users = {}
         all_users = db.collection(u'users').stream()
+                   
+        if MODE == "dev":
+            db_name = "schoolverse-testing-olnqm" 
+        else:
+            db_name = "schoolverse-5twpt"
 
         user_ref = db.collection(u'users')
         docs = user_ref.stream()
         for user in docs:
             user_dict = user.to_dict()
             if user_dict['approved'] == False:
-                approve_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/true"
+                approve_link = f"https://{db_name}.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/true"
                 unapproved_users[user_dict['user_id']] = [user_dict['display_name'], approve_link, user_dict['grade_level'], user_dict['email']]
-                
+     
         html = '''<html>
         <head>
         <title>SV Admin</title>
@@ -708,7 +720,7 @@ async def admin(password: str):
         <br>
         <small> Don't spam refresh this page (reads) and don't share this link with anyone. </small>
         <br>
-        <small> <a href="https://schoolverse-5twpt.ondigitalocean.app/docs"> Docs? </a> </small>
+        <small> <a href="https://{db_name}.ondigitalocean.app/docs"> Docs? </a> </small>
         <br>
         <br>
         <small> Your last admin page refresh: <div class="status-text"> {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")} </div> </small>
@@ -791,8 +803,10 @@ async def admin(password: str):
 
             del private_key # security purposes
             
-            remove_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/false"
-            reset_link = f"https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}/reset/{user_dict['user_id']}"
+            remove_link = f"https://{db_name}.ondigitalocean.app/admin/{ADMIN_PASSWORD}/approve/{user_dict['user_id']}/false"
+            reset_link = f"https://{db_name}.ondigitalocean.app/admin/{ADMIN_PASSWORD}/reset/{user_dict['user_id']}"
+    
+
             try: 
                 executions = USERS_EXECUTIONS[user_dict['user_id']]['executions']
                 reset = USERS_EXECUTIONS[user_dict['user_id']]['reset'].strftime("%m/%d/%Y, %H:%M:%S")
@@ -832,6 +846,12 @@ async def admin_approve(password: str, user_id: str, approve: str):
         return response
 
     if password == ADMIN_PASSWORD:
+                  
+        if MODE == "dev":
+            db_name = "schoolverse-testing-olnqm" 
+        else:
+            db_name = "schoolverse-5twpt"
+
         try:
             db.collection(u'users').document(f'{user_id}').update({'approved': True if approve == "true" else False})
             data = f'''
@@ -842,7 +862,7 @@ async def admin_approve(password: str, user_id: str, approve: str):
             <body>
             <h1>Success</h1>
             <p>User has been {"approved" if approve == "true" else "disapproved"}</p>
-            <p><a href="https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
+            <p><a href="https://{db_name}.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
             </body>
             </html>
             '''
@@ -890,6 +910,13 @@ async def admin_reset(password: str, user_id: str):
             return response
     
         if password == ADMIN_PASSWORD:
+
+                        
+            if MODE == "dev":
+                db_name = "schoolverse-testing-olnqm" 
+            else:
+                db_name = "schoolverse-5twpt"
+
             try:
                 del USERS_EXECUTIONS[user_id]
                 data = f'''
@@ -900,7 +927,7 @@ async def admin_reset(password: str, user_id: str):
                 <body>
                 <h1>Success</h1>
                 <p>User's scrapes have been reset</p>
-                <p><a href="https://schoolverse-5twpt.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
+                <p><a href="https://{db_name}.ondigitalocean.app/admin/{ADMIN_PASSWORD}">Back to Admin</a></p>
                 </body>
                 </html>
                 '''
