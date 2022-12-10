@@ -31,6 +31,7 @@ from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 # firebase
 from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
 from src.firebaseV2.read import get_private_key
+from src.firebaseV2.auth import delete_user as delete_auth
 
 from src.delete import delete_old_tasks
 
@@ -982,7 +983,18 @@ async def delete_user(request: DeleteUserRequest):
             return {'message': "error", 'exception': "invalid api key"}
         
         try:
+            schedules = db.collection(u'users').document(f'{request.user_id}').collection(u'schedule').stream()
+            for schedule in schedules:
+                db.collection(u'users').document(f'{request.user_id}').collection(u'schedule').document(schedule.id).delete()
+
+            tasks = db.collection(u'users').document(f'{request.user_id}').collection(u'tasks').stream()
+            for task in tasks:
+                db.collection(u'users').document(f'{request.user_id}').collection(u'tasks').document(task.id).delete()
+
             db.collection(u'users').document(f'{request.user_id}').delete()
+
+            delete_auth(request.user_id)
+
             return {"message": "success"}
         except Exception as e:
-            return {"message": "failed", "exception": f"{e}"}
+            return {"message": "error", "exception": f"{e}"}

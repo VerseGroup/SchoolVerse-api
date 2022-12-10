@@ -3,6 +3,7 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import auth
 from src.config import MODE
 
 # secrets
@@ -29,3 +30,5 @@ def start_firebase():
     firebase = Firebase()
     return firebase.get_db()
     
+def delete_user(user_id):
+    auth.delete_user(user_id)
