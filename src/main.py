@@ -586,11 +586,12 @@ async def get_approved(request: ApproveRequest):
 
                 body = f"User {name} ({grade}th grade) -- {email} -- is requesting approval."
 
-                if MODE is not "dev":
+                if MODE != "dev":
                     sendMessage(body, NUMBER1)
                     sendMessage(body, NUMBER2)
                     sendMessage(body, NUMBER3)
                     sendMessage(body, NUMBER4)
+
                 auth_message_sent.append(user_doc['user_id'])
         except Exception as e:
             print("failed to send message with error: " + str(e))
@@ -1002,3 +1003,22 @@ async def delete_user(request: DeleteUserRequest):
             return {"message": "success"}
         except Exception as e:
             return {"message": "error", "exception": f"{e}"}
+
+class NotificationRequest(BaseModel):
+    user_id: str
+    api_key: str
+@app.get("/notification")
+async def notification(request: NotificationRequest):
+    if check_api_key(request.api_key) == False:
+        return {'message': "error", 'exception': "invalid"}
+
+    return {"message": "success", 
+    "notification":
+    {
+        "title:" : "Welcome to SchoolVerse!",
+        "body": "We are excited to have you on board. We hope you enjoy using our app.",
+        "link": "https://schoolverse.app",
+    }
+    }
+    
+
