@@ -586,10 +586,11 @@ async def get_approved(request: ApproveRequest):
 
                 body = f"User {name} ({grade}th grade) -- {email} -- is requesting approval."
 
-                sendMessage(body, NUMBER1)
-                sendMessage(body, NUMBER2)
-                sendMessage(body, NUMBER3)
-                sendMessage(body, NUMBER4)
+                if MODE is not "dev":
+                    sendMessage(body, NUMBER1)
+                    sendMessage(body, NUMBER2)
+                    sendMessage(body, NUMBER3)
+                    sendMessage(body, NUMBER4)
                 auth_message_sent.append(user_doc['user_id'])
         except Exception as e:
             print("failed to send message with error: " + str(e))
@@ -943,10 +944,11 @@ def create_user(user_id, email, name, grade):
         db.collection(u'users').document(f'{user_id}').set({
             u'user_id': user_id,
             u'email': email,
-            u'name': name,
-            u'grade': grade,
+            u'display_name': name,
+            u'grade_level': grade,
             u'approved': False,
             u'courses': [],
+            u'task_ids': [],
 
         })
         return (True, '')
@@ -957,20 +959,22 @@ class CreateUserRequest(BaseModel):
     user_id: str
     email: str
     display_name: str
-    grade_level: int
+    grade_level: str
     api_key: str
     
 @app.post("/create_user", status_code=200)
-async def create_user(request: CreateUserRequest):
+async def create_user_(request: CreateUserRequest):
+
+    grade_level = int(request.grade_level)
 
     if check_api_key(request.api_key) == False:
         return {'message': "error", 'exception': "invalid api key"}
 
-    response = create_user(request.user_id, request.email, request.display_name, request.grade_level)
+    response = create_user(request.user_id, request.email, request.display_name, grade_level)
     if response[0]:
         return {"message": "success"}
     else:
-        return {"message": "failed", "exception": f"{response[1]}"}
+        return {"message": "error", "exception": f"{response[1]}"}
 
 class DeleteUserRequest(BaseModel):
     user_id: str
