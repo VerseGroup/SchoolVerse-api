@@ -545,7 +545,7 @@ async def ping():
 
 @app.get("/version", status_code=200)
 async def version():
-    return {"ios_version": "1.0.3"}
+    return {"ios_version": ["1.0.3", "1.1.0"]}
 
 @app.get("/getexecutions", status_code=200)
 async def get_executions():
