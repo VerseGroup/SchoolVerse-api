@@ -7,7 +7,7 @@ def delete_old_tasks(id, db):
     for task in tasks:
         task_dict = task.to_dict()
         due_date = task_dict['due_date']
-        intial_time = datetime.now() - timedelta(days=3)
+        intial_time = datetime.now() - timedelta(days=1)
         one_month_age = datetime.now() - timedelta(days=30)
 
         ### janky solution to get around time zone issues (code is EST but firebase runs UTC) - fix later
