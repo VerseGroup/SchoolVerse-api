@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from vgem import EM
 
 # config
-from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS, MODE
+from src.config import AUTH_TOKEN_REQUIRED, MAX_EXECUTIONS, ALL_SCHOOL_EVENTS_ICAL, MAX_USER_EXECUTIONS, MODE, TESTERS
 
 # steve jobs
 from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
@@ -840,7 +840,25 @@ async def admin(password: str):
                 <td> <a class="table-link" href='{reset_link}'>Reset Scrapes?</a> </td>
             </tr>
             '''
-        html += f"</table><p>Current total users: <div class='status-text'> {user_count} </div> <br> <br> <br> </p> <small> Copyright 2022 VerseGroup, LLC </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> <br> <br> </body></html>"
+        html += f"</table><p>Current total users: <div class='status-text'> {user_count} </div> <br> "
+        html += f'''
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Rank</th>
+        </tr>
+        '''
+        count = 0
+        for tester in TESTERS:
+            html += f'''
+            <tr>
+                <td> {tester} </td>
+                <td> {count} </td>
+            </tr>
+            '''
+            count+=1
+        html += f"</table><p>Current total testers: <div class='status-text'> {count} </div>"
+        html += f"<br> <br> <br> </p> <small> Copyright 2022 VerseGroup, LLC </small> <br> <small> <a href='https://versegroup.tech/privacy'>Privacy Policy?</a></small> <br> <br> </body></html>"
         return Response(content=html, status_code=200)
     else:
         return {"detail": "not found"}
@@ -1025,4 +1043,6 @@ async def notification(request: NotificationRequest):
     }
     }
     
-
+@app.get("/testers")
+async def testers():
+    return {"testers": TESTERS}
