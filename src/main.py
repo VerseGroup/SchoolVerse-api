@@ -2,7 +2,7 @@
 import os
 import uuid
 import json
-import re
+import random
 
 # external imports 
 from fastapi import FastAPI, Response
@@ -545,7 +545,10 @@ async def ping():
 
 @app.get("/version", status_code=200)
 async def version():
-    return {"ios_version": "x.x.x"}
+    if random.randint(1, 2) == 1:
+        return {"ios_version": "x.x.x"}
+    else:
+        return {"ios_version": ["x.x.x"]}
 
 @app.get("/version2", status_code=200)
 async def version2():
