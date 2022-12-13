@@ -5,8 +5,8 @@ import os
 # load env variables
 load_dotenv()
 
+# dev or prod sandbox
 MODE = os.getenv("MODE")
-
 if MODE is None:
     MODE = "dev"
 
@@ -29,5 +29,5 @@ MAX_USER_EXECUTIONS=10 # user tasks
 # all school events ical from VC
 ALL_SCHOOL_EVENTS_ICAL = "http://api.veracross.com/hackley/subscribe/EC34541C-40AC-408F-AD72-FF36D99A220C.ics?uid=A17227D1-8674-45F8-94E7-2AA4A7323593"
 
-TESTERS = [
-]
+# top beta testers
+TESTERS = []
