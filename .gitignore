@@ -25,6 +25,10 @@ env/
 raw_schedules/
 schedules.json
 src/schedules.json
+archive/schedules copy 2.json
+archive/schedules copy.json
+archive/schedules.json
+archive/Student Project CSV Jan 11-part 2.csv
 
 # numbers
 src/phone_numbers.py

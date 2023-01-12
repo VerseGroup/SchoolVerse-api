@@ -51,3 +51,18 @@ class ApproveRequest(BaseModel):
 # class LeaveSportRequest(BaseModel):
 #     user_id: str
 #     sport_id: str
+
+class DeleteUserRequest(BaseModel):
+    user_id: str
+    api_key: str
+
+class NotificationRequest(BaseModel):
+    user_id: str
+    api_key: str
+
+class CreateUserRequest(BaseModel):
+    user_id: str
+    email: str
+    display_name: str
+    grade_level: str
+    api_key: str

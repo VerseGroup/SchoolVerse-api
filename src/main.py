@@ -23,15 +23,18 @@ from src.clubs.models import Club, Event, Meeting, Update
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest
+from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest, \
+    DeleteUserRequest, NotificationRequest, CreateUserRequest
+
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
 from src.scraperV2.vc.events import convert_all_school_events, scrape_sport
 
 # firebase
-from src.firebaseV2.write import write_key, write_tasks, write_club, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
+from src.firebaseV2.write import write_key, write_tasks, write_events, write_menu, write_courses, write_schedule, write_days, write_sports#, write_sc_events
 from src.firebaseV2.read import get_private_key
-from src.firebaseV2.auth import delete_user as delete_auth
+from src.firebaseV2.delete_user import delete_user
+from src.firebaseV2.create_user import create_user
 
 from src.delete import delete_old_tasks
 
@@ -529,6 +532,7 @@ def get_sports():
         return {"message": "failed to write sports to firebase", "exception": str(e)}
 
     return {"message": "success"}
+
 ####### ROUTES [FLIK] #######
 @app.get("/flik", status_code=200)
 def flik():
@@ -964,74 +968,34 @@ async def admin_reset(password: str, user_id: str):
                 return {"message": "failed", "exception": "user does not exist"}
         else:
             return {"message": "failed"}
-
-def create_user(user_id, email, name, grade):
-    try:
-        db.collection(u'users').document(f'{user_id}').set({
-            u'user_id': user_id,
-            u'email': email,
-            u'display_name': name,
-            u'grade_level': grade,
-            u'approved': False,
-            u'courses': [],
-            u'task_ids': [],
-
-        })
-        return (True, '')
-    except Exception as e:
-        return (False, str(e))
-
-class CreateUserRequest(BaseModel):
-    user_id: str
-    email: str
-    display_name: str
-    grade_level: str
-    api_key: str
     
 @app.post("/create_user", status_code=200)
 async def create_user_(request: CreateUserRequest):
 
-    grade_level = int(request.grade_level)
+    grade_level = int(request.grade_level) # grade level comes in as a stringq
 
     if check_api_key(request.api_key) == False:
         return {'message': "error", 'exception': "invalid api key"}
 
-    response = create_user(request.user_id, request.email, request.display_name, grade_level)
+    response = create_user(db, request.user_id, request.email, request.display_name, grade_level)
     if response[0]:
         return {"message": "success"}
     else:
         return {"message": "error", "exception": f"{response[1]}"}
 
-class DeleteUserRequest(BaseModel):
-    user_id: str
-    api_key: str
-
 @app.post("/delete_user", status_code=200)
-async def delete_user(request: DeleteUserRequest):
+async def delete_user_(request: DeleteUserRequest):
     
         if check_api_key(request.api_key) == False:
             return {'message': "error", 'exception': "invalid api key"}
         
         try:
-            schedules = db.collection(u'users').document(f'{request.user_id}').collection(u'schedule').stream()
-            for schedule in schedules:
-                db.collection(u'users').document(f'{request.user_id}').collection(u'schedule').document(schedule.id).delete()
-
-            tasks = db.collection(u'users').document(f'{request.user_id}').collection(u'tasks').stream()
-            for task in tasks:
-                db.collection(u'users').document(f'{request.user_id}').collection(u'tasks').document(task.id).delete()
-
-            db.collection(u'users').document(f'{request.user_id}').delete()
-
-            delete_auth(request.user_id)
-
+            delete_user(db, request.user_id)
             return {"message": "success"}
+
         except Exception as e:
             return {"message": "error", "exception": f"{e}"}
 
-class NotificationRequest(BaseModel):
-    user_id: str
-    api_key: str
 @app.get("/notification")
 async def notification(request: NotificationRequest):
     if check_api_key(request.api_key) == False:
@@ -1045,7 +1009,3 @@ async def notification(request: NotificationRequest):
         "link": "https://schoolverse.app",
     }
     }
-    
-@app.get("/testers")
-async def testers():
-    return {"testers": TESTERS}

@@ -20,7 +20,7 @@ SUPPORTED_PLATFORMS=["sc", "vc"]
 MAX_TASKS=2
 
 # use auth token to verify user is from our client services
-AUTH_TOKEN_REQUIRED=False
+AUTH_TOKEN_REQUIRED=True
 
 # max number of executions to limit firebase
 MAX_EXECUTIONS=6 # flik and events scrapes 
