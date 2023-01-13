@@ -338,6 +338,36 @@ def ensure(request: EnsureRequest):
         return {"message": "success"}
     else:
         return {"message": "failed to ensure schoology"}
+'''
+@app.get("/refresh_schedules", status_code=200)
+def refresh_schedules():
+    users = db.collection(u'users').stream()
+
+    failed = []
+
+    for user in users:
+        try:
+            the_schedules = db.collection(u'users').document(f'{user.id}').collection(u'schedules').stream()
+            for a_schedule in the_schedules:
+                db.collection(u'users').document(f'{user.id}').collection(u'schedules').document(f'{a_schedule.id}').delete()
+
+        except Exception as e:
+            return {"message": "failed to delete schedules", "exception": str(e)}
+        
+        try:
+            email = str(db.collection(u'users').document(f'{user.id}').get().to_dict()['email'])
+            schedule = schedules[email]
+        except Exception as e:
+            failed.append(str(e))
+            continue
+
+        try:
+            write_schedule(schedule, str(user.id), db)
+        except Exception as e:
+            return {"message": "failed to write schedule to firebase", "exception": str(e)}
+
+    return {"message": "success", "failed": failed} 
+'''
 
 ####### ROUTES [ClUBS] #######
 '''
