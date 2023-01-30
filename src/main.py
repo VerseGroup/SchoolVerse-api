@@ -579,10 +579,7 @@ async def ping():
 
 @app.get("/version", status_code=200)
 async def version():
-    if random.randint(1, 2) == 1:
-        return {"ios_version": "1.1.2"}
-    else:
-        return {"ios_version": ["1.1.2"]}
+    return {"ios_version": ["1.1.3"]}
 
 @app.get("/version2", status_code=200)
 async def version2():
