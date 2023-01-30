@@ -22,6 +22,7 @@ class SignUpRequest(BaseModel):
 
 class ApproveRequest(BaseModel):
     user_id: str
+    version: str
     api_key: str
 
 # class CreateClubRequest(BaseModel):
