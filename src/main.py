@@ -24,7 +24,7 @@ from src.firebaseV2.auth import start_firebase
 
 # requests
 from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest, \
-    DeleteUserRequest, NotificationRequest, CreateUserRequest
+    DeleteUserRequest, NotificationRequest, CreateUserRequest, JoinSportRequest, LeaveSportRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
