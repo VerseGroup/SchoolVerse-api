@@ -470,7 +470,6 @@ def update_club(request: UpdateClubRequest):
 '''
 
 ####### ROUTES [SPORTS] #######
-'''
 @app.post("/sport/join", status_code=200)
 def join_sport(request: JoinSportRequest):
     response = do_user_executions(request.user_id)
@@ -522,7 +521,7 @@ def leave_sport(request: LeaveSportRequest):
         user_sports.remove(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
         return {"message": "success"} 
-'''
+
 
 ####### ROUTES [VERACROSS] #######
 

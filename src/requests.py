@@ -31,8 +31,8 @@ class ApproveRequest(BaseModel):
 #     leaders: list
 #     meeting_blocks: list
 
-# class JoinClubRequest(BaseModel):
-#     user_id: str
+#class JoinClubRequest(BaseModel):
+#   user_id: str
 #     club_id: str
 
 # class LeaveClubRequest(BaseModel):
@@ -45,13 +45,13 @@ class ApproveRequest(BaseModel):
 #     user_id: str
 #     club_id: str
 
-# class JoinSportRequest(BaseModel):
-#     user_id: str
-#     sport_id: str
+class JoinSportRequest(BaseModel):     
+    user_id: str
+    sport_id: str
 
-# class LeaveSportRequest(BaseModel):
-#     user_id: str
-#     sport_id: str
+class LeaveSportRequest(BaseModel):
+    user_id: str
+    sport_id: str
 
 class DeleteUserRequest(BaseModel):
     user_id: str
