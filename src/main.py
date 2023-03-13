@@ -1035,3 +1035,10 @@ async def notification(request: NotificationRequest):
         "link": "https://schoolverse.app",
     }
     }
+
+# iterate through all users and add a subscribed_sports field
+@app.get("/add_subscribed_sports")
+async def add_subscribed_sports():
+    for doc in db.collection(u'users').stream():
+        doc.reference.update({'subscribed_sports': []})
+    return {"message": "success"}

@@ -5,7 +5,7 @@ import json, requests
 
 
 def get_flik_url(type, year, month, day) -> str:
-    return f"https://hackleyschool.flikisdining.com/menu/api/weeks/school/hackley-school/menu-type/{type}/{year}/{month}/{day}/"
+    return f"https://hackleyschool.api.flikisdining.com/menu/api/weeks/school/hackley-school/menu-type/{type}/{year}/{month}/{day}/"
 
 def parse_header(header) -> str:
     header_value = header["text"].encode().decode('utf-8')
