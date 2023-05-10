@@ -220,6 +220,7 @@ class ClubModel:
         self.leader_ids = leader_ids
         self.member_ids = member_ids
         self.meeting_blocks = meeting_blocks
+        # meeting blocks will be in the format D#P# where # is a number
         self.group_notice = group_notice
         self.status = False
 
