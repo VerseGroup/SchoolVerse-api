@@ -25,26 +25,6 @@ class ApproveRequest(BaseModel):
     version: str
     api_key: str
 
-# class CreateClubRequest(BaseModel):
-#     name: str
-#     description: str
-#     leaders: list
-#     meeting_blocks: list
-
-#class JoinClubRequest(BaseModel):
-#   user_id: str
-#     club_id: str
-
-# class LeaveClubRequest(BaseModel):
-#     user_id: str
-#     club_id: str
-
-# class UpdateClubRequest(BaseModel):
-#     field_to_update: str
-#     new_value: str
-#     user_id: str
-#     club_id: str
-
 class JoinSportRequest(BaseModel):     
     user_id: str
     sport_id: str
@@ -67,3 +47,17 @@ class CreateUserRequest(BaseModel):
     display_name: str
     grade_level: str
     api_key: str
+
+class CreateClubRequest(BaseModel):
+    name: str
+    description: str
+    meeting_blocks: list
+    leader_ids: list
+
+class JoinClubRequest(BaseModel):
+    member_id: str
+    club_id: str
+
+class LeaveClubRequest(BaseModel):
+    member_id: str
+    club_id: str

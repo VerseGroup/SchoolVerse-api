@@ -234,3 +234,4 @@ class ClubModel:
             'group_notice': self.group_notice,
             'status': self.status
         }
+    

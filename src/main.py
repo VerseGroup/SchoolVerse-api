@@ -24,7 +24,8 @@ from src.firebaseV2.auth import start_firebase
 
 # requests
 from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest, \
-    DeleteUserRequest, NotificationRequest, CreateUserRequest, JoinSportRequest, LeaveSportRequest
+    DeleteUserRequest, NotificationRequest, CreateUserRequest, JoinSportRequest, LeaveSportRequest, \
+    CreateClubRequest, JoinClubRequest, LeaveClubRequest
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -370,21 +371,31 @@ def refresh_schedules():
 '''
 
 ####### ROUTES [ClUBS] #######
-'''
+
+
 @app.post("/club/create", status_code=200)
 def create_club(request: CreateClubRequest):
     response = do_executions()
     if response['passed'] == False:
         return response
-
+    
     club = Club(
+        id = str(uuid.uuid4()),
         name=request.name,
         description=request.description,
-        members=request.leaders,
-        leaders = request.leaders,
+        leader_ids=request.leader_ids,
+        member_ids=[],
         meeting_blocks=request.meeting_blocks,
+        group_notice="",
+        status=False,
     )
-    return write_club(club, db)
+
+    db.collection(u'clubs').document(f'{club.id}').set(club.serialize())
+    
+    # add club to each leader's club list in their user document
+
+    return {"message": "success"}
+
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
@@ -401,9 +412,9 @@ def join_club(request: JoinClubRequest):
     try:
         if request.user_id in club['members']:
             return {"message": "user already in club"}
-        club['members'].append(request.user_id)
+        club['member_ids'].append(request.user_id)
     except:
-        club['members'] = [request.user_id]
+        club['member_ids'] = [request.user_id]
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
     user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
@@ -430,7 +441,7 @@ def leave_club(request: LeaveClubRequest):
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     try:
         if request.user_id in club['members']:
-            club['members'].remove(request.user_id)
+            club['member_ids'].remove(request.user_id)
     except:
         club['members'] = []
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
@@ -444,30 +455,6 @@ def leave_club(request: LeaveClubRequest):
     db.collection(u'users').document(f'{request.user_id}').update(user)
 
     return {"message": "success"}
-
-@app.post("/club/update", status_code=200)
-def update_club(request: UpdateClubRequest):
-    response = do_user_executions(request.user_id)
-    if response['passed'] == False:
-        return response
-
-    if not check_club_exists(request.club_id):
-        return {"message": "club does not exist"}
-
-    if not check_user_exists(request.user_id):
-        return {"message": "user does not exist"}
-
-    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-
-    if request.user_id not in club['leaders']:
-        return {"message": "user is not a leader of the club"}
-
-    club[request.field_to_update] = request.new_value
-
-    db.collection(u'clubs').document(f'{request.club_id}').update(club)
-
-    return {"message": "success"}
-'''
 
 ####### ROUTES [SPORTS] #######
 @app.post("/sport/join", status_code=200)
