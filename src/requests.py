@@ -52,6 +52,7 @@ class CreateClubRequest(BaseModel):
     name: str
     description: str
     meeting_blocks: list
+    meeting_block_style: str
     leader_ids: list
 
     class Config:
@@ -60,6 +61,7 @@ class CreateClubRequest(BaseModel):
                 "name": "Cringe Club",
                 "description": "Cringe club is a sad club that meets on Tuesdays and Thursdays during lunch.",
                 "meeting_blocks": ["D4P3", "D5P2"],
+                "meeting_block_style": "TIME",
                 "leader_ids": ["1234567890", "0987654321"]
             }
         }

@@ -382,6 +382,7 @@ def create_club(request: CreateClubRequest):
         leader_ids=request.leader_ids,
         member_ids=[],
         meeting_blocks=request.meeting_blocks,
+        meeting_block_style = request.meeting_block_style,
         group_notice="",
         status=False,
     )
