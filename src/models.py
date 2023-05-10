@@ -211,3 +211,26 @@ def convert_date(date, time):
     date_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     return date_object
+
+class ClubModel:
+    def __init__(self, id, name, description, leader_ids, member_ids, meeting_blocks, group_notice, status):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.leader_ids = leader_ids
+        self.member_ids = member_ids
+        self.meeting_blocks = meeting_blocks
+        self.group_notice = group_notice
+        self.status = False
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'leader_ids': self.leader_ids,
+            'member_ids': self.member_ids,
+            'meeting_blocks': self.meeting_blocks,
+            'group_notice': self.group_notice,
+            'status': self.status
+        }
