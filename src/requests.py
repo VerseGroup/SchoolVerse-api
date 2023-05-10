@@ -54,6 +54,16 @@ class CreateClubRequest(BaseModel):
     meeting_blocks: list
     leader_ids: list
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "name": "Cringe Club",
+                "description": "Cringe club is a sad club that meets on Tuesdays and Thursdays during lunch.",
+                "meeting_blocks": ["D4P3", "D5P2"],
+                "leader_ids": ["1234567890", "0987654321"]
+            }
+        }
+
 class JoinClubRequest(BaseModel):
     member_id: str
     club_id: str
