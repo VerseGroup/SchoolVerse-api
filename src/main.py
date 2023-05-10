@@ -374,6 +374,11 @@ def refresh_schedules():
 
 @app.post("/club/create", status_code=200)
 def create_club(request: CreateClubRequest):
+
+    clubs = db.collection(u'clubs').stream()
+    for club in clubs:
+        if club.name == request.name:
+            return {"message": "club already exists"}
     
     club = Club(
         id=str(uuid.uuid4()),
