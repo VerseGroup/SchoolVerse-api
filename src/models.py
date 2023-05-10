@@ -220,7 +220,7 @@ class ClubModel():
         self.leader_ids = leader_ids
         self.member_ids = member_ids
         self.meeting_blocks = meeting_blocks
-        self.meeting_block_style = meeting_block_style, # OPTIONS BLOCK or TIME, for example "DAY-HH:MM-HH:MM" ie. "M-12:00-13:00" or "D#P#" where # is a number
+        self.meeting_block_style = meeting_block_style, # OPTIONS BLOCK or TIME, for example "ddddTHH:mm:ss/ddddTHH:mm:ss" ie. "MondayT12:00:00/MondayT13:00:00" or "D#P#" where # is a number
         self.group_notice = group_notice
         self.status = False
 
