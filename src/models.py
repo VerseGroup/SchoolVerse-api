@@ -212,7 +212,7 @@ def convert_date(date, time):
     
     return date_object
 
-class ClubModel():
+class Club():
     def __init__(self, id, name, description, leader_ids, member_ids, meeting_blocks, meeting_block_style, group_notice, status):
         self.id = id
         self.name = name
@@ -236,4 +236,3 @@ class ClubModel():
             'group_notice': self.group_notice,
             'status': self.status
         }
-    

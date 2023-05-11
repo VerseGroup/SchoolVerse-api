@@ -17,7 +17,8 @@ from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
 stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
-from src.clubs.models import Club, Event, Meeting, Update
+#from src.clubs.models import Club, Event, Meeting, Update
+from src.models import Club
 
 # firebase
 from src.firebaseV2.auth import start_firebase
