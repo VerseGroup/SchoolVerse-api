@@ -17,8 +17,7 @@ from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
 stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
-#from src.clubs.models import Club, Event, Meeting, Update
-from src.models import Club
+from src.clubs.models import Club, Event, Meeting, Update
 
 # firebase
 from src.firebaseV2.auth import start_firebase
@@ -435,7 +434,7 @@ def leave_club(request: LeaveClubRequest):
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     
-    if request.member_id in club['members']:
+    if request.member_id in club['member_ids']:
         club['member_ids'].remove(request.member_id)
     else:
         return {"message": "user not in club"}
