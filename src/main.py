@@ -510,10 +510,11 @@ def announce_club(request: AnnounceClubRequest):
         return {"message": "failed", "exception": "user is not a leader of the club"}
     
     club['group_notice'] = request.announcement
-
-    db.collection(u'clubs').document(f'{request.club_id}').update(club)
-
-    return {"message": "success"}
+    try:
+        db.collection(u'clubs').document(f'{request.club_id}').update(club)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": str(e)}
 
 ####### ROUTES [VERACROSS] #######
 
