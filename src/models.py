@@ -213,14 +213,12 @@ def convert_date(date, time):
     return date_object
 
 class Club():
-    def __init__(self, id, name, description, leader_ids, member_ids, meeting_blocks, meeting_block_style, group_notice, status):
+    def __init__(self, id, name, description, leader_ids, member_ids, group_notice):
         self.id = id
         self.name = name
         self.description = description
         self.leader_ids = leader_ids
         self.member_ids = member_ids
-        self.meeting_blocks = meeting_blocks
-        self.meeting_block_style = meeting_block_style, # OPTIONS BLOCK or TIME, for example "ddddTHH:mm:ss/ddddTHH:mm:ss" ie. "MondayT12:00:00/MondayT13:00:00" or "D#P#" where # is a number
         self.group_notice = group_notice
         self.status = False
 
@@ -231,8 +229,6 @@ class Club():
             'description': self.description,
             'leader_ids': self.leader_ids,
             'member_ids': self.member_ids,
-            'meeting_blocks': self.meeting_blocks,
-            'meeting_block_style': self.meeting_block_style,
             'group_notice': self.group_notice,
             'status': self.status
         }
