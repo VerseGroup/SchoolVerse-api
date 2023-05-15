@@ -447,6 +447,20 @@ def leave_club(request: LeaveClubRequest):
 
     return {"message": "success"}
 
+@app.post("/club/announce", status_code=200)
+def announce_club(request: AnnounceClubRequest):
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+
+    if request.leader_id not in club['leader_ids']:
+        return {"message": "failed", "exception": "user is not a leader of the club"}
+    
+    club['group_notice'] = request.announcement
+    try:
+        db.collection(u'clubs').document(f'{request.club_id}').update(club)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": str(e)}
+
 ####### ROUTES [SPORTS] #######
 @app.post("/sport/join", status_code=200)
 def join_sport(request: JoinSportRequest):
@@ -499,20 +513,6 @@ def leave_sport(request: LeaveSportRequest):
         user_sports.remove(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
         return {"message": "success"} 
-
-@app.post("/club/announce", status_code=200)
-def announce_club(request: AnnounceClubRequest):
-    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-
-    if request.leader_id not in club['leader_ids']:
-        return {"message": "failed", "exception": "user is not a leader of the club"}
-    
-    club['group_notice'] = request.announcement
-    try:
-        db.collection(u'clubs').document(f'{request.club_id}').update(club)
-        return {"message": "success"}
-    except Exception as e:
-        return {"message": str(e)}
 
 ####### ROUTES [VERACROSS] #######
 
