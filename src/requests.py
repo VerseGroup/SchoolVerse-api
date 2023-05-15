@@ -73,3 +73,8 @@ class JoinClubRequest(BaseModel):
 class LeaveClubRequest(BaseModel):
     member_id: str
     club_id: str
+
+class AnnounceClubRequest(BaseModel):
+    club_id: str
+    leader_id: str
+    announcement: str

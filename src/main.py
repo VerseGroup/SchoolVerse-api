@@ -17,15 +17,13 @@ from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
 stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
-from src.clubs.models import Club, Event, Meeting, Update
+from src.models import Club
 
 # firebase
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest, \
-    DeleteUserRequest, NotificationRequest, CreateUserRequest, JoinSportRequest, LeaveSportRequest, \
-    CreateClubRequest, JoinClubRequest, LeaveClubRequest
+from src.requests import *
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -504,6 +502,18 @@ def leave_sport(request: LeaveSportRequest):
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
         return {"message": "success"} 
 
+@app.post("/club/announce", status_code=200)
+def announce_club(request: AnnounceClubRequest):
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+
+    if request.leader_id not in club['leader_ids']:
+        return {"message": "failed", "exception": "user is not a leader of the club"}
+    
+    club['group_notice'] = request.announcement
+
+    db.collection(u'clubs').document(f'{request.club_id}').update(club)
+
+    return {"message": "success"}
 
 ####### ROUTES [VERACROSS] #######
 
