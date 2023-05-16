@@ -455,6 +455,7 @@ def announce_club(request: AnnounceClubRequest):
         return {"message": "failed", "exception": "user is not a leader of the club"}
     
     club['group_notice'] = request.announcement
+    club['group_notice_last_updated'] = datetime.now()
     try:
         db.collection(u'clubs').document(f'{request.club_id}').update(club)
         return {"message": "success"}
