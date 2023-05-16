@@ -17,7 +17,7 @@ from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
 stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
-from src.models import Club
+from src.models import *
 
 # firebase
 from src.firebaseV2.auth import start_firebase
@@ -460,6 +460,59 @@ def announce_club(request: AnnounceClubRequest):
         return {"message": "success"}
     except Exception as e:
         return {"message": str(e)}
+    
+@app.post("/club/event/create", status_code=200)
+def create_club_event(request: CreateClubEventRequest):
+
+    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+
+    event = ClubEvent(
+        id=str(uuid.uuid4()),
+        club_id=request.club_id,
+        name=request.name,
+        description=request.description,
+        start = start,
+        end = end,
+        location=request.location,
+    )
+
+    db.collection(u'club_events').document(f'{event.id}').set(event.serialize())
+
+    return {"message": "success"}
+
+@app.post("/club/event/delete", status_code=200)
+def delete_club_event(request: DeleteClubEventRequest):
+
+        try:
+    
+            db.collection(u'club_events').document(f'{request.event_id}').delete()
+        
+            return {"message": "success"}
+    
+        except Exception as e:
+
+            return {"message": "failed", "exception": str(e)}
+        
+@app.post("/club/event/update", status_code=200)
+def update_club_event(request: UpdateClubEventRequest):
+
+    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+
+    event = ClubEvent(
+        id=request.event_id,
+        club_id=request.club_id,
+        name=request.name,
+        description=request.description,
+        start = start,
+        end = end,
+        location=request.location,
+    )
+
+    db.collection(u'club_events').document(f'{event.id}').update(event.serialize())
+
+    return {"message": "success"}
 
 ####### ROUTES [SPORTS] #######
 @app.post("/sport/join", status_code=200)

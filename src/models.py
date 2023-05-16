@@ -232,3 +232,24 @@ class Club():
             'group_notice': self.group_notice,
             'status': self.status
         }
+    
+class ClubEvent():
+    def __init__(self, id, club_id, title, description, location, start, end):
+        self.id = id
+        self.club_id = club_id
+        self.title = title
+        self.description = description
+        self.location = location
+        self.start = start
+        self.end = end
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'club_id': self.club_id,
+            'title': self.title,
+            'description': self.description,
+            'location': self.location,
+            'start': self.start,
+            'end': self.end,
+        }

@@ -74,3 +74,41 @@ class AnnounceClubRequest(BaseModel):
     club_id: str
     leader_id: str
     announcement: str
+
+class CreateClubEventRequest(BaseModel):
+    club_id: str
+    name: str
+    description: str
+    start_date: str
+    start_time: str
+    end_date: str
+    end_time: str
+    location: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "start_time" : "12:00:00", 
+                "start_date" : "2021-01-01",
+                "end_time" : "13:00:00",
+                "end_date" : "2021-01-01",
+                "name" : "Cringe Club Meeting",
+                "description" : "Meeting to discuss how cringe we are.",
+                "location" : "Room 123"
+            }
+        }
+
+class UpdateClubEventRequest(BaseModel):
+    club_id: str
+    id: str
+    name: str
+    description: str
+    start_date: str
+    start_time: str
+    end_date: str
+    end_time: str
+    location: str
+
+class DeleteClubEventRequest(BaseModel):
+    club_id: str
+    id: str
