@@ -489,7 +489,10 @@ def create_club_event(request: CreateClubEventRequest):
         location=request.location,
     )
 
-    db.collection(u'club_events').document(f'{event.id}').set(event.serialize())
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    club['events'].append(event.serialize())
+
+    db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
     return {"message": "success"}
 
@@ -498,7 +501,13 @@ def delete_club_event(request: DeleteClubEventRequest):
 
         try:
     
-            db.collection(u'club_events').document(f'{request.event_id}').delete()
+            club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+            events = club['events']
+
+            for event in events:
+                if event['id'] == request.event_id:
+                    events.remove(event)
+                    break
         
             return {"message": "success"}
     
@@ -522,7 +531,13 @@ def update_club_event(request: UpdateClubEventRequest):
         location=request.location,
     )
 
-    db.collection(u'club_events').document(f'{event.id}').update(event.serialize())
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    events = club['events']
+
+    for i in range(len(events)):
+        if events[i]['id'] == request.event_id:
+            events[i] = event.serialize()
+            break
 
     return {"message": "success"}
 
