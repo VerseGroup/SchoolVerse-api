@@ -384,6 +384,8 @@ def create_club(request: CreateClubRequest):
         description=request.description,
         leader_ids=request.leader_ids,
         member_ids=request.leader_ids,
+        leader_names = request.leader_names,
+        member_names = request.leader_names,
         group_notice="",
         status=False,
     )
@@ -408,9 +410,12 @@ def join_club(request: JoinClubRequest):
         return {"message": "user already in club"}
     club['member_ids'].append(request.member_id)
 
+    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
+    name = user['display_name']
+    club['member_names'].append(name)
+
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
-    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
     try:
         if request.club_id not in user['club_ids']:
             user['club_ids'].append(request.club_id)
@@ -429,15 +434,22 @@ def leave_club(request: LeaveClubRequest):
         return {"message": "club does not exist"}
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
+
+    name = user['display_name']
     
     if request.member_id in club['member_ids']:
         club['member_ids'].remove(request.member_id)
     else:
         return {"message": "user not in club"}
+    
+    if name in club['member_names']:
+        club['member_names'].remove(name) 
+    else:
+        pass # don't want to throw error because user might have just changed their display name
 
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
-    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
     try:
         if request.club_id in user['club_ids']:
             user['club_ids'].remove(request.club_id)
@@ -974,36 +986,6 @@ async def admin_approve(password: str, user_id: str, approve: str):
             return {"message": "failed", "exception": "user does not exist"}
     else:
         return {"message": "failed"}
-    
-'''
-User's should have cached information if not scraped 
--> cache schedule
--> cache tasks
-etc. 
-'''
-
-'''
-@app.get("/test", status_code=200)
-async def test():
-    try:
-        tasks = []
-        steven_ref = db.collection(u'users').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2')
-        for doc in steven_ref.collection(u'tasks').stream():
-            tasks.append(doc.to_dict())
-
-        steven_doc = steven_ref.get().to_dict()
-        courses = steven_doc['courses']
-
-        schedule = steven_ref.collection(u'schedule').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2').get().to_dict()
-
-        return {
-            "tasks": tasks,
-            "courses": courses,
-            "schedule": schedule
-        }
-    except Exception as e:
-        return {"message": "failed", "exception": str(e)}
-'''
 
 @app.get("/admin/{password}/reset/{user_id}", status_code=200)
 async def admin_reset(password: str, user_id: str):

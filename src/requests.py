@@ -52,13 +52,15 @@ class CreateClubRequest(BaseModel):
     name: str
     description: str
     leader_ids: list
+    leader_names: list
 
     class Config:
         schema_extra = {
             "example": {
                 "name": "Cringe Club",
                 "description": "Cringe club is a sad club that meets on Tuesdays and Thursdays during lunch.",
-                "leader_ids": ["1234567890", "0987654321"]
+                "leader_ids": ["1234567890", "0987654321"],
+                "leader_names" : ["Steven Hi", "Hi Steven"],
             }
         }
 

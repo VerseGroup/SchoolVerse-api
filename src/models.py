@@ -213,7 +213,7 @@ def convert_date(date, time):
     return date_object
 
 class Club():
-    def __init__(self, id, name, description, leader_ids, member_ids, group_notice):
+    def __init__(self, id, name, description, leader_ids, member_ids, group_notice, leader_names, member_names):
         self.id = id
         self.name = name
         self.description = description
@@ -221,6 +221,8 @@ class Club():
         self.member_ids = member_ids
         self.group_notice = group_notice
         self.group_notice_last_updated = datetime.now()
+        self.leader_names = leader_names
+        self.member_names = member_names
         self.status = False
 
     def serialize(self):
@@ -232,6 +234,8 @@ class Club():
             'member_ids': self.member_ids,
             'group_notice': self.group_notice,
             'group_notice_last_updated': self.group_notice_last_updated,
+            'leader_names': self.leader_names,
+            'member_names': self.member_names,
             'status': self.status
         }
     
