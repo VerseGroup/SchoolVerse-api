@@ -25,33 +25,13 @@ class ApproveRequest(BaseModel):
     version: str
     api_key: str
 
-# class CreateClubRequest(BaseModel):
-#     name: str
-#     description: str
-#     leaders: list
-#     meeting_blocks: list
+class JoinSportRequest(BaseModel):     
+    user_id: str
+    sport_id: str
 
-# class JoinClubRequest(BaseModel):
-#     user_id: str
-#     club_id: str
-
-# class LeaveClubRequest(BaseModel):
-#     user_id: str
-#     club_id: str
-
-# class UpdateClubRequest(BaseModel):
-#     field_to_update: str
-#     new_value: str
-#     user_id: str
-#     club_id: str
-
-# class JoinSportRequest(BaseModel):
-#     user_id: str
-#     sport_id: str
-
-# class LeaveSportRequest(BaseModel):
-#     user_id: str
-#     sport_id: str
+class LeaveSportRequest(BaseModel):
+    user_id: str
+    sport_id: str
 
 class DeleteUserRequest(BaseModel):
     user_id: str
@@ -67,3 +47,70 @@ class CreateUserRequest(BaseModel):
     display_name: str
     grade_level: str
     api_key: str
+
+class CreateClubRequest(BaseModel):
+    name: str
+    description: str
+    leader_ids: list
+    leader_names: list
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "name": "Cringe Club",
+                "description": "Cringe club is a sad club that meets on Tuesdays and Thursdays during lunch.",
+                "leader_ids": ["1234567890", "0987654321"],
+                "leader_names" : ["Steven Hi", "Hi Steven"],
+            }
+        }
+
+class JoinClubRequest(BaseModel):
+    member_id: str
+    club_id: str
+
+class LeaveClubRequest(BaseModel):
+    member_id: str
+    club_id: str
+
+class AnnounceClubRequest(BaseModel):
+    club_id: str
+    leader_id: str
+    announcement: str
+
+class CreateClubEventRequest(BaseModel):
+    club_id: str
+    name: str
+    description: str
+    start_date: str
+    start_time: str
+    end_date: str
+    end_time: str
+    location: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "start_time" : "12:00:00", 
+                "start_date" : "2021-01-01",
+                "end_time" : "13:00:00",
+                "end_date" : "2021-01-01",
+                "name" : "Cringe Club Meeting",
+                "description" : "Meeting to discuss how cringe we are.",
+                "location" : "Room 123"
+            }
+        }
+
+class UpdateClubEventRequest(BaseModel):
+    club_id: str
+    id: str
+    name: str
+    description: str
+    start_date: str
+    start_time: str
+    end_date: str
+    end_time: str
+    location: str
+
+class DeleteClubEventRequest(BaseModel):
+    club_id: str
+    id: str

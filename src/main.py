@@ -17,14 +17,13 @@ from src.stevejobs import STEVEJOBS_SCHEDULE, STEVEJOBS_COURSES, STEVEJOBS_TASKS
 stevejobsid = "54fbgGP7RGMAEbkUiMzfKY35tDA3"
 
 # clubs
-from src.clubs.models import Club, Event, Meeting, Update
+from src.models import *
 
 # firebase
 from src.firebaseV2.auth import start_firebase
 
 # requests
-from src.requests import ScrapeRequest, SignUpRequest, EnsureRequest, ApproveRequest, \
-    DeleteUserRequest, NotificationRequest, CreateUserRequest
+from src.requests import *
 
 # webscraper
 from src.scraperV2.sc import scrape_schoology, ensure_schoology
@@ -370,107 +369,179 @@ def refresh_schedules():
 '''
 
 ####### ROUTES [ClUBS] #######
-'''
+
 @app.post("/club/create", status_code=200)
 def create_club(request: CreateClubRequest):
-    response = do_executions()
-    if response['passed'] == False:
-        return response
 
+    clubs = db.collection(u'clubs').stream()
+    for club in clubs:
+        if club.to_dict()['name'] == request.name:
+            return {"message": "club already exists"}
+    
     club = Club(
+        id=str(uuid.uuid4()),
         name=request.name,
         description=request.description,
-        members=request.leaders,
-        leaders = request.leaders,
-        meeting_blocks=request.meeting_blocks,
+        leader_ids=request.leader_ids,
+        member_ids=request.leader_ids,
+        leader_names = request.leader_names,
+        member_names = request.leader_names,
+        group_notice="",
     )
-    return write_club(club, db)
+
+    db.collection(u'clubs').document(f'{club.id}').set(club.serialize())
+    
+    # add club to each leader's club list in their user document
+
+    return {"message": "success"}
+
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
-    response = do_user_executions(request.user_id)
-    if response['passed'] == False:
-        return response
 
-    if not check_user_exists(request.user_id):
+    if not check_user_exists(request.member_id):
         return {"message": "user does not exist"}
     if not check_club_exists(request.club_id):
         return {"message": "club does not exist"}
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-    try:
-        if request.user_id in club['members']:
-            return {"message": "user already in club"}
-        club['members'].append(request.user_id)
-    except:
-        club['members'] = [request.user_id]
+    if request.member_id in club['member_ids']:
+        return {"message": "user already in club"}
+    club['member_ids'].append(request.member_id)
+
+    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
+    name = user['display_name']
+    club['member_names'].append(name)
+
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
-    user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
     try:
         if request.club_id not in user['club_ids']:
             user['club_ids'].append(request.club_id)
     except:
-        user['clubs'] = [request.club_id]
-    db.collection(u'users').document(f'{request.user_id}').update(user)
+        user['club_ids'] = [request.club_id]
+    db.collection(u'users').document(f'{request.member_id}').update(user)
 
     return {"message": "success"}
 
 @app.post("/club/leave", status_code=200)
 def leave_club(request: LeaveClubRequest):
-    response = do_user_executions(request.user_id)
-    if response['passed'] == False:
-        return response
 
-    if not check_user_exists(request.user_id):
+    if not check_user_exists(request.member_id):
         return {"message": "user does not exist"}
     if not check_club_exists(request.club_id):
         return {"message": "club does not exist"}
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-    try:
-        if request.user_id in club['members']:
-            club['members'].remove(request.user_id)
-    except:
-        club['members'] = []
+    user = db.collection(u'users').document(f'{request.member_id}').get().to_dict()
+
+    name = user['display_name']
+    
+    if request.member_id in club['member_ids']:
+        club['member_ids'].remove(request.member_id)
+    else:
+        return {"message": "user not in club"}
+    
+    if name in club['member_names']:
+        club['member_names'].remove(name) 
+    else:
+        pass # don't want to throw error because user might have just changed their display name
+
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
-    user = db.collection(u'users').document(f'{request.user_id}').get().to_dict()
     try:
         if request.club_id in user['club_ids']:
             user['club_ids'].remove(request.club_id)
     except:
-        user['clubs'] = []
-    db.collection(u'users').document(f'{request.user_id}').update(user)
+        user['club_ids'] = []
+    db.collection(u'users').document(f'{request.member_id}').update(user)
 
     return {"message": "success"}
 
-@app.post("/club/update", status_code=200)
-def update_club(request: UpdateClubRequest):
-    response = do_user_executions(request.user_id)
-    if response['passed'] == False:
-        return response
-
-    if not check_club_exists(request.club_id):
-        return {"message": "club does not exist"}
-
-    if not check_user_exists(request.user_id):
-        return {"message": "user does not exist"}
-
+@app.post("/club/announce", status_code=200)
+def announce_club(request: AnnounceClubRequest):
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
 
-    if request.user_id not in club['leaders']:
-        return {"message": "user is not a leader of the club"}
+    if request.leader_id not in club['leader_ids']:
+        return {"message": "failed", "exception": "user is not a leader of the club"}
+    
+    club['group_notice'] = request.announcement
+    club['group_notice_last_updated'] = datetime.now()
+    try:
+        db.collection(u'clubs').document(f'{request.club_id}').update(club)
+        return {"message": "success"}
+    except Exception as e:
+        return {"message": str(e)}
+    
+@app.post("/club/event/create", status_code=200)
+def create_club_event(request: CreateClubEventRequest):
 
-    club[request.field_to_update] = request.new_value
+    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+
+    event = ClubEvent(
+        id=str(uuid.uuid4()),
+        club_id=request.club_id,
+        name=request.name,
+        description=request.description,
+        start = start,
+        end = end,
+        location=request.location,
+    )
+
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    club['club_events'].append(event.serialize())
 
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
     return {"message": "success"}
-'''
+
+@app.post("/club/event/delete", status_code=200)
+def delete_club_event(request: DeleteClubEventRequest):
+
+        try:
+    
+            club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+            events = club['club_events']
+
+            for event in events:
+                if event['id'] == request.event_id:
+                    events.remove(event)
+                    break
+        
+            return {"message": "success"}
+    
+        except Exception as e:
+
+            return {"message": "failed", "exception": str(e)}
+        
+@app.post("/club/event/update", status_code=200)
+def update_club_event(request: UpdateClubEventRequest):
+
+    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+
+    event = ClubEvent(
+        id=request.event_id,
+        club_id=request.club_id,
+        name=request.name,
+        description=request.description,
+        start = start,
+        end = end,
+        location=request.location,
+    )
+
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    events = club['club_events']
+
+    for i in range(len(events)):
+        if events[i]['id'] == request.event_id:
+            events[i] = event.serialize()
+            break
+
+    return {"message": "success"}
 
 ####### ROUTES [SPORTS] #######
-'''
 @app.post("/sport/join", status_code=200)
 def join_sport(request: JoinSportRequest):
     response = do_user_executions(request.user_id)
@@ -522,7 +593,6 @@ def leave_sport(request: LeaveSportRequest):
         user_sports.remove(request.sport_id)
         db.collection(u'users').document(f'{request.user_id}').update({'subscribed_sports': user_sports})
         return {"message": "success"} 
-'''
 
 ####### ROUTES [VERACROSS] #######
 
@@ -579,11 +649,11 @@ async def ping():
 
 @app.get("/version", status_code=200)
 async def version():
-    return {"ios_version": ["1.1.3"]}
+    return {"ios_version": ['1.2.1', '1.2.2']}
 
 @app.get("/version2", status_code=200)
 async def version2():
-    return {"ios_version": ["1.1.3"]}
+    return {"ios_version": ['1.2.1', '1.2.2']}
 
 @app.get("/getexecutions", status_code=200)
 async def get_executions():
@@ -930,36 +1000,6 @@ async def admin_approve(password: str, user_id: str, approve: str):
             return {"message": "failed", "exception": "user does not exist"}
     else:
         return {"message": "failed"}
-    
-'''
-User's should have cached information if not scraped 
--> cache schedule
--> cache tasks
-etc. 
-'''
-
-'''
-@app.get("/test", status_code=200)
-async def test():
-    try:
-        tasks = []
-        steven_ref = db.collection(u'users').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2')
-        for doc in steven_ref.collection(u'tasks').stream():
-            tasks.append(doc.to_dict())
-
-        steven_doc = steven_ref.get().to_dict()
-        courses = steven_doc['courses']
-
-        schedule = steven_ref.collection(u'schedule').document(u'nLakB1MLiJTZjDz8l6bqkT9GpFu2').get().to_dict()
-
-        return {
-            "tasks": tasks,
-            "courses": courses,
-            "schedule": schedule
-        }
-    except Exception as e:
-        return {"message": "failed", "exception": str(e)}
-'''
 
 @app.get("/admin/{password}/reset/{user_id}", status_code=200)
 async def admin_reset(password: str, user_id: str):
@@ -1036,3 +1076,11 @@ async def notification(request: NotificationRequest):
         "link": "https://schoolverse.app",
     }
     }
+
+# iterate through all users and add a subscribed_sports field
+@app.get("/add_subscribed_sports")
+async def add_subscribed_sports():
+    for doc in db.collection(u'users').stream():
+        doc.reference.update({'subscribed_sports': []})
+    return {"message": "success"}
+

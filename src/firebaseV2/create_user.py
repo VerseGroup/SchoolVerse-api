@@ -8,7 +8,8 @@ def create_user(db, user_id, email, name, grade):
             u'approved': False,
             u'courses': [],
             u'task_ids': [],
-
+            u'subscribed_sports': [],
+            u'club_ids': [],
         })
         return (True, '')
     except Exception as e:

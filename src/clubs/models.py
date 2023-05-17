@@ -1,5 +1,13 @@
 import uuid
 
+
+
+# Do we want to move the club related models into this file for consistency and clarity? - Malcolm 5/10/23
+
+"""
+# 
+# OLd Club Model - PAul look over this
+#
 class Club():
 
     def __init__(self, name, description, meeting_blocks, leaders, members, events, meetings, updates):
@@ -22,6 +30,9 @@ class Club():
             "updates" : self.updates,
             "id" : self.id
         }
+  """  
+
+
 
 class Update():
 

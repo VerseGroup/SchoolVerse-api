@@ -211,3 +211,53 @@ def convert_date(date, time):
     date_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     return date_object
+
+class Club():
+    def __init__(self, id, name, description, leader_ids, member_ids, group_notice, leader_names, member_names):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.leader_ids = leader_ids
+        self.member_ids = member_ids
+        self.group_notice = group_notice
+        self.group_notice_last_updated = datetime.now()
+        self.leader_names = leader_names
+        self.member_names = member_names
+        self.club_events = []
+        self.status = False
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'leader_ids': self.leader_ids,
+            'member_ids': self.member_ids,
+            'group_notice': self.group_notice,
+            'group_notice_last_updated': self.group_notice_last_updated,
+            'leader_names': self.leader_names,
+            'member_names': self.member_names,
+            'club_events': self.club_events,
+            'status': self.status
+        }
+    
+class ClubEvent():
+    def __init__(self, id, club_id, title, description, location, start, end):
+        self.id = id
+        self.club_id = club_id
+        self.title = title
+        self.description = description
+        self.location = location
+        self.start = start
+        self.end = end
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'club_id': self.club_id,
+            'title': self.title,
+            'description': self.description,
+            'location': self.location,
+            'start': self.start,
+            'end': self.end,
+        }
