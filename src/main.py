@@ -477,13 +477,13 @@ def announce_club(request: AnnounceClubRequest):
 @app.post("/club/event/create", status_code=200)
 def create_club_event(request: CreateClubEventRequest):
 
-    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
-    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+    start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
 
     event = ClubEvent(
         id=str(uuid.uuid4()),
         club_id=request.club_id,
-        name=request.name,
+        title=request.title,
         description=request.description,
         start = start,
         end = end,
@@ -519,11 +519,11 @@ def delete_club_event(request: DeleteClubEventRequest):
 @app.post("/club/event/update", status_code=200)
 def update_club_event(request: UpdateClubEventRequest):
 
-    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
-    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+    start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
 
     event = ClubEvent(
-        id=request.event_id,
+        id=request.id,
         club_id=request.club_id,
         name=request.name,
         description=request.description,
