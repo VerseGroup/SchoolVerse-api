@@ -87,7 +87,7 @@ uritemplate==4.1.1
 urllib3==1.26.13
 uvicorn==0.20.0
 vgem==1.3.0
-w3lib==2.0.1
+w3lib==2.1.1
 webdriver-manager==3.8.5
 websockets==10.4
 wsproto==1.2.0
