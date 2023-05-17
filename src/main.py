@@ -375,7 +375,7 @@ def create_club(request: CreateClubRequest):
 
     clubs = db.collection(u'clubs').stream()
     for club in clubs:
-        if club.name == request.name:
+        if club.to_dict()['name'] == request.name:
             return {"message": "club already exists"}
     
     club = Club(
