@@ -387,7 +387,6 @@ def create_club(request: CreateClubRequest):
         leader_names = request.leader_names,
         member_names = request.leader_names,
         group_notice="",
-        status=False,
     )
 
     db.collection(u'clubs').document(f'{club.id}').set(club.serialize())
