@@ -490,7 +490,7 @@ def create_club_event(request: CreateClubEventRequest):
     )
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-    club['events'].append(event.serialize())
+    club['club_events'].append(event.serialize())
 
     db.collection(u'clubs').document(f'{request.club_id}').update(club)
 
@@ -502,7 +502,7 @@ def delete_club_event(request: DeleteClubEventRequest):
         try:
     
             club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-            events = club['events']
+            events = club['club_events']
 
             for event in events:
                 if event['id'] == request.event_id:
@@ -532,7 +532,7 @@ def update_club_event(request: UpdateClubEventRequest):
     )
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-    events = club['events']
+    events = club['club_events']
 
     for i in range(len(events)):
         if events[i]['id'] == request.event_id:

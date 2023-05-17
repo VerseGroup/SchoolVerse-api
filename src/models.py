@@ -223,7 +223,7 @@ class Club():
         self.group_notice_last_updated = datetime.now()
         self.leader_names = leader_names
         self.member_names = member_names
-        self.events = []
+        self.club_events = []
         self.status = False
 
     def serialize(self):
@@ -237,7 +237,7 @@ class Club():
             'group_notice_last_updated': self.group_notice_last_updated,
             'leader_names': self.leader_names,
             'member_names': self.member_names,
-            'events': self.events,
+            'club_events': self.club_events,
             'status': self.status
         }
     
