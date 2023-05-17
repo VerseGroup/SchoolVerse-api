@@ -477,6 +477,10 @@ def announce_club(request: AnnounceClubRequest):
 @app.post("/club/event/create", status_code=200)
 def create_club_event(request: CreateClubEventRequest):
 
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    if request.leader_id not in club['leader_ids']:
+        return {"message": "user is not a leader of the club"}
+
     start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
 
@@ -499,6 +503,10 @@ def create_club_event(request: CreateClubEventRequest):
 
 @app.post("/club/event/delete", status_code=200)
 def delete_club_event(request: DeleteClubEventRequest):
+        
+        club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+        if request.leader_id not in club['leader_ids']:
+            return {"message": "user is not a leader of the club"}
 
         try:
     
@@ -518,6 +526,10 @@ def delete_club_event(request: DeleteClubEventRequest):
         
 @app.post("/club/event/update", status_code=200)
 def update_club_event(request: UpdateClubEventRequest):
+
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    if request.leader_id not in club['leader_ids']:
+        return {"message": "user is not a leader of the club"}
 
     start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')

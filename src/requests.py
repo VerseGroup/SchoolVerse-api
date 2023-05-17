@@ -85,16 +85,18 @@ class CreateClubEventRequest(BaseModel):
     start: str
     end: str
     location: str
+    leader_id: str
 
     class Config:
         schema_extra = {
             "example": {
                 "club_id" : "1234567890",
-                "start": "12-1-1 12:00:00",
-                "end": "12-1-1 13:00:00",
+                "start": "2012-01-01 12:00:00",
+                "end": "2012-01-01 13:00:00",
                 "title" : "Cringe Club Meeting",
                 "description" : "Meeting to discuss how cringe we are.",
                 "location" : "Room 123"
+                "leader_id" : "0987654321
             }
         }
 
@@ -106,7 +108,9 @@ class UpdateClubEventRequest(BaseModel):
     start: str
     end: str
     location: str
+    leader_id: str
 
 class DeleteClubEventRequest(BaseModel):
     club_id: str
     id: str
+    leader_id: str
