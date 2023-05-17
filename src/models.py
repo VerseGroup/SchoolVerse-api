@@ -221,6 +221,7 @@ class Club():
         self.member_ids = member_ids
         self.group_notice = group_notice
         self.group_notice_last_updated = datetime.now()
+        self.group_notice_author = None
         self.leader_names = leader_names
         self.member_names = member_names
         self.club_events = []
@@ -235,6 +236,7 @@ class Club():
             'member_ids': self.member_ids,
             'group_notice': self.group_notice,
             'group_notice_last_updated': self.group_notice_last_updated,
+            'group_notice_author': self.group_notice_author,
             'leader_names': self.leader_names,
             'member_names': self.member_names,
             'club_events': self.club_events,

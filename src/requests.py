@@ -76,6 +76,7 @@ class AnnounceClubRequest(BaseModel):
     club_id: str
     leader_id: str
     announcement: str
+    leader_name: str
 
 class CreateClubEventRequest(BaseModel):
     club_id: str
