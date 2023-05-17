@@ -527,9 +527,12 @@ def delete_club_event(request: DeleteClubEventRequest):
 @app.post("/club/event/update", status_code=200)
 def update_club_event(request: UpdateClubEventRequest):
 
-    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
-    if request.leader_id not in club['leader_ids']:
-        return {"message": "user is not a leader of the club"}
+    try:
+        club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+        if request.leader_id not in club['leader_ids']:
+            return {"message": "user is not a leader of the club"}
+    except:
+        return {"message": "failed", "exception": "club does not exist"}
 
     start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
@@ -537,7 +540,7 @@ def update_club_event(request: UpdateClubEventRequest):
     event = ClubEvent(
         id=request.id,
         club_id=request.club_id,
-        name=request.name,
+        title=request.title,
         description=request.description,
         start = start,
         end = end,

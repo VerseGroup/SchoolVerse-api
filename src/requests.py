@@ -95,15 +95,15 @@ class CreateClubEventRequest(BaseModel):
                 "end": "2012-01-01 13:00:00",
                 "title" : "Cringe Club Meeting",
                 "description" : "Meeting to discuss how cringe we are.",
-                "location" : "Room 123"
-                "leader_id" : "0987654321
+                "location" : "Room 123",
+                "leader_id" : "0987654321",
             }
         }
 
 class UpdateClubEventRequest(BaseModel):
     club_id: str
     id: str
-    name: str
+    title: str
     description: str
     start: str
     end: str
