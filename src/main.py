@@ -514,9 +514,12 @@ def delete_club_event(request: DeleteClubEventRequest):
             events = club['club_events']
 
             for event in events:
-                if event['id'] == request.event_id:
+                if event['id'] == request.id:
                     events.remove(event)
                     break
+
+            club['club_events'] = events
+            db.collection(u'clubs').document(f'{request.club_id}').update(club)
         
             return {"message": "success"}
     
@@ -550,10 +553,17 @@ def update_club_event(request: UpdateClubEventRequest):
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     events = club['club_events']
 
-    for i in range(len(events)):
-        if events[i]['id'] == request.event_id:
-            events[i] = event.serialize()
+    for e in events:
+        if e['id'] == request.id:
+            events.remove(e)
+            events.append(event.serialize())
             break
+
+    try:
+        club['club_events'] = events
+        db.collection(u'clubs').document(f'{request.club_id}').update(club)
+    except:
+        return {"message": "failed"}
 
     return {"message": "success"}
 
