@@ -605,7 +605,7 @@ def delete_all_club_events(request: DeleteAllClubEventsRequest):
         
         for event in club_dict['club_events']:
             end = event['end'].replace(tzinfo=None)
-            if end < today:
+            if end > today:
                 club_dict['club_events'].remove(event)
 
         db.collection(u'clubs').document(f'{club_dict["id"]}').update(club_dict)
