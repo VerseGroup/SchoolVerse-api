@@ -118,3 +118,6 @@ class DeleteClubEventRequest(BaseModel):
 class DeleteClubRequest(BaseModel):
     club_id: str
     leader_id: str
+
+class DeleteAllClubEventsRequest(BaseModel):
+    api_key: str

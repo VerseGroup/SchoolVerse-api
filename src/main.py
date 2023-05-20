@@ -3,6 +3,7 @@ import os
 import uuid
 import json
 import random
+import pytz
 
 # external imports 
 from fastapi import FastAPI, Response
@@ -404,7 +405,7 @@ def delete_club(request: DeleteClubRequest):
         club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
 
         if not request.leader_id in club['leader_ids']:
-            return {"message": "user is not a leader of the club"}\
+            return {"message": "failed", "exception" : "user is not a leader of the club"}\
             
         for member_id in club['member_ids']:
             user = db.collection(u'users').document(f'{member_id}').get().to_dict()
@@ -588,6 +589,27 @@ def update_club_event(request: UpdateClubEventRequest):
     except:
         return {"message": "failed"}
 
+    return {"message": "success"}
+
+@app.post("/club/event/delete_all", status_code=200)
+def delete_all_club_events(request: DeleteAllClubEventsRequest):
+
+    if check_api_key(request.api_key) == False:
+        return {"message": "failed", "exception": "invalid api key"}
+    
+    today = datetime.now().replace(tzinfo=None)
+    
+    clubs = db.collection(u'clubs').stream()
+    for club in clubs:
+        club_dict = club.to_dict()
+        
+        for event in club_dict['club_events']:
+            end = event['end'].replace(tzinfo=None)
+            if end < today:
+                club_dict['club_events'].remove(event)
+
+        db.collection(u'clubs').document(f'{club_dict["id"]}').update(club_dict)
+    
     return {"message": "success"}
 
 ####### ROUTES [SPORTS] #######
