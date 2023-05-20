@@ -398,6 +398,21 @@ def create_club(request: CreateClubRequest):
 
     return {"message": "success"}
 
+@app.post("/club/delete", status_code=200)
+def delete_club(request: DeleteClubRequest):
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+
+    if not request.leader_id in club['leader_ids']:
+        return {"message": "user is not a leader of the club"}\
+        
+    for member_id in club['member_ids']:
+        user = db.collection(u'users').document(f'{member_id}').get().to_dict()
+        user['club_ids'].remove(request.club_id)
+        db.collection(u'users').document(f'{member_id}').update(user)
+
+    db.collection(u'clubs').document(f'{request.club_id}').delete()
+
+    return {"message": "success"}
 
 @app.post("/club/join", status_code=200)
 def join_club(request: JoinClubRequest):
