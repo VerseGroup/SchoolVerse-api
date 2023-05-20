@@ -376,7 +376,7 @@ def create_club(request: CreateClubRequest):
     clubs = db.collection(u'clubs').stream()
     for club in clubs:
         if club.to_dict()['name'] == request.name:
-            return {"message": "club already exists"}
+            return {"message": "failed", "exception" : "club already exists"}
     
     club = Club(
         id=str(uuid.uuid4()),
@@ -390,8 +390,11 @@ def create_club(request: CreateClubRequest):
     )
 
     db.collection(u'clubs').document(f'{club.id}').set(club.serialize())
-    
-    # add club to each leader's club list in their user document
+
+    for leader_id in request.leader_ids:
+        user = db.collection(u'users').document(f'{leader_id}').get().to_dict()
+        user['club_ids'].append(club.id)
+        db.collection(u'users').document(f'{leader_id}').update(user)
 
     return {"message": "success"}
 
@@ -479,7 +482,7 @@ def create_club_event(request: CreateClubEventRequest):
 
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     if request.leader_id not in club['leader_ids']:
-        return {"message": "user is not a leader of the club"}
+        return {"message" : "user is not a leader of the club"}
 
     start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
