@@ -376,7 +376,7 @@ def create_club(request: CreateClubRequest):
     clubs = db.collection(u'clubs').stream()
     for club in clubs:
         if club.to_dict()['name'] == request.name:
-            return {"message": "club already exists"}
+            return {"message": "failed", "exception" : "club already exists"}
     
     club = Club(
         id=str(uuid.uuid4()),
@@ -390,8 +390,11 @@ def create_club(request: CreateClubRequest):
     )
 
     db.collection(u'clubs').document(f'{club.id}').set(club.serialize())
-    
-    # add club to each leader's club list in their user document
+
+    for leader_id in request.leader_ids:
+        user = db.collection(u'users').document(f'{leader_id}').get().to_dict()
+        user['club_ids'].append(club.id)
+        db.collection(u'users').document(f'{leader_id}').update(user)
 
     return {"message": "success"}
 
@@ -467,6 +470,7 @@ def announce_club(request: AnnounceClubRequest):
     
     club['group_notice'] = request.announcement
     club['group_notice_last_updated'] = datetime.now()
+    club['group_notice_author'] = request.leader_name
     try:
         db.collection(u'clubs').document(f'{request.club_id}').update(club)
         return {"message": "success"}
@@ -476,13 +480,17 @@ def announce_club(request: AnnounceClubRequest):
 @app.post("/club/event/create", status_code=200)
 def create_club_event(request: CreateClubEventRequest):
 
-    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
-    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+    club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+    if request.leader_id not in club['leader_ids']:
+        return {"message" : "user is not a leader of the club"}
+
+    start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
 
     event = ClubEvent(
         id=str(uuid.uuid4()),
         club_id=request.club_id,
-        name=request.name,
+        title=request.title,
         description=request.description,
         start = start,
         end = end,
@@ -498,6 +506,10 @@ def create_club_event(request: CreateClubEventRequest):
 
 @app.post("/club/event/delete", status_code=200)
 def delete_club_event(request: DeleteClubEventRequest):
+        
+        club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+        if request.leader_id not in club['leader_ids']:
+            return {"message": "user is not a leader of the club"}
 
         try:
     
@@ -505,9 +517,12 @@ def delete_club_event(request: DeleteClubEventRequest):
             events = club['club_events']
 
             for event in events:
-                if event['id'] == request.event_id:
+                if event['id'] == request.id:
                     events.remove(event)
                     break
+
+            club['club_events'] = events
+            db.collection(u'clubs').document(f'{request.club_id}').update(club)
         
             return {"message": "success"}
     
@@ -518,13 +533,20 @@ def delete_club_event(request: DeleteClubEventRequest):
 @app.post("/club/event/update", status_code=200)
 def update_club_event(request: UpdateClubEventRequest):
 
-    start = datetime.strptime(f'{request.start_date} {request.start_time}', '%Y-%m-%d %H:%M:%S')
-    end = datetime.strptime(f'{request.end_date} {request.end_time}', '%Y-%m-%d %H:%M:%S')
+    try:
+        club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
+        if request.leader_id not in club['leader_ids']:
+            return {"message": "user is not a leader of the club"}
+    except:
+        return {"message": "failed", "exception": "club does not exist"}
+
+    start = datetime.strptime(f'{request.start}', '%Y-%m-%d %H:%M:%S')
+    end = datetime.strptime(f'{request.end}', '%Y-%m-%d %H:%M:%S')
 
     event = ClubEvent(
-        id=request.event_id,
+        id=request.id,
         club_id=request.club_id,
-        name=request.name,
+        title=request.title,
         description=request.description,
         start = start,
         end = end,
@@ -534,10 +556,17 @@ def update_club_event(request: UpdateClubEventRequest):
     club = db.collection(u'clubs').document(f'{request.club_id}').get().to_dict()
     events = club['club_events']
 
-    for i in range(len(events)):
-        if events[i]['id'] == request.event_id:
-            events[i] = event.serialize()
+    for e in events:
+        if e['id'] == request.id:
+            events.remove(e)
+            events.append(event.serialize())
             break
+
+    try:
+        club['club_events'] = events
+        db.collection(u'clubs').document(f'{request.club_id}').update(club)
+    except:
+        return {"message": "failed"}
 
     return {"message": "success"}
 
