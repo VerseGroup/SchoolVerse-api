@@ -718,13 +718,9 @@ def flik():
 async def ping():
     return {"message": "pong"} 
 
-@app.get("/version", status_code=200)
-async def version():
-    return {"ios_version": ['1.2.1', '1.2.2']}
-
-@app.get("/version2", status_code=200)
+@app.get("/version2", status_code=200) # switched to version 2 in an earlier build 
 async def version2():
-    return {"ios_version": ['1.2.1', '1.2.2']}
+    return {"ios_version": ['1.2.2', '1.3.0']}
 
 @app.get("/getexecutions", status_code=200)
 async def get_executions():
@@ -1155,3 +1151,9 @@ async def add_subscribed_sports():
         doc.reference.update({'subscribed_sports': []})
     return {"message": "success"}
 
+@app.get("/add_stuff")
+async def add_stuff():
+    for doc in db.collection(u'users').stream():
+        doc.reference.update({'subscribed_sports': []})
+        doc.reference.update({'club_ids': []})
+    return {"message": "success"}
